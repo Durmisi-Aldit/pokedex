@@ -3,3 +3,376 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --border-radius: 6px;
+}
+
+body {
+    background-color: rgb(32, 223, 175);
+}
+
+header {
+    width: 100%;
+}
+
+.header_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 28px 16px 12px 16px;
+}
+
+.logo_content {
+    display: flex;
+    flex: 1 0 0;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.logo_img {
+    width: auto;
+    height: 90px;
+}
+
+main {
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 80px 16px 28px 16px;
+}
+
+.pokedex_container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: stretch;
+}
+
+
+/*Pokemoncarte designe */
+
+.color_bug {
+    background: #92BC2C;
+}
+
+.type_bug {
+    --type1: #C8DE96;
+    --type2: #92BC2C;
+    --w: 255, 255, 255;
+}
+
+.color_dark {
+    background: #595761;
+}
+
+.type_dark {
+    --type1: #ACABB0;
+    --type2: #595761;
+    --w: 255, 255, 255;
+}
+
+.color_dragon {
+    background: #0C69C8;
+}
+
+.type_dragon {
+    --type1: #86B4E4;
+    --type2: #0C69C8;
+    --w: 255, 255, 255;
+}
+
+.color_fairy {
+    background: #EE90E6;
+}
+
+.type_fairy {
+    --type1: #F6C8F2;
+    --type2: #EE90E6;
+    --w: 255, 255, 255;
+}
+
+.color_electric {
+    background: #F2D94E;
+}
+
+.type_electric {
+    --type1: #F8ECA6;
+    --type2: #F2D94E;
+    --w: 255, 255, 255;
+}
+
+.color_lightning {
+    background: #F2D94E;
+}
+
+.type_lightning {
+    --type1: #F8ECA6;
+    --type2: #F2D94E;
+    --w: 255, 255, 255;
+}
+
+.color_fighting {
+    background: #D3425F;
+}
+
+.type_fighting {
+    --type1: #E9A0AF;
+    --type2: #D3425F;
+    --w: 255, 255, 255;
+}
+
+.color_fire {
+    background: #FBA54C;
+}
+
+.type_fire {
+    --type1: #FDD2A6;
+    --type2: #FBA54C;
+    --w: 255, 255, 255;
+}
+
+.color_flying {
+    background: #A1BBEC;
+}
+
+.type_flying {
+    --type1: #D0DDF6;
+    --type2: #A1BBEC;
+    --w: 255, 255, 255;
+}
+
+.color_ghost {
+    background: #5F6DBC;
+}
+
+.type_ghost {
+    --type1: #AFB6DE;
+    --type2: #5F6DBC;
+    --w: 255, 255, 255;
+}
+
+.color_grass {
+    background: #5FBD58;
+}
+
+.type_grass {
+    --type1: #AFDEAC;
+    --type2: #5FBD58;
+    --w: 255, 255, 255;
+}
+
+.color_ground {
+    background: #DA7C4D;
+}
+
+.type_ground {
+    --type1: #ECBEA6;
+    --type2: #DA7C4D;
+    --w: 255, 255, 255;
+}
+
+.color_ice {
+    background: #75D0C1;
+}
+
+.type_ice {
+    --type1: #BAE8E0;
+    --type2: #75D0C1;
+    --w: 255, 255, 255;
+}
+
+.color_normal {
+    background: #A0A29F;
+}
+
+.type_normal {
+    --type1: #D0D0CF;
+    --type2: #A0A29F;
+    --w: 255, 255, 255;
+}
+
+.color_poison {
+    background: #B763CF;
+}
+
+.type_poison {
+    --type1: #DBB1E7;
+    --type2: #B763CF;
+    --w: 255, 255, 255;
+}
+
+.color_psychic {
+    background: #FA8581;
+}
+
+.type_psychic {
+    --type1: #FCC2C0;
+    --type2: #FA8581;
+    --w: 255, 255, 255;
+}
+
+.color_rock {
+    background: #C9BB8A;
+}
+
+.type_rock {
+    --type1: #E4DDC4;
+    --type2: #C9BB8A;
+    --w: 255, 255, 255;
+}
+
+.color_steel {
+    background: #5695A3;
+}
+
+.type_steel {
+    --type1: #AACAD1;
+    --type2: #5695A3;
+    --w: 255, 255, 255;
+}
+
+.color_metal {
+    background: #5695A3;
+}
+
+.type_metal {
+    --type1: #AACAD1;
+    --type2: #5695A3;
+    --w: 255, 255, 255;
+}
+
+.color_water {
+    background: #539DDF;
+}
+
+.type_water {
+    --type1: #A9CEEF;
+    --type2: #539DDF;
+    --w: 255, 255, 255;
+}
+
+
+
+.pkm_card {
+    width: 264px;
+    min-height: 324px;
+    border-radius: var(--border-radius);
+    border: 12px solid yellow;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background:
+        radial-gradient(rgba(var(--w), .36) 1px, transparent 2.2px) 0 0 / 50px 23px,
+        radial-gradient(rgba(var(--w), .18) .8px, transparent 3.1px) 10px 11px / 22px 22px,
+        radial-gradient(rgba(var(--w), .28) 1px, transparent 2.2px) 6px -4px / 24px 24px,
+        radial-gradient(rgba(var(--w), .16) .9px, transparent 0.1px) 18px 8px / 24px 24px,
+        radial-gradient(ellipse at 65% 30%, rgb(236, 223, 41, 1.521), rgba(255, 255, 255, 0) 58%),
+        radial-gradient(ellipse at 50% 120%, rgba(235, 213, 13, 0.644), rgba(0, 0, 0, 0) 40%),
+        linear-gradient(180deg, var(--type1), var(--type2) 85%);
+    transition: 200ms all;
+}
+
+.pkm_card:hover {
+    filter: saturate(220%);
+    transform: scale(1.0011);
+    cursor: pointer;
+    box-shadow: 1px 1px 9px 1px white, -2px -1px 9px white;
+}
+
+.pkm_container {
+    width: auto;
+}
+
+.pkm_header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    padding-top: 6px;
+}
+
+.pkm_header_left {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pkm_stage {
+    position: relative;
+    top: -2px;
+    left: -6px;
+    height: 24PX;
+    min-width: 56px;
+    padding: 1px 8px;
+    margin-top: 5px;
+    border-radius: 25px 10px 25px 10px;
+    border: 1px solid var(--border);
+    color: #494949;
+    filter: drop-shadow(-3px 1px 1px rgb(31, 31, 31));
+    background: linear-gradient(#ffffffcc, #ffffff33) top / 100% 85% no-repeat, linear-gradient(#00000033, #00000000) bottom / 100% 85% no-repeat, linear-gradient(180deg, #c8cdd3 0%, #eef0f3 10%, #b6bbc2 26%, #d5d9dd 46%, #9aa0a8 55%, #eef0f3 76%, #9aa1a8 100%);
+}
+
+.pkm_stage span {
+    align-items: center;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.pkm_name {
+    width: 86px;
+    height: auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: #313030;
+    margin-right: 0px;
+    margin-top: 5px;
+
+}
+
+.pkm_header_right {
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
+}
+
+.pkm_hit_points {
+    padding-right: 4px;
+    color: #313030;
+    margin: 5px 0px 0 0;
+}
+
+.pkm_hit_points_title {
+    font-size: 14px;
+}
+
+.pkm_hit_points_value {
+    font-size: 16px;
+    font-weight: bolder;
+    margin-left: -3px;
+}
+
+.pkm_types {
+    display: flex;
+}
+
+.pkm_type {
+    position: relative;
+    top: 2px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 2px solid rgb(236, 223, 41, 1.521);
+}
+
+.pkm_type img {
+    width: 60%;
+    object-fit: cover;
+    object-position: center;
+}
