@@ -13,7 +13,7 @@ function template(pokemons) {
     <header class="pkm_header">
       <div class="pkm_header_left">
         <div class="pkm_stage">
-          <span>Level</span>
+          <span>${pokemon.stage}</span>
         </div>
         <h2 class="pkm_name">${pokemon.name}</h2>
       </div>
@@ -41,18 +41,18 @@ function template(pokemons) {
 
     <section class="pkm_id_container">
       <dt>Nr.:</dt>
-      <dd>#001</dd>
+      <dd>${pokemon.id}</dd>
     </section>
 
     <section class="pkm_meta_container">
       <dl class="pkm_meta_list">
         <div class="pkm_size">
           <dt><img src="./img/icon/ruler.png" alt="Grösse" class="pkm_icon_size" /></dt>
-          <dd><data value="0.7"> 0,7</data> m</dd>
+          <dd><data value="${pokemon.height}"> ${pokemon.height}</data></dd>
         </div>
         <div class="pkm_weight">
           <dt><img src="./img/icon/weight.png" alt="Gewicht" class="pkm_icon_weight" /></dt>
-          <dd><data value="6.9"> 6,9</data> kg</dd>
+          <dd><data value="${pokemon.weight}"> ${pokemon.weight}</data></dd>
         </div>
       </dl>
     </section>
