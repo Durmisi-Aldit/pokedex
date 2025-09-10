@@ -36,7 +36,9 @@ function template(pokemons) {
     </header>
 
     <figure class="pkm_image_container">
-      <img class="pkm_image" src="${pokemon.image}" alt="Illustration von ${pokemon.name}" />
+        <div class="pkm_image">
+            <img src="${pokemon.image}" alt="Illustration von ${pokemon.name}" />
+        </div>
     </figure>
 
     <section class="pkm_id_container">

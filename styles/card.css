@@ -329,29 +329,38 @@
 }
 
 .pkm_image_container {
+    width: 224px;
+    height: 212px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .pkm_image {
+    display: flex;
+    justify-content: center;
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    object-fit: contain;
-    padding: 12px;
-    display: block;
     border: 2px solid rgba(255, 255, 255, .55);
     background: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, .35), transparent 60%);
     box-shadow: 0 12px 28px rgba(0, 0, 0, .18);
     filter: drop-shadow(2px 1px 1px rgb(31, 31, 31));
 }
 
+.pkm_image img {
+    width: auto;
+    height: 94%;
+    object-position: center;
+    object-fit: cover;
+
+}
+
 .pkm_id_container {
     display: flex;
     justify-content: space-between;
     gap: 9px;
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
 .pkm_id_container dt {

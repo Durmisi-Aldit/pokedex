@@ -2,7 +2,7 @@
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
-const limit = 20;
+const limit = 10;
 const offset = 0;
 const pokemons = [];
 
@@ -45,7 +45,7 @@ async function getPokemons(data) {
         title: hpStat.stat.name.toUpperCase(),
         value: hpStat.base_stat,
       },
-      image: details.sprites.front_default,
+      image: details.sprites.other.dream_world.front_default,
       id: details.id,
       height: formatHeight(details.height),
       weight: formatWeight(details.weight),
