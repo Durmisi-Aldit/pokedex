@@ -279,13 +279,16 @@ main {
 
 .pkm_card:hover {
     filter: saturate(220%);
-    transform: scale(1.0011);
+    transform: scale(1.050);
     cursor: pointer;
-    box-shadow: 1px 1px 9px 1px white, -2px -1px 9px white;
+    box-shadow: 1px 1px 6px 1px white, -2px -1px 6px white;
 }
 
 .pkm_container {
     width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pkm_header {
@@ -375,4 +378,87 @@ main {
     width: 60%;
     object-fit: cover;
     object-position: center;
+}
+
+.pkm_image_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pkm_image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: contain;
+    padding: 12px;
+    display: block;
+    border: 2px solid rgba(255, 255, 255, .55);
+    background: radial-gradient(ellipse at 30% 30%, rgba(255, 255, 255, .35), transparent 60%);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .18);
+    filter: drop-shadow(2px 1px 1px rgb(31, 31, 31));
+}
+
+.pkm_id_container {
+    display: flex;
+    justify-content: space-between;
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.pkm_id_container dt {
+    color: rgb(255, 255, 255);
+    font-weight: normal;
+}
+
+.pkm_id_container dd {
+    color: rgb(255, 254, 254);
+    font-weight: bold;
+}
+
+.pkm_meta_container {
+    opacity: .95;
+    color: #272727;
+    background-color: rgb(234 234 234 / 29%);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin: 12px;
+    border: 2px solid rgba(255, 255, 255, .45);
+}
+
+.pkm_meta_list {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+
+.pkm_size,
+.pkm_weight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+.pkm_icon_size,
+.pkm_icon_weight {
+    width: auto;
+    height: 16px;
+}
+
+.pkm_size,
+.pkm_weight dt {
+    display: flex;
+    justify-content: space-between;
+    gap: 3px;
+}
+
+.pkm_size,
+.pkm_weight dd {
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
+    gap: 3px;
 }
