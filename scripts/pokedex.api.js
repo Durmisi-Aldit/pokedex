@@ -2,9 +2,8 @@
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
-const limit = 10;
+const limit = 20;
 const offset = 0;
-const pokemons = [];
 
 async function fetchPokemonData() {
   const response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
@@ -32,11 +31,36 @@ async function getStage(speciesUrl) {
   return preSpecies.evolves_from_species ? "Stufe 2" : "Stufe 1";
 }
 
+function typeIconPath(typeName) {
+  return `./img/icon/${typeName}.svg`;
+}
+
+function renderTypeIcons(types) {
+  let html = "";
+  const max = Math.min(types.length, 2);
+  for (let i = 0; i < max; i++) {
+    const t = types[i];
+    html += `
+      <li class="pkm_type color_${t}">
+        <img src="${typeIconPath(t)}" alt="${t}" />
+      </li>`;
+  }
+  return html;
+}
+
 async function getPokemons(data) {
+  const pokemons = [];
   for (const item of data.results) {
     const details = await (await fetch(item.url)).json();
+
     const stage = await getStage(details.species.url);
-    const hpStat = details.stats.find((s) => s.stat.name === "hp");
+    const id = "#" + String(details.id).padStart(3, "0");
+    const hpStat = details.stats.find((s) => s.stat?.name === "hp");
+
+    const types = [];
+    for (const t of details.types) {
+      types.push(t.type.name);
+    }
 
     pokemons.push({
       stage: stage,
@@ -45,8 +69,9 @@ async function getPokemons(data) {
         title: hpStat.stat.name.toUpperCase(),
         value: hpStat.base_stat,
       },
+      types: types,
       image: details.sprites.other.dream_world.front_default,
-      id: details.id,
+      id: id,
       height: formatHeight(details.height),
       weight: formatWeight(details.weight),
     });

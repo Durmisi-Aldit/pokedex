@@ -5,7 +5,7 @@ function template(pokemons) {
     .map(
       (pokemon) => `
  <article
-  class="pkm_card type_grass"
+  class="pkm_card type_${pokemon.types[0] || "normal"}"
   aria-labelledby="Pokemon Karte von ${pokemon.name} mit"
   aria-describedby="Pokemon Karte von ${pokemon.name}"
 >
@@ -25,12 +25,7 @@ function template(pokemons) {
         </div>
 
         <ul class="pkm_types" aria-label="Typen">
-          <li class="pkm_type color_grass">
-            <img src="https://dummyimage.com/12" width="12" height="12" alt="Pflanze" />
-          </li>
-          <li class="pkm_type color_poison">
-            <img src="https://dummyimage.com/12" width="12" height="12" alt="Gift" />
-          </li>
+          ${renderTypeIcons(pokemon.types)}
         </ul>
       </div>
     </header>
@@ -42,7 +37,6 @@ function template(pokemons) {
     </figure>
 
     <section class="pkm_id_container">
-      <dt>Nr.:</dt>
       <dd>${pokemon.id}</dd>
     </section>
 
