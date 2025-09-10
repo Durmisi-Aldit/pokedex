@@ -1,7 +1,7 @@
 "use strict";
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-const limit = 2;
+const limit = 5;
 const offset = 0;
 const pokemons = [];
 const pokemonCard = document.getElementById("pokedex");
