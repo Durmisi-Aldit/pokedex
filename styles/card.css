@@ -256,8 +256,9 @@
     left: -6px;
     height: 24PX;
     min-width: 56px;
-    padding: 1px 8px;
+    padding: 2px 6px;
     margin-top: 5px;
+    text-align: center;
     border-radius: 25px 10px 25px 10px;
     border: 1px solid var(--border);
     color: #494949;
@@ -267,7 +268,7 @@
 
 .pkm_stage span {
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bolder;
 }
 
@@ -395,14 +396,14 @@
     height: 16px;
 }
 
-.pkm_size,
+.pkm_size dt,
 .pkm_weight dt {
     display: flex;
     justify-content: space-between;
     gap: 3px;
 }
 
-.pkm_size,
+.pkm_size dd,
 .pkm_weight dd {
     font-weight: bolder;
     display: flex;

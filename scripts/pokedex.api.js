@@ -36,14 +36,19 @@ async function getPokemons(data) {
   for (const item of data.results) {
     const details = await (await fetch(item.url)).json();
     const stage = await getStage(details.species.url);
+    const hpStat = details.stats.find((s) => s.stat.name === "hp");
 
     pokemons.push({
-      id: details.id,
+      stage: stage,
       name: cap(details.name),
+      hp: {
+        title: hpStat.stat.name.toUpperCase(),
+        value: hpStat.base_stat,
+      },
       image: details.sprites.front_default,
+      id: details.id,
       height: formatHeight(details.height),
       weight: formatWeight(details.weight),
-      stage: stage,
     });
   }
 

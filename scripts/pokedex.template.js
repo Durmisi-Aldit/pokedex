@@ -20,8 +20,8 @@ function template(pokemons) {
 
       <div class="pkm_header_right">
         <div class="pkm_hit_points">
-          <span class="pkm_hit_points_title" title="Hit Points">HP</span>
-          <data class="pkm_hit_points_value" value="45">45</data>
+          <span class="pkm_hit_points_title" title="${pokemon.hp.title}">${pokemon.hp.title}</span>
+          <data class="pkm_hit_points_value" value="${pokemon.hp.value}">${pokemon.hp.value}</data>
         </div>
 
         <ul class="pkm_types" aria-label="Typen">
