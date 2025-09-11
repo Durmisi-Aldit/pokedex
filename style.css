@@ -9,6 +9,12 @@
 }
 
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    /* ganzer Bildschirm */
     background-color: rgb(32, 223, 175);
 }
 
@@ -44,4 +50,29 @@ main {
     max-width: 1450px;
     margin: 0 auto;
     padding: 80px 16px 28px 16px;
+}
+
+.spinner_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.815);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner-img {
+    width: 224px;
+    height: 224px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
