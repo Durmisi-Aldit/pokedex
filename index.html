@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
     <link rel="shortcut icon" href="./img/favicon/icon.png" type="image/x-icon" />
-    <title>Pokédex-Projekt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Layout: Sticky Header + Hero-Background</title>
 
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./styles/card.css" />
 
     <script src="./pokedex.globals.js" defer></script>
@@ -14,25 +14,94 @@
     <script src="./scripts/pokedex.template.js" defer></script>
     <script src="./scripts/pokedex.controller.js" defer></script>
   </head>
-
   <body>
-    <header>
-      <div class="header_content">
-        <div class="logo_content">
-          <a href="#" class="logo" aria-label="Zur Startseite">
-            <a href="index.html"><img class="logo_img" src="./img/logo/logo.png" alt="Pokedex Logo" /></a>
-          </a>
+    <div class="hero-wrap">
+      <header class="site-header">
+        <div class="inner">
+          <strong>Logo</strong>
+          <nav>
+            <a href="#">Home</a>
+            <a href="#">Produkte</a>
+            <a href="#">Kontakt</a>
+          </nav>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <main>
+      <main>
+        <div class="inner main-container main_content">
+          <div class="rotating_area rotating_image"></div>
+          <div class="pokemon_content_main">
+            <div class="pokemon_row_container">
+              <div class="colum left">
+                <div class="inner_colum circle large">
+                  <img class="circle_img" src="./img/pokedex/3.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+              <div class="colum middle">
+                <div class="inner_colum circle medium">
+                  <img class="circle_img" src="./img/pokedex/8.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+              <div class="colum right">
+                <div class="inner_colum circle small">
+                  <img class="circle_img" src="./img/pokedex/18.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pokemon_row_container_center">
+              <div class="colum middle">
+                <div class="inner_colum extra_large">
+                  <img class="middle_circle_img" src="./img/pokedex/6.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pokemon_row_container">
+              <div class="colum right">
+                <div class="inner_colum circle large">
+                  <img class="circle_img" src="./img/pokedex/12.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+              <div class="colum middle">
+                <div class="inner_colum circle medium">
+                  <img class="circle_img" src="./img/pokedex/15.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+              <div class="colum left">
+                <div class="inner_colum circle small">
+                  <img class="circle_img" src="./img/pokedex/28.svg" alt="Pikachu" />
+                  <span class="pokemon_main_name">Pikachu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pokemon_container_typ">Pokemon Typ</div>
+      </main>
+    </div>
+
+    <section class="inner main-container main_content">
+      <h1>Entdecke alle Pokémon und ihre Fähigkeiten!</h1>
       <div id="pokedex" class="pokedex"></div>
       <button onclick="loadMorePokemon()">Load More</button>
 
       <div id="spinnerOverlay" class="spinner_overlay" style="display: none">
-        <img src="./img/icon/ball.svg" alt="Lade…" class="spinner-img" />
+        <img src="./img/icon/spinner_ball.svg" alt="Lade…" class="spinner_img" />
       </div>
-    </main>
+    </section>
+
+    <footer class="site-footer">
+      <div class="inner">
+        <span>© 2025 Aldit Durmisi</span>
+        <a href="#">Impressum</a>
+      </div>
+    </footer>
   </body>
 </html>

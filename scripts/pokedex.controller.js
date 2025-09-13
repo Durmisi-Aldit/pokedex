@@ -21,24 +21,19 @@ loadPokemonData();
 
 async function loadMorePokemon() {
   const container = document.getElementById("pokedex");
-  const loadMoreButton = document.getElementById("load-more-btn");
 
   const prev = loadMorePokemon._currentLimit ?? limit;
   const next = prev + limit;
   loadMorePokemon._currentLimit = next;
 
-  const minDelay = new Promise((r) => setTimeout(r, 1500));
   toggleSpinner(true);
-
   try {
-    const data = await Promise.all([
+    const [data] = await Promise.all([
       fetch(`${BASE_URL}?limit=${next}&offset=${offset}`).then((r) => r.json()),
-      minDelay,
-    ]).then(([d]) => d);
-
+      new Promise((res) => setTimeout(res, 1500)),
+    ]);
     const all = await getPokemons(data);
-    const newly = all.slice(prev, next);
-    container.innerHTML += template(newly);
+    container.innerHTML += template(all.slice(prev, next));
   } catch (e) {
     console.error("Fehler in loadMorePokemon:", e);
   } finally {

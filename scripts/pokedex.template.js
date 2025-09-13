@@ -10,7 +10,7 @@ function template(pokemons) {
   aria-describedby="Pokemon Karte von ${pokemon.name}"
 >
   <div class="pkm_container">
-    <header class="pkm_header">
+    <div class="pkm_header">
       <div class="pkm_header_left">
         <div class="pkm_stage">
           <span>${pokemon.stage}</span>
@@ -20,15 +20,15 @@ function template(pokemons) {
 
       <div class="pkm_header_right">
         <div class="pkm_hit_points">
-          <span class="pkm_hit_points_title" title="${pokemon.hp.title}">${pokemon.hp.title}</span>
-          <data class="pkm_hit_points_value" value="${pokemon.hp.value}">${pokemon.hp.value}</data>
+          <span class="pkm_hit_points_title">${pokemon.hp.title}</span>
+          <data class="pkm_hit_points_value">${pokemon.hp.value}</data>
         </div>
 
         <ul class="pkm_types" aria-label="Typen">
           ${renderTypeIcons(pokemon.types)}
         </ul>
       </div>
-    </header>
+    </div>
 
     <figure class="pkm_image_container">
         <div class="pkm_image">

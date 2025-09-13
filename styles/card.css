@@ -203,6 +203,7 @@
     grid-template-columns: repeat(5, 1fr);
     gap: 16px;
     align-items: stretch;
+    margin-top: 80px;
 }
 
 .pkm_card {
