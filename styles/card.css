@@ -201,7 +201,7 @@
 .pokedex {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    gap: 32px;
     align-items: stretch;
     margin-top: 80px;
 }

@@ -2,7 +2,7 @@
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
-const limit = 5;
+const limit = 15;
 const offset = 0;
 
 async function fetchPokemonData() {
