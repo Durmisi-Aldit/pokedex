@@ -1,209 +1,201 @@
-.color_bug {
-    background: #92BC2C;
-}
+/* ===============================
+   ----- TYP-COLOR-----
+   =============================== */
 
-.type_bug {
-    --type1: #C8DE96;
-    --type2: #92BC2C;
-    --w: 255, 255, 255;
+.color_bug {
+    background: #92BC2C
 }
 
 .color_dark {
-    background: #595761;
-}
-
-.type_dark {
-    --type1: #ACABB0;
-    --type2: #595761;
-    --w: 255, 255, 255;
+    background: #595761
 }
 
 .color_dragon {
-    background: #0C69C8;
-}
-
-.type_dragon {
-    --type1: #86B4E4;
-    --type2: #0C69C8;
-    --w: 255, 255, 255;
+    background: #0C69C8
 }
 
 .color_fairy {
-    background: #EE90E6;
-}
-
-.type_fairy {
-    --type1: #F6C8F2;
-    --type2: #EE90E6;
-    --w: 255, 255, 255;
+    background: #EE90E6
 }
 
 .color_electric {
-    background: #F2D94E;
-}
-
-.type_electric {
-    --type1: #F8ECA6;
-    --type2: #F2D94E;
-    --w: 255, 255, 255;
+    background: #F2D94E
 }
 
 .color_lightning {
-    background: #F2D94E;
-}
-
-.type_lightning {
-    --type1: #F8ECA6;
-    --type2: #F2D94E;
-    --w: 255, 255, 255;
+    background: #F2D94E
 }
 
 .color_fighting {
-    background: #D3425F;
-}
-
-.type_fighting {
-    --type1: #E9A0AF;
-    --type2: #D3425F;
-    --w: 255, 255, 255;
+    background: #D3425F
 }
 
 .color_fire {
-    background: #FBA54C;
-}
-
-.type_fire {
-    --type1: #FDD2A6;
-    --type2: #FBA54C;
-    --w: 255, 255, 255;
+    background: #FBA54C
 }
 
 .color_flying {
-    background: #A1BBEC;
-}
-
-.type_flying {
-    --type1: #D0DDF6;
-    --type2: #A1BBEC;
-    --w: 255, 255, 255;
+    background: #A1BBEC
 }
 
 .color_ghost {
-    background: #5F6DBC;
-}
-
-.type_ghost {
-    --type1: #AFB6DE;
-    --type2: #5F6DBC;
-    --w: 255, 255, 255;
+    background: #5F6DBC
 }
 
 .color_grass {
-    background: #5FBD58;
-}
-
-.type_grass {
-    --type1: #AFDEAC;
-    --type2: #5FBD58;
-    --w: 255, 255, 255;
+    background: #5FBD58
 }
 
 .color_ground {
-    background: #DA7C4D;
-}
-
-.type_ground {
-    --type1: #ECBEA6;
-    --type2: #DA7C4D;
-    --w: 255, 255, 255;
+    background: #DA7C4D
 }
 
 .color_ice {
-    background: #75D0C1;
-}
-
-.type_ice {
-    --type1: #BAE8E0;
-    --type2: #75D0C1;
-    --w: 255, 255, 255;
+    background: #75D0C1
 }
 
 .color_normal {
-    background: #A0A29F;
-}
-
-.type_normal {
-    --type1: #D0D0CF;
-    --type2: #A0A29F;
-    --w: 255, 255, 255;
+    background: #A0A29F
 }
 
 .color_poison {
-    background: #B763CF;
-}
-
-.type_poison {
-    --type1: #DBB1E7;
-    --type2: #B763CF;
-    --w: 255, 255, 255;
+    background: #B763CF
 }
 
 .color_psychic {
-    background: #FA8581;
-}
-
-.type_psychic {
-    --type1: #FCC2C0;
-    --type2: #FA8581;
-    --w: 255, 255, 255;
+    background: #FA8581
 }
 
 .color_rock {
-    background: #C9BB8A;
-}
-
-.type_rock {
-    --type1: #E4DDC4;
-    --type2: #C9BB8A;
-    --w: 255, 255, 255;
+    background: #C9BB8A
 }
 
 .color_steel {
-    background: #5695A3;
-}
-
-.type_steel {
-    --type1: #AACAD1;
-    --type2: #5695A3;
-    --w: 255, 255, 255;
+    background: #5695A3
 }
 
 .color_metal {
-    background: #5695A3;
-}
-
-.type_metal {
-    --type1: #AACAD1;
-    --type2: #5695A3;
-    --w: 255, 255, 255;
+    background: #5695A3
 }
 
 .color_water {
-    background: #539DDF;
+    background: #539DDF
+}
+
+/* ===============================
+   ----- TYP-COLOR PKM-CARD-----
+   =============================== */
+
+.type_bug {
+    --typ_bg_color_first: #C8DE96;
+    --typ_bg_color_second: #92BC2C;
+}
+
+.type_dark {
+    --typ_bg_color_first: #ACABB0;
+    --typ_bg_color_second: #595761;
+}
+
+.type_dragon {
+    --typ_bg_color_first: #86B4E4;
+    --typ_bg_color_second: #0C69C8;
+}
+
+.type_fairy {
+    --typ_bg_color_first: #F6C8F2;
+    --typ_bg_color_second: #EE90E6;
+}
+
+.type_electric {
+    --typ_bg_color_first: #F8ECA6;
+    --typ_bg_color_second: #F2D94E;
+}
+
+.type_lightning {
+    --typ_bg_color_first: #F8ECA6;
+    --typ_bg_color_second: #F2D94E;
+}
+
+.type_fighting {
+    --typ_bg_color_first: #E9A0AF;
+    --typ_bg_color_second: #D3425F;
+}
+
+.type_fire {
+    --typ_bg_color_first: #FDD2A6;
+    --typ_bg_color_second: #FBA54C;
+}
+
+.type_flying {
+    --typ_bg_color_first: #D0DDF6;
+    --typ_bg_color_second: #A1BBEC;
+}
+
+.type_ghost {
+    --typ_bg_color_first: #AFB6DE;
+    --typ_bg_color_second: #5F6DBC;
+}
+
+.type_grass {
+    --typ_bg_color_first: #AFDEAC;
+    --typ_bg_color_second: #5FBD58;
+}
+
+.type_ground {
+    --typ_bg_color_first: #ECBEA6;
+    --typ_bg_color_second: #DA7C4D;
+}
+
+.type_ice {
+    --typ_bg_color_first: #BAE8E0;
+    --typ_bg_color_second: #75D0C1;
+}
+
+.type_normal {
+    --typ_bg_color_first: #D0D0CF;
+    --typ_bg_color_second: #A0A29F;
+}
+
+.type_poison {
+    --typ_bg_color_first: #DBB1E7;
+    --typ_bg_color_second: #B763CF;
+}
+
+.type_psychic {
+    --typ_bg_color_first: #FCC2C0;
+    --typ_bg_color_second: #FA8581;
+}
+
+.type_rock {
+    --typ_bg_color_first: #E4DDC4;
+    --typ_bg_color_second: #C9BB8A;
+}
+
+.type_steel {
+    --typ_bg_color_first: #AACAD1;
+    --typ_bg_color_second: #5695A3;
+}
+
+.type_metal {
+    --typ_bg_color_first: #AACAD1;
+    --typ_bg_color_second: #5695A3;
 }
 
 .type_water {
-    --type1: #A9CEEF;
-    --type2: #539DDF;
-    --w: 255, 255, 255;
+    --typ_bg_color_first: #A9CEEF;
+    --typ_bg_color_second: #539DDF;
 }
+
+/* ===============================
+   ----- PKM-CARD-----
+   =============================== */
 
 .pokedex {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 32px;
     align-items: stretch;
-    margin-top: 80px;
+    margin-top: 80px
 }
 
 .pkm_card {
@@ -212,50 +204,49 @@
     border-radius: var(--border-radius);
     border: 12px solid yellow;
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
+    justify-content: space-between;
     background:
-        radial-gradient(rgba(var(--w), .36) 1px, transparent 2.2px) 0 0 / 50px 23px,
-        radial-gradient(rgba(var(--w), .18) .8px, transparent 3.1px) 10px 11px / 22px 22px,
-        radial-gradient(rgba(var(--w), .28) 1px, transparent 2.2px) 6px -4px / 24px 24px,
-        radial-gradient(rgba(var(--w), .16) .9px, transparent 0.1px) 18px 8px / 24px 24px,
-        radial-gradient(ellipse at 65% 30%, rgb(236, 223, 41, 1.521), rgba(255, 255, 255, 0) 58%),
-        radial-gradient(ellipse at 50% 120%, rgba(235, 213, 13, 0.644), rgba(0, 0, 0, 0) 40%),
-        linear-gradient(180deg, var(--type1), var(--type2) 85%);
+        radial-gradient(rgba(var(--typ_bg_color), .36) 1px, transparent 2.2px) 0 0/50px 23px,
+        radial-gradient(rgba(var(--typ_bg_color), .18) .8px, transparent 3.1px) 10px 11px/22px 22px,
+        radial-gradient(rgba(var(--typ_bg_color), .28) 1px, transparent 2.2px) 6px -4px/24px 24px,
+        radial-gradient(rgba(var(--typ_bg_color), .16) .9px, transparent 0.1px) 18px 8px/24px 24px,
+        radial-gradient(ellipse at 65% 30%, rgba(236, 223, 41, 1.521), rgba(255, 255, 255, 0) 58%),
+        radial-gradient(ellipse at 50% 120%, rgba(235, 213, 13, .644), rgba(0, 0, 0, 0) 40%),
+        linear-gradient(180deg, var(--typ_bg_color_first), var(--typ_bg_color_second) 85%);
     transition: 200ms all;
 }
 
 .pkm_card:hover {
     filter: saturate(220%);
-    transform: scale(1.050);
+    transform: scale(1.05);
     cursor: pointer;
-    box-shadow: 1px 1px 6px 1px white, -2px -1px 6px white;
+    box-shadow: 1px 1px 6px 1px #fff, -2px -1px 6px #fff
 }
 
 .pkm_container {
     width: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center
 }
 
 .pkm_header {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 12px;
-    padding-top: 6px;
+    padding: 6px 0 12px
 }
 
 .pkm_header_left {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between
 }
 
 .pkm_stage {
     position: relative;
     top: -2px;
     left: -6px;
-    height: 24PX;
+    height: 24px;
     min-width: 56px;
     padding: 2px 6px;
     margin-top: 5px;
@@ -264,50 +255,49 @@
     border: 1px solid var(--border);
     color: #494949;
     filter: drop-shadow(-3px 1px 1px rgb(31, 31, 31));
-    background: linear-gradient(#ffffffcc, #ffffff33) top / 100% 85% no-repeat, linear-gradient(#00000033, #00000000) bottom / 100% 85% no-repeat, linear-gradient(180deg, #c8cdd3 0%, #eef0f3 10%, #b6bbc2 26%, #d5d9dd 46%, #9aa0a8 55%, #eef0f3 76%, #9aa1a8 100%);
+    background:
+        linear-gradient(#ffffffcc, #ffffff33) top/100% 85% no-repeat,
+        linear-gradient(#00000033, #00000000) bottom/100% 85% no-repeat,
+        linear-gradient(180deg, #c8cdd3 0%, #eef0f3 10%, #b6bbc2 26%, #d5d9dd 46%, #9aa0a8 55%, #eef0f3 76%, #9aa1a8 100%);
 }
 
 .pkm_stage span {
-    align-items: center;
     font-size: 14px;
-    font-weight: bolder;
+    font-weight: bolder
 }
 
 .pkm_name {
     width: 86px;
-    height: auto;
     font-size: 16px;
     font-weight: bold;
     color: #313030;
-    margin-right: 0px;
-    margin-top: 5px;
-
+    margin-top: 5px
 }
 
 .pkm_header_right {
     display: flex;
     justify-content: space-between;
-    gap: 1px;
+    gap: 1px
 }
 
 .pkm_hit_points {
     padding-right: 4px;
     color: #313030;
-    margin: 5px 0px 0 0;
+    margin: 5px 0 0
 }
 
 .pkm_hit_points_title {
-    font-size: 14px;
+    font-size: 14px
 }
 
 .pkm_hit_points_value {
     font-size: 16px;
     font-weight: bolder;
-    margin-left: -3px;
+    margin-left: -3px
 }
 
 .pkm_types {
-    display: flex;
+    display: flex
 }
 
 .pkm_type {
@@ -319,14 +309,14 @@
     border-radius: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    border: 2px solid rgb(236, 223, 41, 1.521);
+    justify-content: center;
+    border: 2px solid rgba(236, 223, 41, 1.521);
 }
 
 .pkm_type img {
     width: 90%;
     object-fit: cover;
-    object-position: center;
+    object-position: center
 }
 
 .pkm_image_container {
@@ -334,7 +324,7 @@
     height: 212px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center
 }
 
 .pkm_image {
@@ -353,20 +343,19 @@
     width: 100%;
     height: 94%;
     object-position: center;
-    object-fit: contain;
-
+    object-fit: contain
 }
 
 .pkm_id_container {
     display: flex;
     justify-content: space-between;
     gap: 9px;
-    margin-top: 6px;
+    margin-top: 6px
 }
 
 .pkm_id_container dd {
-    color: rgb(255, 254, 254);
-    font-weight: bold;
+    color: #fff;
+    font-weight: bold
 }
 
 .pkm_meta_container {
@@ -383,35 +372,32 @@
     font-size: 16px;
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: 32px
 }
-
 
 .pkm_size,
 .pkm_weight {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 6px;
+    gap: 6px
 }
 
 .pkm_icon_size,
 .pkm_icon_weight {
     width: auto;
-    height: 16px;
+    height: 16px
 }
 
 .pkm_size dt,
 .pkm_weight dt {
     display: flex;
-    justify-content: space-between;
-    gap: 3px;
+    gap: 3px
 }
 
 .pkm_size dd,
 .pkm_weight dd {
     font-weight: bolder;
     display: flex;
-    justify-content: space-between;
-    gap: 3px;
+    gap: 3px
 }

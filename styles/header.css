@@ -1,7 +1,7 @@
 header {
     position: sticky;
     top: 0;
-    z-index: 2000;
+    z-index: 2000
 }
 
 .site-header {
@@ -30,7 +30,7 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
-    min-width: 260px;
+    min-width: 260px
 }
 
 .search input {
@@ -39,30 +39,30 @@ header {
     border-radius: 14px;
     border: 0;
     outline: none;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, .85);
     color: #222;
-    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.06);
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .06);
 }
 
 .search input::placeholder {
-    color: #666;
+    color: #666
 }
 
 .nav {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 32px
 }
 
 .nav a {
     color: #fff;
     text-decoration: none;
     font-weight: 700;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25)
 }
 
 .nav a:hover {
-    text-decoration: underline;
+    text-decoration: underline
 }
 
 .site-header::after {
@@ -71,11 +71,13 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    height: var(--stroke);
+    height: 10px;
     background: #000;
-    -webkit-mask: linear-gradient(#000 0 0) left/ calc(50% - var(--circle) / 2.22) 100% no-repeat,
+    -webkit-mask:
+        linear-gradient(#000 0 0) left/ calc(50% - var(--circle) / 2.22) 100% no-repeat,
         linear-gradient(#000 0 0) right/ calc(50% - var(--circle) / 2.22) 100% no-repeat;
-    mask: linear-gradient(#000 0 0) left/ calc(50% - var(--circle) / 2.22) 100% no-repeat,
+    mask:
+        linear-gradient(#000 0 0) left/ calc(50% - var(--circle) / 2.22) 100% no-repeat,
         linear-gradient(#000 0 0) right/ calc(50% - var(--circle) / 2.22) 100% no-repeat;
 }
 
@@ -95,10 +97,9 @@ header {
     inset: 0;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25),
-        inset 0 -6px 12px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .25), inset 0 -6px 12px rgba(0, 0, 0, .07);
     z-index: 1;
-    border: var(--stroke) solid #000;
+    border: var(--border) solid #000;
 }
 
 .logo {
@@ -108,7 +109,7 @@ header {
     height: calc(100% - 20px);
     border-radius: 50%;
     object-fit: cover;
-    background: #fff;
+    background: #fff
 }
 
 .center-circle img {
@@ -127,7 +128,7 @@ header {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: var(--stroke) solid #000;
+    border: var(--border) solid #000;
     clip-path: inset(50% 0 0 0);
     z-index: 3;
 }
