@@ -1,7 +1,7 @@
 header {
     position: sticky;
     top: 0;
-    z-index: 2000
+    z-index: 2000;
 }
 
 .site-header {
@@ -10,7 +10,7 @@ header {
     left: 0;
     right: 0;
     z-index: 3000;
-    background-color: #C5312A;
+    background-color: var(--page-bg);
     color: #fff;
     box-shadow: 0 2px 0 rgba(0, 0, 0, .25);
 }
@@ -30,7 +30,7 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
-    min-width: 260px
+    min-width: 260px;
 }
 
 .search input {
@@ -45,24 +45,24 @@ header {
 }
 
 .search input::placeholder {
-    color: #666
+    color: #666;
 }
 
 .nav {
     display: flex;
     align-items: center;
-    gap: 32px
+    gap: 32px;
 }
 
 .nav a {
     color: #fff;
     text-decoration: none;
     font-weight: 700;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .25)
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
 }
 
 .nav a:hover {
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 .site-header::after {
@@ -109,7 +109,7 @@ header {
     height: calc(100% - 20px);
     border-radius: 50%;
     object-fit: cover;
-    background: #fff
+    background: #fff;
 }
 
 .center-circle img {
@@ -131,4 +131,17 @@ header {
     border: var(--border) solid #000;
     clip-path: inset(50% 0 0 0);
     z-index: 3;
+}
+
+.badge {
+    display: inline-block;
+    min-width: 18px;
+    padding: 0 6px;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 9px;
+    background: #ffd400;
+    color: #222;
+    margin-left: 6px;
 }

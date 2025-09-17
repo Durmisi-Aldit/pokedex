@@ -1,10 +1,8 @@
 "use strict";
-let _loadingMore = false;
 
 /* ===============================
    3) HERO
    =============================== */
-
 function buildHeroSlots(pokemons = []) {
   const list = pokemons.filter((p) => p && p.name && (p.image || p.id));
 
@@ -74,7 +72,6 @@ async function loadHeroWrap() {
 /* ===============================
    3) TYPEN-SLIDER
    =============================== */
-
 function renderPkmTypes() {
   const typtIcon = document.getElementById("allTypes");
   if (!typtIcon) return;
@@ -103,6 +100,9 @@ function renderPokemonCard(pokemons) {
   const container = document.getElementById("pokedex");
   if (!container) return;
   container.innerHTML = templatePkmCard(pokemons);
+
+  updateClickedLikes();
+  updateClickedLikes("pokedex", true);
 }
 
 async function loadPokemonCard() {
@@ -116,6 +116,9 @@ async function loadPokemonCard() {
     loadMorePokemon._currentLimit = limit;
   } catch (error) {
     if (container) container.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>";
+
+    updateClickedLikes();
+    updateClickedLikes("pokedex", true);
     console.error(error);
   } finally {
     toggleSpinner(false);
@@ -173,9 +176,13 @@ async function loadMorePokemon() {
   if (_loadingMore) return;
   _loadingMore = true;
 
+  const btn = document.getElementById("loadMoreBtn");
+  if (btn) btn.disabled = true;
+
   const container = document.getElementById("pokedex");
   if (!container) {
     _loadingMore = false;
+    if (btn) btn.disabled = false;
     return;
   }
 
@@ -191,11 +198,15 @@ async function loadMorePokemon() {
     ]);
     const all = await getPokemonsData(data);
     container.innerHTML += templatePkmCard(all.slice(prev, next));
+
+    updateClickedLikes();
+    updateClickedLikes("pokedex", true);
   } catch (e) {
     console.error("Fehler in loadMorePokemon:", e);
   } finally {
     toggleSpinner(false);
     _loadingMore = false;
+    if (btn) btn.disabled = false;
   }
 }
 

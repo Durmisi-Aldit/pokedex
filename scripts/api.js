@@ -3,10 +3,11 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
 const TYPES_URL = "https://pokeapi.co/api/v2/type/";
-const limit = 20;
+const limit = 10;
 const heroLimit = 500;
 const offset = 0;
 
+let _loadingMore = false;
 let heroDataRef = [];
 let heroInterval = null;
 let allTypesCache = null;

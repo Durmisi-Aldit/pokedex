@@ -13,13 +13,19 @@ function formatWeight(w) {
   return (w / 10).toFixed(1) + " kg";
 }
 
-function typeIconPath(typeName) {
-  return `./img/icon/${typeName}.svg`;
+function toggleSpinner(show = true) {
+  const spinnerOverlay = document.getElementById("spinnerOverlay");
+  if (!spinnerOverlay) return;
+  spinnerOverlay.style.display = show ? "flex" : "none";
 }
 
-function mainTypeClass(p) {
+function getMainTypeClass(p) {
   const t = p?.types?.[0] || "normal";
   return `color_${t}`;
+}
+
+function getTypeIconPath(typeName) {
+  return `./img/icon/${typeName}.svg`;
 }
 
 function getPokemonImage(p) {
@@ -27,8 +33,6 @@ function getPokemonImage(p) {
   return "./img/placeholder/placeholder.png";
 }
 
-function toggleSpinner(show = true) {
-  const spinnerOverlay = document.getElementById("spinnerOverlay");
-  if (!spinnerOverlay) return;
-  spinnerOverlay.style.display = show ? "flex" : "none";
+function templateTypeLis(types = [], max = 2) {
+  return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeLi).join("");
 }

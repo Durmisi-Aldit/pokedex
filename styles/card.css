@@ -3,87 +3,87 @@
    =============================== */
 
 .color_bug {
-    background: #92BC2C
+    background: #92BC2C;
 }
 
 .color_dark {
-    background: #595761
+    background: #595761;
 }
 
 .color_dragon {
-    background: #0C69C8
+    background: #0C69C8;
 }
 
 .color_fairy {
-    background: #EE90E6
+    background: #EE90E6;
 }
 
 .color_electric {
-    background: #F2D94E
+    background: #F2D94E;
 }
 
 .color_lightning {
-    background: #F2D94E
+    background: #F2D94E;
 }
 
 .color_fighting {
-    background: #D3425F
+    background: #D3425F;
 }
 
 .color_fire {
-    background: #FBA54C
+    background: #FBA54C;
 }
 
 .color_flying {
-    background: #A1BBEC
+    background: #A1BBEC;
 }
 
 .color_ghost {
-    background: #5F6DBC
+    background: #5F6DBC;
 }
 
 .color_grass {
-    background: #5FBD58
+    background: #5FBD58;
 }
 
 .color_ground {
-    background: #DA7C4D
+    background: #DA7C4D;
 }
 
 .color_ice {
-    background: #75D0C1
+    background: #75D0C1;
 }
 
 .color_normal {
-    background: #A0A29F
+    background: #A0A29F;
 }
 
 .color_poison {
-    background: #B763CF
+    background: #B763CF;
 }
 
 .color_psychic {
-    background: #FA8581
+    background: #FA8581;
 }
 
 .color_rock {
-    background: #C9BB8A
+    background: #C9BB8A;
 }
 
 .color_steel {
-    background: #5695A3
+    background: #5695A3;
 }
 
 .color_metal {
-    background: #5695A3
+    background: #5695A3;
 }
 
 .color_water {
-    background: #539DDF
+    background: #539DDF;
 }
 
 /* ===============================
-   ----- TYP-COLOR PKM-CARD-----
+   ----- BG TYP-COLOR FOR PKM-CARD-----
    =============================== */
 
 .type_bug {
@@ -193,13 +193,13 @@
 .pokedex {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 32px;
+    gap: 12px;
     align-items: stretch;
-    margin-top: 80px
+    margin-top: 80px;
 }
 
 .pkm_card {
-    width: 264px;
+    width: 280px;
     min-height: 324px;
     border-radius: var(--border-radius);
     border: 12px solid yellow;
@@ -221,25 +221,26 @@
     filter: saturate(220%);
     transform: scale(1.05);
     cursor: pointer;
-    box-shadow: 1px 1px 6px 1px #fff, -2px -1px 6px #fff
+    box-shadow: 1px 1px 6px 1px #fff, -2px -1px 6px #fff;
 }
 
 .pkm_container {
     width: auto;
     display: flex;
     flex-direction: column;
-    align-items: center
+    align-items: center;
 }
 
 .pkm_header {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0 12px
+    padding: 6px 0 24px;
+    width: 100%;
 }
 
 .pkm_header_left {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 .pkm_stage {
@@ -247,8 +248,8 @@
     top: -2px;
     left: -6px;
     height: 24px;
-    min-width: 56px;
-    padding: 2px 6px;
+    min-width: 64px;
+    padding: 0px 6px;
     margin-top: 5px;
     text-align: center;
     border-radius: 25px 10px 25px 10px;
@@ -263,7 +264,7 @@
 
 .pkm_stage span {
     font-size: 14px;
-    font-weight: bolder
+    font-weight: bolder;
 }
 
 .pkm_name {
@@ -271,19 +272,19 @@
     font-size: 16px;
     font-weight: bold;
     color: #313030;
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .pkm_header_right {
     display: flex;
     justify-content: space-between;
-    gap: 1px
+    gap: 1px;
 }
 
 .pkm_hit_points {
     padding-right: 4px;
     color: #313030;
-    margin: 5px 0 0
+    margin: 5px 0;
 }
 
 .pkm_hit_points_title {
@@ -293,11 +294,11 @@
 .pkm_hit_points_value {
     font-size: 16px;
     font-weight: bolder;
-    margin-left: -3px
+    margin-left: -3px;
 }
 
 .pkm_types {
-    display: flex
+    display: flex;
 }
 
 .pkm_type {
@@ -316,7 +317,7 @@
 .pkm_type img {
     width: 90%;
     object-fit: cover;
-    object-position: center
+    object-position: center;
 }
 
 .pkm_image_container {
@@ -324,7 +325,7 @@
     height: 212px;
     display: flex;
     flex-direction: column;
-    align-items: center
+    align-items: center;
 }
 
 .pkm_image {
@@ -343,26 +344,56 @@
     width: 100%;
     height: 94%;
     object-position: center;
-    object-fit: contain
+    object-fit: contain;
+}
+
+.pkm_like {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    line-height: 1;
+    color: #ff0000;
+    transition: color 0.3s, transform 0.2s;
+    border-radius: 50%;
+    padding: 0 3px;
+}
+
+.pkm_like.is-liked {
+    color: rgb(50, 187, 16);
+    border-radius: 50%;
+    transform: scale(1.1);
+    background-color: white;
+}
+
+.pkm_like:hover {
+    color: orange;
+    transform: scale(1.1);
+}
+
+.pkm_like:focus {
+    outline: 2px solid #ffd700;
+    outline-offset: 2px;
 }
 
 .pkm_id_container {
     display: flex;
     justify-content: space-between;
-    gap: 9px;
-    margin-top: 6px
+    gap: 24px;
+    margin-top: 6px;
 }
 
 .pkm_id_container dd {
     color: #fff;
-    font-weight: bold
+    font-weight: bold;
+    padding-top: 2px;
 }
 
 .pkm_meta_container {
     opacity: .95;
     color: #272727;
     background-color: rgb(234 234 234 / 29%);
-    padding: 6px 12px;
+    padding: 6px 24px;
     border-radius: 6px;
     margin: 12px;
     border: 2px solid rgba(255, 255, 255, .45);
@@ -372,7 +403,7 @@
     font-size: 16px;
     display: flex;
     justify-content: space-between;
-    gap: 32px
+    gap: 16px;
 }
 
 .pkm_size,
@@ -380,24 +411,24 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 6px
+    gap: 6px;
 }
 
 .pkm_icon_size,
 .pkm_icon_weight {
     width: auto;
-    height: 16px
+    height: 16px;
 }
 
 .pkm_size dt,
 .pkm_weight dt {
     display: flex;
-    gap: 3px
+    gap: 3px;
 }
 
 .pkm_size dd,
 .pkm_weight dd {
     font-weight: bolder;
     display: flex;
-    gap: 3px
+    gap: 3px;
 }
