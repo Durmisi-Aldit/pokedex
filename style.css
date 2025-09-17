@@ -29,6 +29,23 @@ body {
     height: 100%;
 }
 
+.btn {
+    background-color: tomato;
+    padding: 14px 30px;
+    margin-top: 24px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.btn:hover {
+    background-color: rgb(192, 54, 30);
+}
+
 main {
     padding-top: var(--header-h);
     display: flex;

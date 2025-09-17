@@ -20,21 +20,35 @@
     <header>
       <div class="site-header">
         <div class="header-inner">
-          <form class="search" role="search">
-            <input type="search" placeholder="Suchen nach Pokémon" aria-label="Suchen nach Pokémon" />
+          <form class="search-form">
+            <img src="./img/icon/search.svg" alt="Suchen" class="search-icon" />
+            <input type="search" placeholder="Suchen nach Pokémon" />
+            <button type="submit">Suchen</button>
           </form>
 
           <nav class="nav" aria-label="Hauptnavigation">
-            <a href="index.html">Home</a>
-            <a href="#">Quiz</a>
-            <a href="#pokedex">Pokemonkarte</a>
-            <a href="like.html">Favoriten <span id="favCount" class="badge"></span></a>
+            <a href="index.html">
+              <img src="./img/icon/home.svg" alt="Suchen" class="icon" />
+              Home
+            </a>
+            <a href="#">
+              <img src="./img/icon/quiz.svg" alt="Suchen" class="icon" />
+              Quiz
+            </a>
+            <a href="#pokedex">
+              <img src="./img/icon/card.svg" alt="Suchen" class="icon" />
+              Pokemonkarte
+            </a>
+            <a href="like.html">
+              Favoriten
+              <span id="favCount" class="badge"></span>
+            </a>
           </nav>
         </div>
 
         <div class="center-circle" aria-hidden="true">
           <div class="cc-bg"></div>
-          <a href="index.html"> <img class="logo" src="./img/logo/ball.png" alt="Pokemonball" /></a>
+          <img class="logo" src="./img/logo/ball.png" alt="Pokemonball" />
         </div>
       </div>
     </header>
@@ -52,7 +66,7 @@
       <section class="main-container">
         <div class="main_content">
           <div id="pokedex" class="pokedex"></div>
-          <button id="loadMoreBtn" type="button" onclick="loadMorePokemon()">Load More</button>
+          <button id="loadMoreBtn" class="btn" type="button" onclick="loadMorePokemon()">Load More</button>
         </div>
       </section>
     </main>
