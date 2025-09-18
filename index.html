@@ -31,11 +31,11 @@
               <img src="./img/icon/home.svg" alt="Suchen" class="icon" />
               Home
             </a>
-            <a href="#">
+            <a href="quiz.html">
               <img src="./img/icon/quiz.svg" alt="Suchen" class="icon" />
               Quiz
             </a>
-            <a href="#pokedex">
+            <a href="pokemon-card.html">
               <img src="./img/icon/card.svg" alt="Suchen" class="icon" />
               Pokemonkarte
             </a>
@@ -65,13 +65,68 @@
 
       <section class="main-container">
         <div class="main_content">
-          <div id="pokedex" class="pokedex"></div>
-          <button id="loadMoreBtn" class="btn" type="button" onclick="loadMorePokemon()">Load More</button>
+          <div class="pkm_banner" id="pokemon_banner">
+            <div class="pkm_banner_content">
+              <div class="pkm_banner_content_left">
+                <img
+                  class="pkm_bgimg_animation"
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif"
+                  alt="Pokemon-GIF"
+                />
+                <div class="pkm_banner_name_desc">
+                  <div class="pkm_banner_name">Charizard</div>
+                  <div class="pkm_banner_desc">
+                    Wablu liebt es, Dinge zu putzen. Wenn es etwas Schmutziges bemerkt, fängt es an, dieses mit seinen
+                    weichen Flügeln zu putzen. Wenn seine Flügel dreckig werden, sucht sich dieses Pokémon einen Fluss
+                    und duscht sich ab.
+                  </div>
+                </div>
+                <div class="pkm_banner_btn">
+                  <button class="btn">Zum Details</button>
+                </div>
+              </div>
+
+              <div class="pkm_banner_content_right">
+                <div class="pkm_bg_rotation"></div>
+
+                <div class="pkm_fg">
+                  <div class="pkm_row pkm_row_top">
+                    <img class="pkm_img_header" src="./img/logo/pokemon_logo.png" alt="oben" />
+                  </div>
+
+                  <div class="pkm_row pkm_row_mid">
+                    <img
+                      class="pkm_img"
+                      src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+                      alt="mitte"
+                    />
+                  </div>
+
+                  <div class="pkm_row pkm_row_bottom">
+                    <div class="pkm_circles">
+                      <div class="pokemon_typname">
+                        <div class="pokemon_typname__avatar color_fire">
+                          <img src="./img/icon/fire.svg" alt="fire" />
+                        </div>
+                        <span class="pokemon_typname__name">Fire</span>
+                      </div>
+                      <div class="pokemon_typname">
+                        <div class="pokemon_typname__avatar color_flying">
+                          <img src="./img/icon/flying.svg" alt="flying" />
+                        </div>
+                        <span class="pokemon_typname__name">Flying</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
     <div id="spinnerOverlay" class="spinner_overlay" style="display: none">
-      <img src="./img/icon/spinner_ball.svg" alt="Lade…" class="spinner_img" />
+      <img src="./img/placeholder/pikachu.gif" alt="Lade…" class="spinner_img" />
     </div>
     <footer class="site-footer">
       <div class="inner">

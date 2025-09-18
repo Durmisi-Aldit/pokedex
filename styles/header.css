@@ -33,7 +33,7 @@ header {
 
 .search-form {
     background-color: #fff;
-    width: 600px;
+    width: 523px;
     height: 42px;
     display: flex;
     align-items: center;
@@ -57,9 +57,9 @@ header {
 }
 
 .search-form button {
-    background-color: tomato;
-    padding: 14px 30px;
-    border: none;
+    background-color: #b91a1a;
+    border: 1px solid tomato;
+    padding: 11px 30px;
     outline: none;
     color: #fff;
     font-size: 16px;
@@ -77,7 +77,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .nav a:link,
@@ -85,7 +85,7 @@ header {
     border-radius: var(--border-radius);
     color: white;
     border: 1px solid tomato;
-    padding: 8px 16px;
+    padding: 8px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
