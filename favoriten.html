@@ -4,26 +4,28 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="./img/favicon/icon.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pokédex Quiz</title>
+    <title>Pokédex Favoriten</title>
 
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./styles/card.css" />
     <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/media.css" />
 
     <script src="./scripts/ui_utility.js" defer></script>
     <script src="./scripts/api.js" defer></script>
     <script src="./scripts/template.js" defer></script>
-    <script src="./scripts/controller.js" defer></script>
     <script src="./scripts/likes.js" defer></script>
+    <script src="./scripts/controller.js" defer></script>
+    <script src="./scripts/search.js" defer></script>
   </head>
   <body>
     <header>
-      <div class="site-header">
+      <div class="site-header hidden">
         <div class="header-inner">
-          <form class="search-form">
+          <form class="search" id="search">
             <img src="./img/icon/search.svg" alt="Suchen" class="search-icon" />
             <input type="search" placeholder="Suchen nach Pokémon" />
-            <button type="submit">Suchen</button>
+            <button id="submit" type="submit">Suchen</button>
           </form>
 
           <nav class="nav" aria-label="Hauptnavigation">
@@ -31,15 +33,11 @@
               <img src="./img/icon/home.svg" alt="Suchen" class="icon" />
               Home
             </a>
-            <a href="quiz.html">
-              <img src="./img/icon/quiz.svg" alt="Suchen" class="icon" />
-              Quiz
-            </a>
             <a href="pokemon-card.html">
               <img src="./img/icon/card.svg" alt="Suchen" class="icon" />
               Pokemonkarte
             </a>
-            <a href="like.html">
+            <a href="favoriten.html">
               Favoriten
               <span id="favCount" class="badge"></span>
             </a>
@@ -47,24 +45,52 @@
         </div>
 
         <div class="center-circle" aria-hidden="true">
-          <div class="cc-bg"></div>
-          <img class="logo" src="./img/logo/ball.png" alt="Pokemonball" />
+          <a href="index.html">
+            <div class="cc-bg"></div>
+
+            <img class="logo" src="./img/logo/ball.png" alt="Pokemonball" />
+          </a>
         </div>
       </div>
     </header>
+    <div class="mobile_header hidden_desktop">
+      <div class="header-inner">
+        <form class="search" id="search">
+          <img src="./img/icon/search.svg" alt="Suchen" class="search-icon" />
+          <input type="search" placeholder="Suchen nach Pokémon" />
+          <button id="submit" type="submit">Suchen</button>
+        </form>
+
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a href="index.html">
+            <img src="./img/icon/home.svg" alt="Suchen" class="icon" />
+            Home
+          </a>
+          <a href="pokemon-card.html">
+            <img src="./img/icon/card.svg" alt="Suchen" class="icon" />
+            Pokemonkarte
+          </a>
+          <a href="favoriten.html">
+            Favoriten
+            <span id="favCount" class="badge"></span>
+          </a>
+        </nav>
+      </div>
+    </div>
 
     <main>
       <section class="main-container">
         <div class="main_content">
-          <h1>Meine Pokemonkarte</h1>
+          <h1>Meine Favoriten</h1>
+          <div id="likesGrid" class="pokedex"></div>
+          <p id="likesEmpty" style="display: none">Noch keine Favoriten ⭐</p>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="inner">
+      <div class="footer_container">
         <span>© 2025 Aldit Durmisi</span>
-        <a href="#">Impressum</a>
       </div>
     </footer>
   </body>

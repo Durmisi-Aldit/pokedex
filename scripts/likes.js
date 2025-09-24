@@ -1,87 +1,108 @@
 "use strict";
 
-const LS_KEY = "pokedex_likes_v1";
+const LIKES_STORAGE_KEY = "LIKS";
 
-function likesManager(action, id) {
-  let list;
+/* ===============================
+   Like-Verwaltung (lesen, zählen, prüfen, toggeln)
+=============================== */
+function likesManager(action, rawId) {
+  let likedIds;
   try {
-    list = JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+    likedIds = JSON.parse(localStorage.getItem(LIKES_STORAGE_KEY) || "[]");
   } catch {
-    list = [];
+    likedIds = [];
   }
-  if (action === "get") return list;
-  if (action === "count") return list.length;
 
-  const m = String(id ?? "").match(/\d+/),
-    n = m ? parseInt(m[0], 10) : NaN;
-  if (action === "has") return Number.isFinite(n) && list.includes(n);
+  const numericId = parseInt((String(rawId ?? "").match(/\d+/) || [])[0], 10);
+
+  if (action === "get") return likedIds;
+  if (action === "count") return likedIds.length;
+  if (action === "has") return Number.isFinite(numericId) && likedIds.includes(numericId);
 
   if (action === "toggle") {
-    if (!Number.isFinite(n)) return list;
-    const i = list.indexOf(n);
-    if (i > -1) list.splice(i, 1);
-    else list.push(n);
-    localStorage.setItem(LS_KEY, JSON.stringify(list));
-    return list;
+    if (!Number.isFinite(numericId)) return likedIds;
+    const index = likedIds.indexOf(numericId);
+    index > -1 ? likedIds.splice(index, 1) : likedIds.push(numericId);
+    localStorage.setItem(LIKES_STORAGE_KEY, JSON.stringify(likedIds));
+    return likedIds;
   }
+
+  return likedIds;
 }
 
-function updateClickedLikes(containerId = "pokedex", bindEvents = false) {
-  const root = document.getElementById(containerId);
-  if (root) {
-    const btns = root.getElementsByClassName("pkm_like");
-    for (let i = 0; i < btns.length; i++) {
-      const btn = btns[i],
-        on = likesManager("has", btn.getAttribute("data-id"));
-      btn.setAttribute("aria-pressed", on ? "true" : "false");
-      if (on) btn.classList.add("is-liked");
-      else btn.classList.remove("is-liked");
+/* ===============================
+   Aktualisiert UI-Zustand für Like-Buttons
+   =============================== */
+function updateClickedLikes() {
+  const likeContainerIds = ["pokedex", "pokedex_index", "likesGrid", "detailRoot"];
+  const shouldBindClickEvents = true;
 
-      if (bindEvents) {
-        btn.onclick = function () {
-          likesManager("toggle", this.getAttribute("data-id"));
+  for (const containerId of likeContainerIds) {
+    const containerEl = document.getElementById(containerId);
+    if (!containerEl) continue;
 
-          updateClickedLikes("pokedex");
-          renderLikes();
+    const likeButtons = containerEl.getElementsByClassName("pkm_like");
+    for (const button of likeButtons) {
+      const isLiked = likesManager("has", button.dataset.id);
+      button.setAttribute("aria-pressed", isLiked ? "true" : "false");
+      button.classList.toggle("is-liked", isLiked);
+
+      if (shouldBindClickEvents && !button._likeBound) {
+        button._likeBound = true;
+        button.onclick = function () {
+          likesManager("toggle", this.dataset.id);
+          updateClickedLikes(likeContainerIds);
+          if (typeof updateLikesView === "function") updateLikesView();
         };
       }
     }
   }
-  const badge = document.getElementById("favCount");
-  if (badge) badge.textContent = String(likesManager("count"));
+
+  const likesBadgeEl = document.getElementById("favCount");
+  if (likesBadgeEl) likesBadgeEl.textContent = String(likesManager("count"));
 }
 
-async function renderLikes() {
-  if (!renderLikes._init) {
-    window.onstorage = (e) => {
-      if (e && e.key === LS_KEY) {
+/* ===============================
+   Rendert und aktualisiert die Likes-Ansicht
+   =============================== */
+async function updateLikesView() {
+  if (!updateLikesView.isInitialized) {
+    window.onstorage = (storageEvent) => {
+      if (storageEvent?.key === LIKES_STORAGE_KEY) {
         updateClickedLikes("pokedex");
-        renderLikes();
+        updateClickedLikes("pokedex_index", true);
+        updateClickedLikes("detailRoot");
+        updateLikesView();
       }
     };
-    renderLikes._init = true;
+    updateLikesView.isInitialized = true;
   }
 
-  const grid = document.getElementById("likesGrid"),
-    empty = document.getElementById("likesEmpty"),
-    badge = document.getElementById("favCount");
-  if (!grid || !empty || !badge) return;
+  const likesContainer = document.getElementById("likesGrid");
+  const emptyMessage = document.getElementById("likesEmpty");
+  const likesCounter = document.getElementById("favCount");
+  if (!likesContainer || !emptyMessage || !likesCounter) return;
 
   const ids = likesManager("get");
+
   if (!ids.length) {
-    grid.innerHTML = "";
-    empty.style.display = "block";
-    badge.textContent = "0";
+    likesContainer.innerHTML = "";
+    emptyMessage.style.display = "block";
+    likesCounter.textContent = "0";
     return;
   }
-  empty.style.display = "none";
+  emptyMessage.style.display = "none";
 
-  const data = { results: ids.map((n) => ({ url: BASE_URL + "/" + n })) };
-  const pokemons = await getPokemonsData(data);
-  grid.innerHTML = templatePkmCard(pokemons);
+  const pokemonRequest = { results: ids.map((pokemonId) => ({ url: `${BASE_URL}/${pokemonId}` })) };
+  const pokemonList = await getPokemonsData(pokemonRequest);
 
-  updateClickedLikes("likesGrid", true);
+  likesContainer.innerHTML = templatePkmCard(pokemonList);
+
+  updateClickedLikes();
 }
 
-updateClickedLikes("pokedex", true);
-renderLikes();
+/* ===============================
+   BOOTSTRAP
+   =============================== */
+updateClickedLikes();
+updateLikesView();

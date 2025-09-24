@@ -190,16 +190,10 @@
    ----- PKM-CARD-----
    =============================== */
 
-.pokedex {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    align-items: stretch;
-    margin-top: 42px;
-}
+
 
 .pkm_card {
-    width: 280px;
+    max-width: 280px;
     min-height: 324px;
     border-radius: var(--border-radius);
     border: 12px solid yellow;
@@ -393,7 +387,7 @@
     opacity: .95;
     color: #272727;
     background-color: rgb(234 234 234 / 29%);
-    padding: 6px 24px;
+    padding: 6px;
     border-radius: 6px;
     margin: 12px;
     border: 2px solid rgba(255, 255, 255, .45);

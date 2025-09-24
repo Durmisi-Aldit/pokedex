@@ -1,64 +1,82 @@
 "use strict";
 
+/* ===============================
+   HERO
+   =============================== */
 function templatePkmHeroWrap(slots = []) {
-  const get = (i) => slots[i] || { name: "", image: "", types: [] };
-  const [p0, p1, p2, p3, p4, p5, p6] = [0, 1, 2, 3, 4, 5, 6].map(get);
+  const getSlot = (index) => slots[index] || null;
+  const [slot0, slot1, slot2, slot3, slot4, slot5, slot6] = [0, 1, 2, 3, 4, 5, 6].map(getSlot);
+  const renderCircle = (pokemon, sizeClass, sideClass) => {
+    const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
+    const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
+    return `
+      <div class="colum ${sideClass}">
+        <div class="inner_colum circle ${sizeClass} ${typeClass} ${isEmpty ? "is-empty" : ""}">
+          ${
+            isEmpty
+              ? ""
+              : `
+            <img class="circle_img fadein" src="${pokemon.image}" alt="${pokemon.name || "Pokemon"}" loading="lazy"/>
+            <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
+          `
+          }
+        </div>
+      </div>
+    `;
+  };
 
-  return `
-      <div class="main-container main_content">
-        <div class="pokemon_content_main">
-          <div class="pokemon_row_container">
-            <div class="colum left">
-              <div class="inner_colum circle fadein large ${getMainTypeClass(p0)}">
-                <img class="circle_img fadein" src="${p0.image}" alt="${p0.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p0)}">${p0.name}</span>
-              </div>
-            </div>
-            <div class="colum middle">
-              <div class="inner_colum circle medium ${getMainTypeClass(p1)}">
-                <img class="circle_img fadein" src="${p1.image}" alt="${p1.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p1)}">${p1.name}</span>
-              </div>
-            </div>
-            <div class="colum right">
-              <div class="inner_colum circle small ${getMainTypeClass(p2)}">
-                <img class="circle_img fadein" src="${p2.image}" alt="${p2.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p2)}">${p2.name}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pokemon_row_container_center">
-            <div class="colum middle">
-              <div class="inner_colum extra_large ">
-              <img class="middle_circle_img fadein" src="${p3.image}" alt="${p3.name || ""}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p3)}">${p3.name}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="pokemon_row_container">
-            <div class="colum right">
-              <div class="inner_colum circle large ${getMainTypeClass(p4)}">
-                <img class="circle_img fadein" src="${p4.image}" alt="${p4.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p4)}">${p4.name}</span>
-              </div>
-            </div>
-            <div class="colum middle">
-              <div class="inner_colum circle medium ${getMainTypeClass(p5)}">
-                <img class="circle_img fadein" src="${p5.image}" alt="${p5.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p5)}">${p5.name}</span>
-              </div>
-            </div>
-            <div class="colum left">
-              <div class="inner_colum circle small ${getMainTypeClass(p6)}">
-                <img class="circle_img fadein" src="${p6.image}" alt="${p6.name}" loading="lazy"/>
-                <span class="pokemon_main_name ${getMainTypeClass(p6)}">${p6.name}</span>
-              </div>
-            </div>
+  const renderMiddleXL = (pokemon) => {
+    const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
+    const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
+    return `
+      <div class="pokemon_row_container_center">
+        <div class="colum middle">
+          <div class="inner_colum extra_large ${isEmpty ? "is-empty" : ""}">
+            ${
+              isEmpty
+                ? ""
+                : `
+              <img class="middle_circle_img fadein" src="${pokemon.image}" alt="${pokemon.name || ""}" loading="lazy"/>
+              <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
+            `
+            }
           </div>
         </div>
       </div>
+    `;
+  };
+
+  return `
+    <div class="main-container main_content">
+      <div class="pokemon_content_main">
+
+        <div class="pokemon_row_container hidden">
+          ${renderCircle(slot0, "large", "left")}
+          ${renderCircle(slot1, "medium", "middle")}
+          ${renderCircle(slot2, "small", "right")}
+        </div>
+
+        ${renderMiddleXL(slot3)}
+
+        <div class="pokemon_row_container hidden">
+          ${renderCircle(slot4, "large", "right")}
+          ${renderCircle(slot5, "medium", "middle")}
+          ${renderCircle(slot6, "small", "left")}
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+/* ===============================
+   TYPEN-SLIDER
+   =============================== */
+function templateTypeLi(t) {
+  return `
+    <li class="pkm_type color_${t}">
+      <img src="${getTypeIconPath(t)}" alt="${t}">
+    </li>
   `;
 }
 
@@ -68,19 +86,14 @@ function templatePkmTypeSlider(t) {
       <div class="pokemon_typname__avatar color_${t}">
         <img src="${getTypeIconPath(t)}" alt="${t}">
       </div>
-      <span class="pokemon_typname__name">${cap(t)}</span>
+      <span class="pokemon_typname__name color_${t}">${typeLabelDe(t)}</span>
     </div>
   `;
 }
 
-function templateTypeLi(t) {
-  return `
-    <li class="pkm_type color_${t}">
-      <img src="${getTypeIconPath(t)}" alt="${t}">
-    </li>
-  `;
-}
-
+/* ===============================
+   POKEMON-CARD 
+   =============================== */
 function templatePkmCard(list = []) {
   return list
     .map(
@@ -96,7 +109,7 @@ function templatePkmCard(list = []) {
                         <span class="pkm_hit_points_title">${p.hp.title}</span>
                         <data class="pkm_hit_points_value">${p.hp.value}</data>
                       </div>
-                      <ul class="pkm_types" aria-label="Typen">${templateTypeLis(p.types || [])}</ul>
+                      <ul class="pkm_types" aria-label="Typen">${templateTypeList(p.types || [])}</ul>
                     </div>
                     
                 </div> 
@@ -137,4 +150,83 @@ function templatePkmCard(list = []) {
   `
     )
     .join("");
+}
+
+/* ===============================
+   POKEMON-BANNER 
+   =============================== */
+function templatePkmBanner(p) {
+  const typesHtml = (p.types || [])
+    .slice(0, 2)
+    .map(
+      (t) => `
+      <div class="pokemon_typname">
+        <div class="pokemon_typname__avatar color_${t}">
+          <img src="${getTypeIconPath(t)}" alt="${t}" />
+        </div>
+        <span class="pokemon_typname__name color_${t}">${typeLabelDe(t)}</span>
+      </div>
+    `
+    )
+    .join("");
+
+  return `
+
+            <div class="pkm_banner_content">
+              <div class="pkm_banner_content_left">
+                <img
+                  class="pkm_bgimg_animation"
+                  src="${p.gif}"
+                  alt="Pokemon Animation von ${p.name}"
+                />
+                <div class="pkm_banner_name_desc">
+                  <div class="pkm_banner_name">${p.name}</div>
+                  <div class="pkm_banner_desc">${p.desc || ""}</div>
+                </div>
+                <div class="pkm_banner_btn">
+                  <button class="btn" data-id="${p.id}">Zum Details</button>
+                </div>
+              </div>
+
+              <div class="pkm_banner_content_right">
+                <div class="pkm_bg_rotation"></div>
+
+                <div class="pkm_fg">
+                  <div class="pkm_row pkm_row_top">
+                    <img class="pkm_img_header" src="./img/logo/pokemon_logo.png" alt="oben" />
+                  </div>
+
+                  <div class="pkm_row pkm_row_mid">
+                    <img
+                      class="pkm_img"
+                      src="${p.artwork}"
+                      alt="${p.name}"
+                    />
+                  </div>
+
+                  <div class="pkm_row pkm_row_bottom">
+                    <div class="pkm_circles">
+                      ${typesHtml}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+   
+  `;
+}
+
+/* ===============================
+   SEARCH-DROPDOWN
+   =============================== */
+function templateSearchDropdown(r) {
+  return `
+    <a class="search-item" href="search-results.html?id=${r.id}" role="option" data-id="${r.id}">
+      <img class="search-item_img" src="${r.img || getPokemonImage({})}" alt="${r.de || ""}">
+      <div class="search-item_texts">
+        <span class="search-item_name">${r.de || ""}</span>
+        <span class="search-item_id">#${String(r.id).padStart(3, "0")}</span>
+      </div>
+    </a>
+  `;
 }

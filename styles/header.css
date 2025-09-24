@@ -31,24 +31,25 @@ header {
    ----- SEARCH-----
    =============================== */
 
-.search-form {
+.search {
+    position: relative;
     background-color: #fff;
-    width: 523px;
+    width: 468px;
     height: 42px;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
-    overflow: hidden;
+    overflow: visible;
 }
 
-.search-form .search-icon {
+.search .search-icon {
     width: 20px;
     height: 20px;
     margin: 0 12px;
     color: #777;
 }
 
-.search-form input {
+.search input {
     flex: 1;
     border: none;
     outline: none;
@@ -56,7 +57,7 @@ header {
     font-size: 1rem;
 }
 
-.search-form button {
+.search button {
     background-color: #b91a1a;
     border: 1px solid tomato;
     padding: 11px 30px;
@@ -69,15 +70,88 @@ header {
     border-bottom-right-radius: var(--border-radius);
 }
 
-.search-form button:hover {
+.search button:hover {
     background-color: rgb(192, 54, 30);
 }
 
+.search:focus-within .search-dropdown {
+    display: none;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    margin-top: 8px;
+    padding: 6px;
+    z-index: 1000;
+    max-height: 380px;
+    overflow: auto;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+
+.search-item:hover {
+    background: #f3f4f6;
+}
+
+.search-item_img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.search-item_texts {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.search-item_name {
+    font-weight: 600;
+}
+
+.search-item_id {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.search-empty {
+    padding: 10px;
+    color: #6b7280;
+}
+
+.search_grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 42px;
+}
+
+/* ===============================
+   ----- HAUPTNAVIGATION-----
+   =============================== */
 .nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .nav a:link,
@@ -85,7 +159,7 @@ header {
     border-radius: var(--border-radius);
     color: white;
     border: 1px solid tomato;
-    padding: 8px;
+    padding: 8px 16px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -128,7 +202,7 @@ header {
     width: var(--circle);
     height: var(--circle);
     transform: translateX(-50%);
-    pointer-events: none;
+
     z-index: 11;
 }
 
@@ -140,6 +214,7 @@ header {
     box-shadow: 0 8px 20px rgba(0, 0, 0, .25), inset 0 -6px 12px rgba(0, 0, 0, .07);
     z-index: 1;
     border: var(--border) solid #000;
+    pointer-events: none;
 }
 
 .logo {
@@ -151,6 +226,8 @@ header {
     object-fit: cover;
     background: #fff;
 }
+
+
 
 .center-circle img {
     position: absolute;

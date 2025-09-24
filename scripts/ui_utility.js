@@ -1,5 +1,7 @@
 "use strict";
-
+/* ===============================
+   UI-Helper
+   =============================== */
 function cap(s) {
   if (!s) return s;
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -14,9 +16,13 @@ function formatWeight(w) {
 }
 
 function toggleSpinner(show = true) {
-  const spinnerOverlay = document.getElementById("spinnerOverlay");
-  if (!spinnerOverlay) return;
-  spinnerOverlay.style.display = show ? "flex" : "none";
+  const spinner = document.getElementById("spinnerOverlay");
+  if (!spinner) return;
+
+  if (show) spinnerCount++;
+  else spinnerCount = Math.max(0, spinnerCount - 1);
+
+  spinner.style.display = spinnerCount > 0 ? "flex" : "none";
 }
 
 function getMainTypeClass(p) {
@@ -33,6 +39,21 @@ function getPokemonImage(p) {
   return "./img/placeholder/placeholder.png";
 }
 
-function templateTypeLis(types = [], max = 2) {
-  return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeLi).join("");
+function templateTypeList(types = [], max = 2) {
+  return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeList).join("");
+}
+
+function typeLabelDe(t) {
+  return TYPE_LABEL_DE[t] || cap(t);
+}
+
+function scrollPKMCard(cardId, preornext) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  const scroller = document.getElementById("pokedex_index");
+  if (!scroller) return;
+  scroller.scrollBy({
+    left: preornext * scroller.clientWidth,
+    behavior: "smooth",
+  });
 }

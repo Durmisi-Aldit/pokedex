@@ -20,12 +20,15 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     line-height: 1.5;
     color: var(--text-on-dark);
-    height: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .btn {
@@ -46,9 +49,10 @@ body {
 }
 
 main {
-    padding-top: var(--header-h);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+
 }
 
 .main_inner {
@@ -72,6 +76,9 @@ main {
 /* ===============================
    ----- HERO-----
    =============================== */
+.hidden_destop {
+    display: none;
+}
 
 .hero-wrap {
     position: relative;
@@ -199,6 +206,10 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.is-empty {
+    visibility: hidden;
 }
 
 .small {
@@ -418,7 +429,67 @@ main {
     margin: 0;
     color: #fff;
     font-size: 14px;
+    padding: 2px 14px;
+    border-radius: 6px;
 }
+
+/* ===============================
+   ----- SLIDER-POKEDEX-KARTEN -----
+   =============================== */
+
+.pokedex {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    align-items: center;
+    justify-items: stretch;
+}
+
+.pdx-slider {
+    container-type: inline-size;
+    position: relative;
+}
+
+.pdx-slider__viewport {
+    overflow: visible;
+}
+
+.pdx-slider__btn {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+    font: 700 22px/1 system-ui, sans-serif;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.pdx-slider__btn--prev {
+    left: 12px;
+}
+
+.pdx-slider__btn--next {
+    right: 12px;
+}
+
+.pdx-slider #pokedex_index {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.pdx-slider #pokedex_index::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+
 
 /* ===============================
    ----- SPINNER-----
@@ -429,7 +500,7 @@ main {
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, .863);
+    background: rgba(0, 0, 0, .900);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -437,9 +508,9 @@ main {
 }
 
 .spinner_img {
-    width: 224px;
-    height: 224px;
-    /*animation: spin 2s linear infinite; */
+    width: 324px;
+    height: 324px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -494,8 +565,8 @@ main {
     position: absolute;
     right: 10%;
     bottom: 2%;
-    width: 164px;
-    height: auto;
+    height: 164px;
+    width: auto;
     object-fit: cover;
     opacity: 0.9;
     z-index: 0;
@@ -522,7 +593,7 @@ main {
     font-size: 24px;
     font-weight: normal;
     line-height: 1.5;
-    padding-right: 42px;
+    padding-right: 234px;
 }
 
 .pkm_banner_btn {
@@ -589,7 +660,7 @@ main {
 
 .pkm_row_bottom {
     position: relative;
-    top: -142px;
+    top: -150px;
     z-index: 2;
 }
 
@@ -603,8 +674,8 @@ main {
 }
 
 .pkm_img {
-    width: 382px;
-    height: 364px;
+    width: auto;
+    height: 350px;
     object-fit: contain;
     display: block;
     z-index: 1;
@@ -615,4 +686,20 @@ main {
     display: flex;
     gap: 64px;
     justify-content: center;
+}
+
+/* ===============================
+   ----- FOOTER-----
+   =============================== */
+
+.site-footer {
+    width: 100%;
+    height: auto;
+    background-color: #161E1D;
+}
+
+.footer_container {
+    max-width: var(--content-max-w);
+    margin: 0 auto;
+    height: 250px;
 }
