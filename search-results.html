@@ -1,71 +1,100 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <link rel="shortcut icon" href="./img/favicon/icon.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pokémon – Details</title>
+    <title>Suchergebnisse</title>
 
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="./styles/card.css" />
-    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/pokemon-card.css" />
+    <link rel="stylesheet" href="./styles/globals.css" />
+    <link rel="stylesheet" href="./styles/components.css" />
+    <link rel="stylesheet" href="./styles/types-colors.css" />
+
     <link rel="stylesheet" href="./styles/media.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <script src="./scripts/ui_utility.js" defer></script>
     <script src="./scripts/api.js" defer></script>
     <script src="./scripts/template.js" defer></script>
     <script src="./scripts/likes.js" defer></script>
+
     <script src="./scripts/controller.js" defer></script>
     <script src="./scripts/search.js" defer></script>
     <script src="./scripts/details.js" defer></script>
   </head>
   <body>
-    <header>
-      <div class="site-header">
-        <div class="header-inner">
-          <form class="search" id="search">
-            <img src="./img/icon/search.svg" alt="Suchen" class="search-icon" />
-            <input type="search" placeholder="Suchen nach Pokémon" />
-            <button id="submit" type="submit">Suchen</button>
-          </form>
+    <main>
+      <header class="site-header">
+        <div class="container">
+          <div class="site-header-inner">
+            <a href="index.html" class="site-header-logo">
+              <img class="logo" src="./img/logo/logo.png" alt="" />
+            </a>
 
-          <nav class="nav" aria-label="Hauptnavigation">
-            <a href="index.html">
-              <img src="./img/icon/home.svg" alt="Suchen" class="icon" />
-              Home
-            </a>
-            <a href="pokemon-card.html">
-              <img src="./img/icon/card.svg" alt="Suchen" class="icon" />
-              Pokemonkarte
-            </a>
-            <a href="favoriten.html">
-              Favoriten
-              <span id="favCount" class="badge"></span>
-            </a>
-          </nav>
+            <button
+              class="site-header-burger"
+              id="headerBurger"
+              aria-label="Menü"
+              aria-expanded="false"
+              aria-controls="siteHeaderPanel"
+              type="button"
+            >
+              <span class="burger-closed"> <i class="fas fa-bars" aria-hidden="true"></i> </span>
+              <span class="burger-open"> <i class="fas fa-times" aria-hidden="true"></i> </span>
+            </button>
+
+            <div class="site-header-panel" id="siteHeaderPanel">
+              <nav class="site-header-nav">
+                <ul>
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="pokemon-card.html">Pokécards</a></li>
+                  <li>
+                    <a href="favoriten.html">Favoriten <span id="favCount" class="badge"></span></a>
+                  </li>
+                </ul>
+              </nav>
+
+              <form class="site-header-search" id="search" role="search">
+                <img src="./img/icon/search.svg" alt="Suchen" class="site-header-search-icon" />
+                <input type="search" class="site-header-search-input" placeholder="Suchen nach Pokémon" />
+                <button id="submit" type="submit" class="site-header-search-button">Suchen</button>
+                <div id="dropdownEl" class="search-dropdown" role="listbox" style="display: none"></div>
+              </form>
+            </div>
+          </div>
         </div>
+      </header>
 
-        <div class="center-circle" aria-hidden="true">
-          <a href="index.html">
-            <div class="cc-bg"></div>
+      <section class="search-results">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="title">
+                <h2>Suchergebnisse für (eingegeben wort) hat (22) Treffer</h2>
+              </div>
 
-            <img class="logo" src="./img/logo/ball.png" alt="Pokemonball" />
-          </a>
+              <div id="detailRoot" class="search_grid"><!--Suchresultate--></div>
+            </div>
+          </div>
         </div>
-      </div>
-    </header>
-
-    <main class="main-container">
-      <div class="main_content">
-        <section id="detailRoot"></section>
-      </div>
+      </section>
     </main>
+
     <div id="spinnerOverlay" class="spinner_overlay" style="display: none">
-      <img src="./img/icon/spinner_ball.svg" alt="Lade…" class="spinner_img" />
+      <img src="./img/bg/rotation-spinner.png" alt="Lade…" class="spinner_img" />
     </div>
-    <footer class="site-footer">
-      <div class="footer_container">
-        <span>© 2025 Aldit Durmisi</span>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="sf-content">
+              <span>© 2025 Aldit Durmisi</span>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   </body>

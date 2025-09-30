@@ -4,11 +4,13 @@
    HERO
    =============================== */
 function templatePkmHeroWrap(slots = []) {
-  const getSlot = (index) => slots[index] || null;
+  const getSlot = (i) => slots[i] || null;
   const [slot0, slot1, slot2, slot3, slot4, slot5, slot6] = [0, 1, 2, 3, 4, 5, 6].map(getSlot);
+
   const renderCircle = (pokemon, sizeClass, sideClass) => {
     const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
     const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
+
     return `
       <div class="colum ${sideClass}">
         <div class="inner_colum circle ${sizeClass} ${typeClass} ${isEmpty ? "is-empty" : ""}">
@@ -16,9 +18,11 @@ function templatePkmHeroWrap(slots = []) {
             isEmpty
               ? ""
               : `
-            <img class="circle_img fadein" src="${pokemon.image}" alt="${pokemon.name || "Pokemon"}" loading="lazy"/>
-            <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
-          `
+                   <img class="circle_img fadein" src="${pokemon.image}" alt="${
+                  pokemon.name || "Pokemon"
+                }" loading="lazy"/>
+                   <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
+                 `
           }
         </div>
       </div>
@@ -28,6 +32,7 @@ function templatePkmHeroWrap(slots = []) {
   const renderMiddleXL = (pokemon) => {
     const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
     const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
+
     return `
       <div class="pokemon_row_container_center">
         <div class="colum middle">
@@ -36,9 +41,11 @@ function templatePkmHeroWrap(slots = []) {
               isEmpty
                 ? ""
                 : `
-              <img class="middle_circle_img fadein" src="${pokemon.image}" alt="${pokemon.name || ""}" loading="lazy"/>
-              <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
-            `
+                     <img class="middle_circle_img fadein" src="${pokemon.image}" alt="${
+                    pokemon.name || ""
+                  }" loading="lazy"/>
+                     <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
+                  `
             }
           </div>
         </div>
@@ -47,23 +54,19 @@ function templatePkmHeroWrap(slots = []) {
   };
 
   return `
-    <div class="main-container main_content">
-      <div class="pokemon_content_main">
+    <div class="pokemon_content_main">
+      <div class="pokemon_row_container hidden">
+        ${renderCircle(slot0, "large", "left")}
+        ${renderCircle(slot1, "medium", "middle")}
+        ${renderCircle(slot2, "small", "right")}
+      </div>
 
-        <div class="pokemon_row_container hidden">
-          ${renderCircle(slot0, "large", "left")}
-          ${renderCircle(slot1, "medium", "middle")}
-          ${renderCircle(slot2, "small", "right")}
-        </div>
+      ${renderMiddleXL(slot3)}
 
-        ${renderMiddleXL(slot3)}
-
-        <div class="pokemon_row_container hidden">
-          ${renderCircle(slot4, "large", "right")}
-          ${renderCircle(slot5, "medium", "middle")}
-          ${renderCircle(slot6, "small", "left")}
-        </div>
-
+      <div class="pokemon_row_container hidden">
+        ${renderCircle(slot4, "large", "right")}
+        ${renderCircle(slot5, "medium", "middle")}
+        ${renderCircle(slot6, "small", "left")}
       </div>
     </div>
   `;
@@ -96,8 +99,8 @@ function templatePkmTypeSlider(t) {
    =============================== */
 function templatePkmCard(list = []) {
   return list
-    .map(
-      (p) => `
+    .map((p) => {
+      return `
     <article class="pkm_card type_${p.types?.[0] || "normal"}" data-id="${p.id}">
                 <div class="pkm_header">
                     <div class="pkm_header_left">
@@ -109,10 +112,11 @@ function templatePkmCard(list = []) {
                         <span class="pkm_hit_points_title">${p.hp.title}</span>
                         <data class="pkm_hit_points_value">${p.hp.value}</data>
                       </div>
-                      <ul class="pkm_types" aria-label="Typen">${templateTypeList(p.types || [])}</ul>
+                      <ul class="pkm_types" aria-label="Typen">${templateTypeListe(p.types || [])}</ul>
                     </div>
                     
-                </div> 
+                </div>
+              
           <div class="pkm_container">
             
 
@@ -146,9 +150,10 @@ function templatePkmCard(list = []) {
               </dl>
             </section>
           </div>
+          
      </article>
-  `
-    )
+  `;
+    })
     .join("");
 }
 
@@ -193,7 +198,7 @@ function templatePkmBanner(p) {
 
                 <div class="pkm_fg">
                   <div class="pkm_row pkm_row_top">
-                    <img class="pkm_img_header" src="./img/logo/pokemon_logo.png" alt="oben" />
+                    <img class="pkm_img_header" src="./img/logo/logo.png" alt="oben" />
                   </div>
 
                   <div class="pkm_row pkm_row_mid">

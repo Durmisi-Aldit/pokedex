@@ -1,200 +1,18 @@
-/* ===============================
-   ----- TYP-COLOR-----
-   =============================== */
+/* ==========================================================================
+POKEMON-CARD.CSS
 
-.color_bug {
-    background: #92BC2C;
-}
+Enthält:
+- 01 POKEMON CARD
+- 02 
+========================================================================== */
 
-.color_dark {
-    background: #595761;
-}
-
-.color_dragon {
-    background: #0C69C8;
-}
-
-.color_fairy {
-    background: #EE90E6;
-}
-
-.color_electric {
-    background: #F2D94E;
-}
-
-.color_lightning {
-    background: #F2D94E;
-}
-
-.color_fighting {
-    background: #D3425F;
-}
-
-.color_fire {
-    background: #FBA54C;
-}
-
-.color_flying {
-    background: #A1BBEC;
-}
-
-.color_ghost {
-    background: #5F6DBC;
-}
-
-.color_grass {
-    background: #5FBD58;
-}
-
-.color_ground {
-    background: #DA7C4D;
-}
-
-.color_ice {
-    background: #75D0C1;
-}
-
-.color_normal {
-    background: #A0A29F;
-}
-
-.color_poison {
-    background: #B763CF;
-}
-
-.color_psychic {
-    background: #FA8581;
-}
-
-.color_rock {
-    background: #C9BB8A;
-}
-
-.color_steel {
-    background: #5695A3;
-}
-
-.color_metal {
-    background: #5695A3;
-}
-
-.color_water {
-    background: #539DDF;
-}
-
-/* ===============================
-   ----- BG TYP-COLOR FOR PKM-CARD-----
-   =============================== */
-
-.type_bug {
-    --typ_bg_color_first: #C8DE96;
-    --typ_bg_color_second: #92BC2C;
-}
-
-.type_dark {
-    --typ_bg_color_first: #ACABB0;
-    --typ_bg_color_second: #595761;
-}
-
-.type_dragon {
-    --typ_bg_color_first: #86B4E4;
-    --typ_bg_color_second: #0C69C8;
-}
-
-.type_fairy {
-    --typ_bg_color_first: #F6C8F2;
-    --typ_bg_color_second: #EE90E6;
-}
-
-.type_electric {
-    --typ_bg_color_first: #F8ECA6;
-    --typ_bg_color_second: #F2D94E;
-}
-
-.type_lightning {
-    --typ_bg_color_first: #F8ECA6;
-    --typ_bg_color_second: #F2D94E;
-}
-
-.type_fighting {
-    --typ_bg_color_first: #E9A0AF;
-    --typ_bg_color_second: #D3425F;
-}
-
-.type_fire {
-    --typ_bg_color_first: #FDD2A6;
-    --typ_bg_color_second: #FBA54C;
-}
-
-.type_flying {
-    --typ_bg_color_first: #D0DDF6;
-    --typ_bg_color_second: #A1BBEC;
-}
-
-.type_ghost {
-    --typ_bg_color_first: #AFB6DE;
-    --typ_bg_color_second: #5F6DBC;
-}
-
-.type_grass {
-    --typ_bg_color_first: #AFDEAC;
-    --typ_bg_color_second: #5FBD58;
-}
-
-.type_ground {
-    --typ_bg_color_first: #ECBEA6;
-    --typ_bg_color_second: #DA7C4D;
-}
-
-.type_ice {
-    --typ_bg_color_first: #BAE8E0;
-    --typ_bg_color_second: #75D0C1;
-}
-
-.type_normal {
-    --typ_bg_color_first: #D0D0CF;
-    --typ_bg_color_second: #A0A29F;
-}
-
-.type_poison {
-    --typ_bg_color_first: #DBB1E7;
-    --typ_bg_color_second: #B763CF;
-}
-
-.type_psychic {
-    --typ_bg_color_first: #FCC2C0;
-    --typ_bg_color_second: #FA8581;
-}
-
-.type_rock {
-    --typ_bg_color_first: #E4DDC4;
-    --typ_bg_color_second: #C9BB8A;
-}
-
-.type_steel {
-    --typ_bg_color_first: #AACAD1;
-    --typ_bg_color_second: #5695A3;
-}
-
-.type_metal {
-    --typ_bg_color_first: #AACAD1;
-    --typ_bg_color_second: #5695A3;
-}
-
-.type_water {
-    --typ_bg_color_first: #A9CEEF;
-    --typ_bg_color_second: #539DDF;
-}
-
-/* ===============================
-   ----- PKM-CARD-----
-   =============================== */
-
-
+/* =============================================
+----- 01 POKEMON CARD -----
+============================================= */
 
 .pkm_card {
-    max-width: 280px;
-    min-height: 324px;
+    width: 260px;
+    height: 380px;
     border-radius: var(--border-radius);
     border: 12px solid yellow;
     display: flex;
@@ -228,7 +46,7 @@
 .pkm_header {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0 24px;
+    padding: 6px 0 6px;
     width: 100%;
 }
 
@@ -262,11 +80,11 @@
 }
 
 .pkm_name {
-    width: 86px;
-    font-size: 16px;
+    min-width: 96px;
+    font-size: 15px;
     font-weight: bold;
     color: #313030;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 
 .pkm_header_right {
@@ -278,7 +96,7 @@
 .pkm_hit_points {
     padding-right: 4px;
     color: #313030;
-    margin: 5px 0;
+    margin: 0;
 }
 
 .pkm_hit_points_title {
@@ -293,6 +111,7 @@
 
 .pkm_types {
     display: flex;
+    flex-direction: column;
 }
 
 .pkm_type {
@@ -315,8 +134,8 @@
 }
 
 .pkm_image_container {
-    width: 224px;
-    height: 212px;
+    width: 212px;
+    height: 196px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -347,7 +166,7 @@
     cursor: pointer;
     font-size: 28px;
     line-height: 1;
-    color: #ff0000;
+    color: var(--red);
     transition: color 0.3s, transform 0.2s;
     border-radius: 50%;
     padding: 0 3px;
@@ -373,7 +192,7 @@
 .pkm_id_container {
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: 106px;
     margin-top: 6px;
 }
 

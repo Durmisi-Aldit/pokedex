@@ -1,0 +1,298 @@
+/* ==========================================================================
+   GLOBALS.CSS
+   Enthält:
+   - CSS Variablen (Farben, Abstände, Schriftarten, Schatten, Radius usw.)
+  
+   ========================================================================== */
+
+:root {
+
+    /* Farben  */
+    --color-white: #ffffff;
+    --text-color: #272626;
+    --muted: #4b5563;
+    --red: #b71d1f;
+    --bg: #f3f4f6;
+    --card: #ffffff;
+    --line: #e5e7eb;
+    --text: #111827;
+    --male: #4067f1;
+    --female: #f564c9;
+    --track: #eff2f6;
+    --track-2: #dfe3e9;
+    --success: #c7f9cc;
+
+    --side-pad: clamp(12px, 3vw, 16px);
+    --border-radius: 6px;
+    --card-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    --radius: 9px;
+    --typ_bg_color: 255, 255, 255;
+
+    /* Schriften  */
+    --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+    /* Zeilenhöhen */
+    --lh-tight: 1.15;
+    --lh-normal: 1.6;
+    --lh-relaxed: 1.75;
+
+
+    /* Skala (fühlt sich modern an, passt responsiv) */
+    --fs-h1: clamp(28px, 4.5vw, 40px);
+    --fs-h2: clamp(24px, 3.6vw, 32px);
+    --fs-h3: clamp(20px, 2.8vw, 26px);
+    --fs-h4: clamp(18px, 2.2vw, 22px);
+    --fs-h5: clamp(16px, 1.9vw, 18px);
+    --fs-body: 16px;
+    --fs-small: 14px;
+    --fs-caption: 12px;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-size: var(--fs-body);
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    color: var(--text, #111827);
+    margin: 0 0 0.5em 0;
+}
+
+h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-tight);
+}
+
+.title h1 {
+    color: #222;
+    border-left: 8px solid var(--red);
+    border-right: 8px solid var(--red);
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-tight);
+}
+
+.title h2 {
+    color: #222;
+    border-left: 8px solid var(--red);
+    padding-left: 24px;
+    margin-bottom: 48px;
+}
+
+h3 {
+    font-size: var(--fs-h3);
+    line-height: 1.3;
+}
+
+.title h3 {
+    color: #222;
+    border-left: 8px solid var(--red);
+    padding-left: 24px;
+    margin-bottom: 48px;
+}
+
+h4 {
+    font-size: var(--fs-h4);
+    line-height: 1.35;
+}
+
+h5 {
+    font-size: var(--fs-h5);
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+
+p {
+    font-size: var(--fs-body);
+    line-height: var(--lh-normal);
+    margin: 0 0 1em 0;
+    color: var(--text, #111827);
+}
+
+span {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+p {
+    margin: 0 0 1em 0;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+.link {
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+    transition: border-color .2s ease, color .2s ease;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding-left: var(--side-pad);
+    padding-right: var(--side-pad);
+}
+
+.detail-site-top,
+.detail-site-desc,
+.detail-site-tab,
+.hero,
+.typ-slider,
+.neu-pkm-slider,
+.pkm-animation-banner,
+.favoriten,
+.all-pokemoncard,
+.search-results,
+.footer {
+    width: 100%;
+    background: var(--color-white);
+    color: var(--text-color);
+    padding: clamp(6px, 4vw, 12px) 0;
+}
+
+.neu-pkm-slider,
+.favoriten,
+.search-results,
+.all-pokemoncard {
+    margin-top: 32px;
+}
+
+.footer {
+    background-color: #0c0c0c;
+}
+
+.sf-content {
+    height: 150px;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.type-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.col {
+    flex: 1;
+    border-radius: 12px;
+}
+
+/* ===============================
+   ----- SPINNER-----
+   =============================== */
+.spinner_overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .900);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner_img {
+    width: 324px;
+    height: 324px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.search-loader {
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #25b09b;
+    --_m:
+        conic-gradient(#0000 10%, #000),
+        linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+    to {
+        transform: rotate(1turn)
+    }
+}
+
+.btn {
+    background-color: tomato;
+    padding: 14px 30px;
+    margin-top: 24px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.btn:hover {
+    background-color: var(--red);
+}
+
+.badge {
+    display: inline-block;
+    min-width: 18px;
+    padding: 0 6px;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 9px;
+    background: #ffd400;
+    color: #222;
+    margin-left: 6px;
+}

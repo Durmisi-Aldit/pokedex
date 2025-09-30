@@ -47,7 +47,8 @@ function renderSearchResultsDropdown(dropdownEl, searchResults = [], { loading =
   if (!dropdownEl) return;
 
   if (loading) {
-    dropdownEl.innerHTML = '<div class="search-empty">Daten werden geladen … bitte warten</div>';
+    dropdownEl.innerHTML =
+      '<div class="search-empty"><p>Daten werden geladen … bitte warten</p><div class="search-loader"></div></div></div>';
     showOrHide(dropdownEl, true);
     return;
   }

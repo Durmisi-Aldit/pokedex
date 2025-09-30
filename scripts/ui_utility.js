@@ -2,6 +2,7 @@
 /* ===============================
    UI-Helper
    =============================== */
+
 function cap(s) {
   if (!s) return s;
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -39,21 +40,10 @@ function getPokemonImage(p) {
   return "./img/placeholder/placeholder.png";
 }
 
-function templateTypeList(types = [], max = 2) {
-  return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeList).join("");
+function templateTypeListe(types = [], max = 2) {
+  return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeLi).join("");
 }
 
 function typeLabelDe(t) {
   return TYPE_LABEL_DE[t] || cap(t);
-}
-
-function scrollPKMCard(cardId, preornext) {
-  const card = document.getElementById(cardId);
-  if (!card) return;
-  const scroller = document.getElementById("pokedex_index");
-  if (!scroller) return;
-  scroller.scrollBy({
-    left: preornext * scroller.clientWidth,
-    behavior: "smooth",
-  });
 }

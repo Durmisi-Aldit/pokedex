@@ -9,7 +9,7 @@ const MAX_DEX_ID = 1025;
 const offset = 0;
 const HERO_SLOT_LIMIT = 7;
 const HERO_RENDER_INTERVAL_MS = 100000;
-const INDEX_CARD_LIMIT = 15;
+const INDEX_CARD_LIMIT = 5;
 
 let heroDataRef = [];
 let heroRenderIntervalId = null;

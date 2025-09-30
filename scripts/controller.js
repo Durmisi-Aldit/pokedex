@@ -215,7 +215,7 @@ async function loadPokemonCard() {
 }
 
 /* ===============================
-   POKEMON-LADEN 
+   MEHR POKEMON-LADEN 
    =============================== */
 async function loadMorePokemon() {
   if (loadingMorePkm) return;
