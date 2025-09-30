@@ -10,6 +10,7 @@ function templatePkmHeroWrap(slots = []) {
   const renderCircle = (pokemon, sizeClass, sideClass) => {
     const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
     const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
+    const numId = getNumIdForURL(pokemon);
 
     return `
       <div class="colum ${sideClass}">
@@ -17,12 +18,12 @@ function templatePkmHeroWrap(slots = []) {
           ${
             isEmpty
               ? ""
-              : `
-                   <img class="circle_img fadein" src="${pokemon.image}" alt="${
+              : `<a href="pokemon-details.html?id=${numId}">
+                      <img class="circle_img fadein" src="${pokemon.image}" alt="${
                   pokemon.name || "Pokemon"
                 }" loading="lazy"/>
-                   <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
-                 `
+                      <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
+                 </a>`
           }
         </div>
       </div>
@@ -32,7 +33,7 @@ function templatePkmHeroWrap(slots = []) {
   const renderMiddleXL = (pokemon) => {
     const isEmpty = !pokemon || (!pokemon.name && !pokemon.image);
     const typeClass = pokemon ? getMainTypeClass(pokemon) || "" : "";
-
+    const numId = getNumIdForURL(pokemon);
     return `
       <div class="pokemon_row_container_center">
         <div class="colum middle">
@@ -40,12 +41,12 @@ function templatePkmHeroWrap(slots = []) {
             ${
               isEmpty
                 ? ""
-                : `
+                : `<a href="pokemon-details.html?id=${numId}">
                      <img class="middle_circle_img fadein" src="${pokemon.image}" alt="${
                     pokemon.name || ""
                   }" loading="lazy"/>
                      <span class="pokemon_main_name ${typeClass}">${pokemon.name || ""}</span>
-                  `
+                  </a>`
             }
           </div>
         </div>
@@ -100,6 +101,7 @@ function templatePkmTypeSlider(t) {
 function templatePkmCard(list = []) {
   return list
     .map((p) => {
+      const numId = getNumIdForURL(p);
       return `
     <article class="pkm_card type_${p.types?.[0] || "normal"}" data-id="${p.id}">
                 <div class="pkm_header">
@@ -119,12 +121,13 @@ function templatePkmCard(list = []) {
               
           <div class="pkm_container">
             
-
-            <figure class="pkm_image_container">
-              <div class="pkm_image">
-                <img class="fadein" src="${p.image}" alt="Illustration von ${p.name}" />
-              </div>
-            </figure>
+              <a href="pokemon-details.html?id=${numId}">
+                <figure class="pkm_image_container">
+                  <div class="pkm_image">
+                    <img class="fadein" src="${p.image}" alt="Illustration von ${p.name}" />
+                  </div>
+                </figure>
+              </a>
 
             <section class="pkm_id_container">
             <dd>${p.id}</dd>
@@ -174,6 +177,7 @@ function templatePkmBanner(p) {
     `
     )
     .join("");
+  const numId = getNumIdForURL(p);
 
   return `
 
@@ -189,7 +193,9 @@ function templatePkmBanner(p) {
                   <div class="pkm_banner_desc">${p.desc || ""}</div>
                 </div>
                 <div class="pkm_banner_btn">
+                <a href="pokemon-details.html?id=${numId}">
                   <button class="btn" data-id="${p.id}">Zum Details</button>
+                </a>  
                 </div>
               </div>
 
@@ -226,7 +232,7 @@ function templatePkmBanner(p) {
    =============================== */
 function templateSearchDropdown(r) {
   return `
-    <a class="search-item" href="search-results.html?id=${r.id}" role="option" data-id="${r.id}">
+    <a class="search-item" href="pokemon-details.html?id=${r.id}" role="option" data-id="${r.id}">
       <img class="search-item_img" src="${r.img || getPokemonImage({})}" alt="${r.de || ""}">
       <div class="search-item_texts">
         <span class="search-item_name">${r.de || ""}</span>

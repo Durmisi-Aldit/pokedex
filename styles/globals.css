@@ -225,12 +225,13 @@ p:last-child {
     position: fixed;
     inset: 0;
     width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, .900);
+    height: 88vh;
+    background: color-mix(in srgb, var(--red) 95%, transparent);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    margin-top: 12vh;
 }
 
 .spinner_img {

@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="./img/favicon/icon.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pokédex Favoriten</title>
+    <title>Pokemon Details</title>
 
     <link rel="stylesheet" href="./styles/pokemon-card.css" />
     <link rel="stylesheet" href="./styles/globals.css" />
     <link rel="stylesheet" href="./styles/components.css" />
     <link rel="stylesheet" href="./styles/types-colors.css" />
+    <link rel="stylesheet" href="./styles/pokedex-page.css" />
     <link rel="stylesheet" href="./styles/media.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -21,6 +22,7 @@
     <script src="./scripts/detail-page.js" defer></script>
     <script src="./scripts/controller.js" defer></script>
     <script src="./scripts/search.js" defer></script>
+    <script src="./scripts/detail-page.js" defer></script>
   </head>
   <body>
     <main>
@@ -64,24 +66,7 @@
           </div>
         </div>
       </header>
-
-      <section class="favoriten">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <div class="title"><h2>Meine Favoriten</h2></div>
-
-              <div id="likesGrid" class="pokedex"><!--Favoriten--></div>
-              <p id="likesEmpty" style="display: none">Noch keine Favoriten ⭐</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
-
-    <div id="spinnerOverlay" class="spinner_overlay" style="display: none">
-      <img src="./img/bg/rotation-spinner.png" alt="Lade…" class="spinner_img" />
-    </div>
 
     <footer class="footer">
       <div class="container">
