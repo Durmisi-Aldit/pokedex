@@ -1,0 +1,537 @@
+/* ==========================================================================
+   PAGE-POKEDEX.CSS
+   Enthält:
+   - Gesamte CSS von der Seite 
+   ========================================================================== */
+
+/* ========== NAVBAR oben ========== */
+.poke-nav {
+    background: #fff;
+    border-radius: var(--radius, 9px);
+    padding: 0 14px 14px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 10px;
+    box-shadow: 0 1px 0 var(--line, #e5e7eb);
+}
+
+.poke-nav-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.poke-nav-side--prev {
+    justify-self: start;
+    align-items: flex-start;
+}
+
+.poke-nav-side--next {
+    justify-self: end;
+    align-items: flex-end;
+}
+
+.poke-nav-arrow-btn {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #eef2f7;
+    cursor: pointer;
+}
+
+.poke-nav-arrow-btn:hover {
+    filter: brightness(0.97);
+}
+
+.poke-nav-arrow-icon {
+    width: 22px;
+    height: 22px;
+}
+
+.poke-nav-sprite {
+    width: 40px;
+    height: 40px;
+    image-rendering: pixelated;
+    flex: 0 0 auto;
+}
+
+.poke-nav-label {
+    line-height: 1.1;
+    min-width: 0;
+}
+
+.poke-nav-name {
+    font-weight: 700;
+    font-size: clamp(12px, 2.8vw, 16px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    padding: 4px;
+}
+
+.poke-nav-id {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.poke-nav-center {
+    text-align: center;
+    align-self: center;
+    margin-top: 0px;
+}
+
+.poke-nav-current-name {
+    margin: 0;
+    font-weight: 800;
+    font-size: clamp(24px, 4.5vw, 46px);
+}
+
+.poke-nav-current-id {
+    color: #6b7280;
+    font-weight: 700;
+    margin-top: -4px;
+    font-size: clamp(12px, 2.8vw, 14px);
+}
+
+
+
+/* ========== Hauptbereich: Bild & Info ========== */
+.pokemon-image,
+.pokemon-info {
+    background: var(--card);
+    border: 1px solid #e6e8ec;
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 18px;
+    display: grid;
+    gap: 18px;
+    height: 100%;
+}
+
+.pokemon-image {
+    grid-template-rows: auto 72px;
+}
+
+.pkm-image-wrap {
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 22px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fav {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.pkm-big-image {
+    width: 60%;
+    height: 100%;
+    object-position: center;
+    object-fit: contain;
+    transition: transform 0.6s;
+}
+
+.pkm-big-image:hover {
+    transform: scale(1.25);
+}
+
+.pkm-img-typ {
+    display: flex;
+    justify-content: center;
+    gap: 42px;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: bold;
+    font-size: 18px;
+    padding: 0 12px 0 24px;
+    height: 32px;
+    position: relative;
+}
+
+.type-icon {
+    position: absolute;
+    left: -26px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.type-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pokemon-info-desc {
+    display: grid;
+    grid-template-rows: 32px auto;
+    gap: 9px;
+}
+
+.info-top-title {
+    margin-block-start: -12px;
+    margin-block-end: 0;
+}
+
+.pokemon-info-basic {
+    display: grid;
+    gap: 16px;
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    background-color: #f9f4f4;
+}
+
+.basic-info {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 6px 16px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid bisque;
+    padding: 3px;
+}
+
+.info-label {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ========== Sound-Button ========== */
+.sound-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.sound-btn {
+    border-radius: var(--radius);
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all .3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sound-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sound-btn:active {
+    transform: translateY(1px);
+}
+
+.sound-btn::before {
+    content: "▶";
+    font-size: 1.5em;
+    color: white;
+}
+
+/* ========== Tabs ========== */
+.pokemon-tab-box {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    padding: 18px;
+}
+
+.tabs {
+    display: flex;
+    list-style: none;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all .3s ease;
+    border: none;
+    background: none;
+    font-size: 18px;
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tab-icon {}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    min-height: 150px;
+    border: 1px solid #eaeaea;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn .4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.tab-layout .tabs {
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-layout .tab {
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    color: #666;
+}
+
+.tab-layout .tab.active {
+    border-bottom-color: #3498db;
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* ========== Info (Tab 1) ========== */
+
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
+    gap: 16px;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+
+.info-card-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+
+
+.info-card-content h4 {
+    margin: 0;
+    color: #666;
+}
+
+.info-card-content p {
+    font-size: 14px;
+    padding: 3px 32px;
+    margin: 0;
+    font-weight: bold;
+    color: #222;
+    background-color: #f8fafc;
+    border-radius: var(--radius);
+    border: 1px solid #fdf0f0;
+}
+
+.type-badge-info {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    color: #fff;
+    margin-right: 4px;
+}
+
+.info-icon {
+    display: flex;
+    color: #FBA54C;
+    font-size: 32px;
+}
+
+
+/* ========== Stats (Tab 2) ========== */
+.stats-bars {
+    margin-top: 10px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.stat-name {
+    width: 100px;
+    font-size: .9rem;
+    color: #666;
+}
+
+.stat-bar-container {
+    flex: 1;
+    height: 24px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.stat-bar {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.stat-bar-value {
+    width: 40px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.stat-hp {
+    background: #FF5959;
+}
+
+.stat-attack {
+    background: #F5AC78;
+}
+
+.stat-defense {
+    background: #FAE078;
+}
+
+.stat-sp-atk {
+    background: #9DB7F5;
+}
+
+.stat-sp-def {
+    background: #A7DB8D;
+}
+
+.stat-speed {
+    background: #FA92B2;
+}
+
+/* ========== Moves (Tab 3) ========== */
+.moves-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.move-item {
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* ========== Evolution (Tab 4) ========== */
+.evolution-chain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.evolution-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #c9c9c9;
+    border-radius: var(--radius);
+    padding: 12px;
+}
+
+.evolution-image {
+    width: 284px;
+    height: 284px;
+    background-image: url(/img/bg/rotation-bg-banner.png);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.evolution-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.evolution-arrow {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.evo-icon {
+    display: flex;
+    color: #FBA54C;
+    font-size: 32px;
+    rotate: 0deg;
+}

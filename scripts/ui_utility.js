@@ -32,7 +32,7 @@ function getMainTypeClass(p) {
 }
 
 function getTypeIconPath(typeName) {
-  return `./img/icon/${typeName}.svg`;
+  return `./img/type-icon/${typeName}.svg`;
 }
 
 function getPokemonImage(p) {

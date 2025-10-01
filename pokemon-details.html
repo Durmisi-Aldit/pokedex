@@ -22,7 +22,6 @@
     <script src="./scripts/detail-page.js" defer></script>
     <script src="./scripts/controller.js" defer></script>
     <script src="./scripts/search.js" defer></script>
-    <script src="./scripts/detail-page.js" defer></script>
   </head>
   <body>
     <main>
@@ -57,7 +56,7 @@
               </nav>
 
               <form class="site-header-search" id="search" role="search">
-                <img src="./img/icon/search.svg" alt="Suchen" class="site-header-search-icon" />
+                <img src="./img/info-icon/search.svg" alt="Suchen" class="site-header-search-icon" />
                 <input type="search" class="site-header-search-input" placeholder="Suchen nach Pokémon" />
                 <button id="submit" type="submit" class="site-header-search-button">Suchen</button>
                 <div id="dropdownEl" class="search-dropdown" role="listbox" style="display: none"></div>
@@ -67,6 +66,356 @@
         </div>
       </header>
     </main>
+
+    <section class="detail-site-top">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="poke-nav">
+              <div class="poke-nav-side poke-nav-side--prev">
+                <button class="poke-nav-arrow-btn" aria-label="Vorheriges Pokémon">
+                  <img src="./img/info-icon/prev.svg" alt="" class="poke-nav-arrow-icon" />
+                </button>
+
+                <div class="poke-nav-label">
+                  <div class="poke-nav-name">Glutexo</div>
+                  <div class="poke-nav-id text-left">#005</div>
+                </div>
+
+                <img
+                  class="poke-nav-sprite nomobile"
+                  alt="Glutexo"
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/5.gif"
+                />
+              </div>
+
+              <div class="poke-nav-center">
+                <div class="poke-nav-current-name">
+                  <div class="title"><h1>Glurak</h1></div>
+                </div>
+                <div class="poke-nav-current-id">#006</div>
+              </div>
+
+              <div class="poke-nav-side poke-nav-side--next">
+                <img
+                  class="poke-nav-sprite nomobile"
+                  alt="Schiggy"
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/7.gif"
+                />
+                <div class="poke-nav-label">
+                  <div class="poke-nav-name">Schiggy</div>
+                  <div class="poke-nav-id text-right">#007</div>
+                </div>
+                <button class="poke-nav-arrow-btn" aria-label="Nächstes Pokémon">
+                  <img src="./img/info-icon/next.svg" alt="" class="poke-nav-arrow-icon" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-site-desc">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="pokemon-image">
+              <div class="pkm-image-wrap">
+                <button class="fav pkm_like" type="button">★</button>
+                <img
+                  class="pkm-big-image"
+                  alt="Glurak"
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+                />
+              </div>
+              <div class="pkm-img-typ">
+                <div class="type-badge color_fire">
+                  <span class="type-icon color_fire">
+                    <img src="./img/type-icon/fairy.svg" alt="Icon" />
+                  </span>
+                  Feuer
+                </div>
+                <div class="type-badge color_flying">
+                  <span class="type-icon color_flying">
+                    <img src="./img/type-icon/flying.svg" alt="Icon" />
+                  </span>
+                  Flug
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="pokemon-info">
+              <div class="pokemon-info-desc">
+                <div class="title">
+                  <h2 class="info-top-title">Flammen - Pokémon</h2>
+                </div>
+                <p class="info-top-desc">
+                  Glurak fliegt durch die Lüfte auf der Suche nach starken Gegnern. Es speit lodernd heiße Flammen, die
+                  jeden Gegner schmelzen lassen. Sein feuriger Atem soll Bäume und Häuser in Asche verwandeln können.
+                </p>
+              </div>
+
+              <div class="pokemon-info-basic">
+                <div class="basic-info">
+                  <div class="info-item">
+                    <span class="info-label">Art</span>
+                    <span class="info-value">Flammen-Pokémon</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Größe</span>
+                    <span class="info-value">1,7 m</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Gewicht</span>
+                    <span class="info-value">90,5 kg</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Fähigkeiten</span>
+                    <span class="info-value">Großbrand</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Geschlecht</span>
+                    <span class="info-value">♂️ 87.5% / ♀️ 12.5%</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Fangrate</span>
+                    <span class="info-value">45 (5.9%)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sound-grid">
+                <button class="sound-btn color_fire">
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-site-tab">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="pokemon-tab-box tab-layout">
+              <ul class="tabs">
+                <li class="tab active" data-tab="tab-1" onclick="openTab('tab-1', this)">
+                  <i class="fas fa-file-alt"></i>
+                  <span class="nomobile">Info</span>
+                </li>
+                <li class="tab" data-tab="tab-2" onclick="openTab('tab-2', this)">
+                  <i class="fas fa-chart-simple"></i>
+                  <span class="nomobile">Statistiken</span>
+                </li>
+                <li class="tab" data-tab="tab-3" onclick="openTab('tab-3', this)">
+                  <i class="fas fa-crosshairs"></i>
+                  <span class="nomobile">Attacken</span>
+                </li>
+                <li class="tab" data-tab="tab-4" onclick="openTab('tab-4', this)">
+                  <i class="fas fa-dragon"></i>
+                  <span class="nomobile">Evoulution</span>
+                </li>
+              </ul>
+              <div class="tab-content active" id="tab-1">
+                <h3>Die wichtigsten Fakten über Glurak im Überblick:</h3>
+
+                <section class="info-tab">
+                  <div class="info-cards">
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-passport"></i>
+                      <div class="info-card-content">
+                        <h4>ID</h4>
+                        <p>#006</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-layer-group"></i>
+                      <div class="info-card-content">
+                        <h4>Kategorie</h4>
+                        <p>Flammen-Pokémon</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-shapes"></i>
+                      <div class="info-card-content">
+                        <h4>Typ</h4>
+                        <p>
+                          <span class="type-badge-info color_fire">Feuer</span>
+                          <span class="type-badge-info color_flying">Flug</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-ruler-vertical"></i>
+                      <div class="info-card-content">
+                        <h4>Größe</h4>
+                        <p>1,7 m</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-weight-hanging"></i>
+                      <div class="info-card-content">
+                        <h4>Gewicht</h4>
+                        <p>90,5 kg</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-wand-magic-sparkles"></i>
+                      <div class="info-card-content">
+                        <h4>Fähigkeit</h4>
+                        <p>Großbrand / Solarkraft</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-venus-mars"></i>
+                      <div class="info-card-content">
+                        <h4>Geschlecht</h4>
+                        <p>♂️ 87.5% / ♀️ 12.5%</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-egg"></i>
+                      <div class="info-card-content">
+                        <h4>Ei-Gruppen</h4>
+                        <p>Monster, Drache</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-bullseye"></i>
+                      <div class="info-card-content">
+                        <h4>Fangrate</h4>
+                        <p>45 (5.9 %)</p>
+                      </div>
+                    </div>
+
+                    <div class="info-card">
+                      <i class="info-icon fa-solid fa-hand-holding-heart"></i>
+                      <div class="info-card-content">
+                        <h4>Freundschaft</h4>
+                        <p>50</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="tab-content" id="tab-2">
+                <div class="stats-bars">
+                  <div class="stat">
+                    <span class="stat-name">KP</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-hp" style="width: 78%"></div>
+                    </div>
+                    <span class="stat-bar-value">78</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-name">Angriff</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-attack" style="width: 84%"></div>
+                    </div>
+                    <span class="stat-bar-value">84</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-name">Verteidigung</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-defense" style="width: 78%"></div>
+                    </div>
+                    <span class="stat-bar-value">78</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-name">Spez.-Ang.</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-sp-atk" style="width: 109%"></div>
+                    </div>
+                    <span class="stat-bar-value">109</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-name">Spez.-Vert.</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-sp-def" style="width: 85%"></div>
+                    </div>
+                    <span class="stat-bar-value">85</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-name">Initiative</span>
+                    <div class="stat-bar-container">
+                      <div class="stat-bar stat-speed" style="width: 100%"></div>
+                    </div>
+                    <span class="stat-bar-value">100</span>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-content" id="tab-3">
+                <div class="moves-grid">
+                  <div class="move-item color_fire">Glut</div>
+                  <div class="move-item color_flying">Flügelschlag</div>
+                  <div class="move-item color_dragon">Drachenklaue</div>
+                  <div class="move-item color_fire">Feuersturm</div>
+                  <div class="move-item color_flying">Luftstoß</div>
+                  <div class="move-item color_fire">Flammenwurf</div>
+                  <div class="move-item color_flying">Himmelsfeger</div>
+                  <div class="move-item color_fire">Feuerzahn</div>
+                  <div class="move-item color_flying">Aero-Ass</div>
+                  <div class="move-item color_fire">Flammenblitz</div>
+                </div>
+              </div>
+              <div class="tab-content" id="tab-4">
+                <div class="evolution-chain">
+                  <div class="evolution-stage">
+                    <div class="evolution-name"><h2>Glumanda</h2></div>
+                    <div class="evolution-image">
+                      <img
+                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+                        alt="Glumanda"
+                      />
+                    </div>
+
+                    <div class="evolution-condition">Level 16</div>
+                  </div>
+                  <div class="evolution-arrow">
+                    <i class="evo-icon fas fa-arrow-right"></i>
+                  </div>
+                  <div class="evolution-stage">
+                    <div class="evolution-name"><h2>Glutexo</h2></div>
+                    <div class="evolution-image">
+                      <img
+                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
+                        alt="Glutexo"
+                      />
+                    </div>
+                    <div class="evolution-condition">Level 36</div>
+                  </div>
+                  <div class="evolution-arrow">
+                    <i class="evo-icon fas fa-arrow-right"></i>
+                  </div>
+                  <div class="evolution-stage">
+                    <div class="evolution-name"><h2>Glurak</h2></div>
+                    <div class="evolution-image">
+                      <img
+                        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+                        alt="Glurak"
+                      />
+                    </div>
+                    <div class="evolution-condition">Finale Form</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer class="footer">
       <div class="container">

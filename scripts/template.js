@@ -112,7 +112,7 @@ function templatePkmCard(list = []) {
                     <div class="pkm_header_right">
                       <div class="pkm_hit_points">
                         <span class="pkm_hit_points_title">${p.hp.title}</span>
-                        <data class="pkm_hit_points_value">${p.hp.value}</data>
+                        <span class="pkm_hit_points_value">${p.hp.value}</span>
                       </div>
                       <ul class="pkm_types" aria-label="Typen">${templateTypeListe(p.types || [])}</ul>
                     </div>
@@ -143,11 +143,11 @@ function templatePkmCard(list = []) {
             <section class="pkm_meta_container">
               <dl class="pkm_meta_list">
                 <div class="pkm_size">
-                  <dt><img src="./img/icon/ruler.png" alt="Grösse" class="pkm_icon_size" /></dt>
+                  <dt><i class="card-icon fa-solid fa-ruler-vertical"></i></dt>
                   <dd><data>${p.height}</data></dd>
                 </div>
                 <div class="pkm_weight">
-                  <dt><img src="./img/icon/weight.png" alt="Gewicht" class="pkm_icon_weight" /></dt>
+                  <dt><i class="card-icon fa-solid fa-weight-hanging"></i></dt>
                   <dd><data>${p.weight}</data></dd>
                 </div>
               </dl>

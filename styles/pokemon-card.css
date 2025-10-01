@@ -104,7 +104,7 @@ Enthält:
 }
 
 .pkm_hit_points_value {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bolder;
     margin-left: -3px;
 }
@@ -244,4 +244,10 @@ Enthält:
     font-weight: bolder;
     display: flex;
     gap: 3px;
+}
+
+.card-icon {
+    display: flex;
+    color: #000000;
+    font-size: 16px;
 }

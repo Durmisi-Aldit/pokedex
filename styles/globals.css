@@ -39,12 +39,12 @@
 
 
     /* Skala (fühlt sich modern an, passt responsiv) */
-    --fs-h1: clamp(28px, 4.5vw, 40px);
-    --fs-h2: clamp(24px, 3.6vw, 32px);
-    --fs-h3: clamp(20px, 2.8vw, 26px);
-    --fs-h4: clamp(18px, 2.2vw, 22px);
+    --fs-h1: clamp(24px, 4.5vw, 34px);
+    --fs-h2: clamp(22px, 3.6vw, 28px);
+    --fs-h3: clamp(20px, 2.8vw, 24px);
+    --fs-h4: clamp(18px, 2.2vw, 20px);
     --fs-h5: clamp(16px, 1.9vw, 18px);
-    --fs-body: 16px;
+    --fs-body: clamp(16px, 2.2vw, 18px);
     --fs-small: 14px;
     --fs-caption: 12px;
 
@@ -85,10 +85,10 @@ h1 {
 
 .title h1 {
     color: #222;
-    border-left: 8px solid var(--red);
-    border-right: 8px solid var(--red);
-    padding-left: 24px;
-    padding-right: 24px;
+    border-left: 6px solid var(--red);
+    border-right: 6px solid var(--red);
+    padding-left: 12px;
+    padding-right: 12px;
     margin-bottom: 0;
 }
 
@@ -99,8 +99,8 @@ h2 {
 
 .title h2 {
     color: #222;
-    border-left: 8px solid var(--red);
-    padding-left: 24px;
+    border-left: 6px solid var(--red);
+    padding-left: 12px;
     margin-bottom: 48px;
 }
 
