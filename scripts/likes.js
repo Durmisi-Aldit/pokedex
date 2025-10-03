@@ -34,7 +34,7 @@ function likesManager(action, rawId) {
    Aktualisiert UI-Zustand für Like-Buttons
    =============================== */
 function updateClickedLikes() {
-  const likeContainerIds = ["pokedex", "pokedex_index", "likesGrid", "detailRoot"];
+  const likeContainerIds = ["pokedex", "pokedex_index", "likesGrid", "detailRoot", "detail-site"];
   const shouldBindClickEvents = true;
 
   for (const containerId of likeContainerIds) {
@@ -59,7 +59,12 @@ function updateClickedLikes() {
   }
 
   const likesBadgeEl = document.getElementById("favCount");
-  if (likesBadgeEl) likesBadgeEl.textContent = String(likesManager("count"));
+  const likesBadgeElMobile = document.getElementById("favCountMobile");
+  const count = String(likesManager("count"));
+
+  [likesBadgeEl, likesBadgeElMobile].forEach((el) => {
+    if (el) el.textContent = count;
+  });
 }
 
 /* ===============================

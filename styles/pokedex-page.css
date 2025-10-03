@@ -245,37 +245,68 @@
 }
 
 /* ========== Sound-Button ========== */
+
 .sound-grid {
-    display: grid;
-    gap: 15px;
+    --accent: #2a6cf6;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 72px;
+    font-family: system-ui, sans-serif;
+    position: relative;
+    padding: 6px 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--accent);
+    background: #f8fafc;
 }
 
 .sound-btn {
-    border-radius: var(--radius);
-    padding: 12px;
-    font-size: 18px;
-    font-weight: bold;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: #fff;
     cursor: pointer;
-    transition: all .3s ease;
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
 }
 
-.sound-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.sound-btn>span {
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 16px;
+    border-color: transparent transparent transparent var(--accent);
 }
 
-.sound-btn:active {
-    transform: translateY(1px);
+.sound-grid::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 84px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 154px;
+    height: 24px;
+    background: repeating-linear-gradient(to right, var(--accent) 0 2px, transparent 8px 14px);
+    -webkit-mask: linear-gradient(to right, black 80%, transparent 100%);
+    mask: linear-gradient(to right, black 80%, transparent 100%);
+    animation: waveAnim 1.5s infinite linear;
 }
 
-.sound-btn::before {
-    content: "▶";
-    font-size: 1.5em;
-    color: white;
+@keyframes waveAnim {
+    0% {
+        background-position: 0 0.5px;
+    }
+
+    100% {
+        background-position: 14.5px 0;
+    }
 }
 
 /* ========== Tabs ========== */
@@ -306,8 +337,6 @@
     flex-direction: column;
     gap: 8px;
 }
-
-.tab-icon {}
 
 .tab-content {
     display: none;
@@ -355,6 +384,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
     gap: 16px;
+    margin-top: 48px;
 }
 
 .info-card {
@@ -362,12 +392,20 @@
     align-items: center;
     gap: 15px;
     background: #fff;
-    border-radius: 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid rgb(202, 202, 200);
     padding: 16px 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     flex-direction: column;
+    transition: 200ms all;
 }
 
+.info-card:hover {
+    filter: saturate(220%);
+    transform: scale(1.05);
+    cursor: pointer;
+    box-shadow: 1px 1px 6px 1px #fff, -2px -1px 6px #fff;
+}
 
 .info-card-content {
     display: flex;
@@ -406,7 +444,6 @@
 
 .info-icon {
     display: flex;
-    color: #FBA54C;
     font-size: 32px;
 }
 
@@ -531,7 +568,6 @@
 
 .evo-icon {
     display: flex;
-    color: #FBA54C;
     font-size: 32px;
     rotate: 0deg;
 }

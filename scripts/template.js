@@ -137,7 +137,7 @@ function templatePkmCard(list = []) {
                   data-action="like" 
                   data-id="${p.id}"
                   aria-label="Als Favorit speichern" 
-                  aria-pressed="false">★
+                  aria-pressed="false">❤︎
               </button>
             </section>
             <section class="pkm_meta_container">
@@ -183,11 +183,14 @@ function templatePkmBanner(p) {
 
             <div class="pkm_banner_content">
               <div class="pkm_banner_content_left">
-                <img
-                  class="pkm_bgimg_animation"
+                ${
+                  p.gif
+                    ? `<img class="pkm_bgimg_animation"
                   src="${p.gif}"
-                  alt="Pokemon Animation von ${p.name}"
-                />
+                  alt="Pokemon Animation von ${escapeHtml(p.name)}"/>`
+                    : ""
+                }
+          
                 <div class="pkm_banner_name_desc">
                   <div class="pkm_banner_name">${p.name}</div>
                   <div class="pkm_banner_desc">${p.desc || ""}</div>

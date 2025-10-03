@@ -2,14 +2,14 @@
 TYPES.CSS
 
 Enthält:
-- 01 TYP-COLOR
-- 02 TYPE COLORS FOR POKEMON CARD
-- 03 
+- 01 TYP-COLOR BG
+- 02 TYP-COLOR FONT
+- 03 TYPE COLORS FOR POKEMON CARD
 ========================================================================== */
 
 
 /* ===============================
-   ----- 01 TYP-COLOR -----
+   ----- 01 TYP-COLOR BG-----
    =============================== */
 
 .color_bug {
@@ -90,6 +90,90 @@ Enthält:
 
 .color_water {
     background: #539DDF;
+}
+
+/* ===============================
+   ----- 02 TYP-COLOR FONT -----
+   =============================== */
+
+.font_color_bug {
+    color: #92BC2C;
+}
+
+.font_color_dark {
+    color: #595761;
+}
+
+.font_color_dragon {
+    color: #0C69C8;
+}
+
+.font_color_fairy {
+    color: #EE90E6;
+}
+
+.font_color_electric {
+    color: #F2D94E;
+}
+
+.font_color_lightning {
+    color: #F2D94E;
+}
+
+.font_color_fighting {
+    color: #D3425F;
+}
+
+.font_color_fire {
+    color: #FBA54C;
+}
+
+.font_color_flying {
+    color: #A1BBEC;
+}
+
+.font_color_ghost {
+    color: #5F6DBC;
+}
+
+.font_color_grass {
+    color: #5FBD58;
+}
+
+.font_color_ground {
+    color: #DA7C4D;
+}
+
+.font_color_ice {
+    color: #75D0C1;
+}
+
+.font_color_normal {
+    color: #A0A29F;
+}
+
+.font_color_poison {
+    color: #B763CF;
+}
+
+.font_color_psychic {
+    color: #FA8581;
+}
+
+.font_color_rock {
+    color: #C9BB8A;
+}
+
+.font_color_steel {
+    color: #5695A3;
+}
+
+.font_color_metal {
+    color: #5695A3;
+}
+
+.font_color_water {
+    color: #539DDF;
 }
 
 

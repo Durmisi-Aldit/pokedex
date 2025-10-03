@@ -2,8 +2,8 @@
    COMPONENTS.CSS
    Enthält:
    - 01 HEADER
-   - 02 LOGO
-   - 03 SEARCH
+   - 02 SEARCH
+   - 03 LOGO
    - 04 NAV
    - 05 HERO
    - 06 TYPEN-SLIDER
@@ -14,146 +14,105 @@
 /* ===============================
    ----- 01 HEADER -----
    =============================== */
-
 .site-header {
-    background: var(--red);
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: var(--header-bg);
+    color: var(--text-header);
+    height: var(--header-height);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .site-header-inner {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 16px 0 16px 0;
-    flex-wrap: wrap;
-    align-items: flex-end;
-}
-
-.site-header-panel {
-    display: none;
-}
-
-.site-header.is-open .site-header-panel {
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 0px;
-    background: var(--red);
-    border: 1px solid var(--line);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
-    padding: 16px 18px 48px 18px;
-    z-index: 1100;
-    height: auto;
-    overflow-y: auto;
-}
-
-.site-header-panel .site-header-nav {
-    display: block;
-    background: transparent;
-    width: 100%;
-}
-
-.site-header-panel .site-header-search {
-    display: flex;
-    margin: 12px 0;
-}
-
-.site-header.is-open .site-header-panel .site-header-nav,
-.site-header.is-open .site-header-panel .site-header-search {
-    margin-top: 8px;
-}
-
-.site-header-panel a {
-    color: #111;
-}
-
-.site-header-panel a:hover {
-    background: #f3f3f3;
-    color: #0c0c0c;
-}
-
-.site-header-burger {
-    display: block;
-    order: 2;
-    margin-left: auto;
-    font-size: 32px;
-    cursor: pointer;
-    user-select: none;
-    background-color: transparent;
-    border: none;
-    color: wheat;
-}
-
-.site-header-burger .burger-open {
-    display: none;
-}
-
-.site-header.is-open .site-header-burger .burger-closed {
-    display: none;
-}
-
-.site-header.is-open .site-header-burger .burger-open {
-    display: inline-flex;
-}
-
-/* ===============================
-   ----- 02 LOGO -----
-   =============================== */
-.site-header-logo {
-    font-weight: 700;
-    text-decoration: none;
-    color: #111;
-}
-
-.logo {
-    width: 100px;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* ===============================
-   ----- 03 SEARCH -----
-   =============================== */
-.site-header-search {
-    position: relative;
-    background-color: #fff;
-    width: 100%;
-    max-width: 100%;
-    height: 42px;
-    display: none;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--red);
-    overflow: visible;
-    order: 4;
-    flex: 1 0 100%;
+    gap: 12px;
+    padding: 12px 0;
 }
 
-.site-header-search-icon {
-    width: 20px;
-    height: 20px;
-    margin: 0 12px;
-    color: #777;
-}
-
-.site-header-search-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 0 1px;
-    font-size: 1rem;
+.header-left,
+.logo,
+.header-right {
     min-width: 0;
 }
 
-.site-header-search-button {
+.header-left {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+.header-right {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+
+.search_grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: center;
+    justify-items: stretch;
+    place-items: center;
+}
+
+/* ===============================
+   ----- 02 SEARCH -----
+   =============================== */
+
+.search-form {
+    width: 100%;
+    max-width: 264px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.search-form {
+    position: relative;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-header);
+    outline: none;
+}
+
+.search-form input::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.search-form svg {
+    width: 20px;
+    height: 20px;
+}
+
+.search-button {
     background-color: var(--red);
     border: 1px solid tomato;
-    padding: 12px 24px;
+    padding: 6px;
     outline: none;
     color: #fff;
     font-size: 14px;
@@ -163,37 +122,8 @@
     border-bottom-right-radius: var(--border-radius, 8px);
 }
 
-.site-header-search-button:hover {
+.search-button:hover {
     background-color: var(--red);
-}
-
-.site-header-search:focus-within .site-header-search-dropdown {
-    display: none;
-}
-
-.site-header-search-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    display: none;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
-    margin-top: 8px;
-    padding: 6px;
-    z-index: 1000;
-    max-height: 380px;
-    overflow: auto;
-}
-
-.site-header-search-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    align-items: stretch;
-    margin-top: 24px;
 }
 
 .search-dropdown {
@@ -208,10 +138,14 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     margin-top: 8px;
     padding: 6px;
-    z-index: 1000;
+    z-index: 1200;
     max-height: 380px;
     overflow: auto;
     margin-bottom: 32px;
+}
+
+.overlay .search-form {
+    display: flex;
 }
 
 .search-item {
@@ -259,50 +193,190 @@
     color: #6b7280;
 }
 
-.search_grid {
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: space-around;
+    background: var(--backdrop);
+    z-index: 1100;
+    padding-top: 9vh;
+}
+
+.overlay.active {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+}
+
+.overlay-card {
+    width: min(720px, 92vw);
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 60vh;
+}
+
+.overlay-header {
+    display: flex;
     align-items: center;
-    justify-items: stretch;
-    place-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.overlay-title {
+    font-weight: 700;
+}
+
+.overlay-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+.overlay-close:hover {
+    background: #f2f2f2;
+}
+
+.overlay .search-form {
+    display: flex;
+    max-width: 720px;
+    background: #fff;
+    color: #111;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    width: 100%;
+}
+
+.overlay .search-form input {
+    color: #111;
 }
 
 
 /* ===============================
+   ----- 03 LOGO -----
+   =============================== */
+.logo img {
+    width: clamp(50px, 12vw, 184px);
+    height: auto;
+    display: block;
+}
+
+/* ===============================
    ----- 04 NAV -----
    =============================== */
-
-.site-header-nav {
-    display: none;
-    width: 100%;
-    background: var(--red);
-    padding: 8px;
-    order: 3;
+.main-nav {
+    display: flex;
+    gap: 0.5rem;
 }
 
-.site-header-nav ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.main-nav a {
+    padding: 0.4rem 0.7rem;
+    border-radius: 10px;
+    color: var(--text-header);
+}
+
+.main-nav a:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.offcanvas-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--backdrop);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 1090;
+}
+
+.offcanvas-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.offcanvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(84vw, 360px);
+    background: var(--panel-bg);
+    color: var(--panel-text);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    z-index: 1110;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    justify-content: flex-end;
 }
 
-.site-header-nav a {
-    display: inline-block;
-    text-decoration: none;
-    color: #ffffff;
-    padding: 10px 12px;
-    border-radius: 8px;
+.offcanvas.active {
+    transform: translateX(0);
 }
 
-.site-header-nav a:hover {
-    background: #f3f3f3;
-    color: #0c0c0c;
+.offcanvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid #eee;
 }
+
+.offcanvas-title {
+    font-weight: 700;
+}
+
+.offcanvas-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.offcanvas-nav a {
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #111;
+}
+
+.offcanvas-nav a:hover {
+    background: #f6f6f6;
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.icon {
+    width: 22px;
+    height: 22px;
+}
+
+.mobile-search-btn,
+.burger-btn {
+    display: none;
+}
+
+:is(button, a, input):focus-visible {
+    outline: var(--focus);
+    outline-offset: 2px;
+}
+
+
 
 /* ===============================
    ----- 05 HERO -----

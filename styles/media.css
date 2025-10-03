@@ -72,12 +72,7 @@
 
     .extra_large {
         width: 274px;
-        height: 274px;
-    }
-
-    .site-header-inner {
-
-        padding: 6px 0 6px 0;
+        height: 332px;
     }
 
     .pokedex {
@@ -113,6 +108,34 @@
         grid-template-columns: repeat(auto-fill, minmax(194px, 1fr));
     }
 
+    .detail-site-top {
+        top: 47px;
+    }
+
+    .search-form {
+        display: none;
+    }
+
+    /* im Header verstecken */
+    .mobile-search-btn {
+        display: inline-flex;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .burger-btn {
+        display: inline-flex;
+    }
+
+    .logo img {
+        width: clamp(50px, 24vw, 110px);
+    }
+
+    .hero-wrap {
+        padding: 64px 0;
+    }
 
 }
 
@@ -180,15 +203,36 @@
         grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
     }
 
+    .detail-site-top {
+        top: 47px;
+    }
+
+    .search-form {
+        display: none;
+    }
+
+    /* im Header verstecken */
+    .mobile-search-btn {
+        display: inline-flex;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .burger-btn {
+        display: inline-flex;
+    }
+
+    .logo img {
+        width: clamp(50px, 18vw, 184px);
+    }
+
 }
 
 @media (min-width: 768px) {
     .container {
         max-width: 720px;
-    }
-
-    .site-header-search-grid {
-        grid-template-columns: repeat(3, 1fr);
     }
 
     .basic-info {
@@ -283,6 +327,31 @@
         margin-top: -30px;
     }
 
+    .detail-site-top {
+        top: 60px;
+    }
+
+    .search-form {
+        display: none;
+    }
+
+    /* im Header verstecken */
+    .mobile-search-btn {
+        display: inline-flex;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .burger-btn {
+        display: inline-flex;
+    }
+
+    .logo img {
+        width: clamp(50px, 19vw, 184px);
+    }
+
 }
 
 @media (min-width: 992px) {
@@ -292,55 +361,6 @@
 
     .row {
         flex-direction: row;
-    }
-
-
-    .site-header-inner {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: 1fr 1fr auto;
-        grid-template-areas: "search logo nav";
-    }
-
-    .site-header-logo {
-        grid-area: logo;
-        text-align: center;
-    }
-
-    .site-header-search {
-        grid-area: search;
-        display: flex;
-        order: 0;
-        max-width: 100%;
-        flex: 0 1 auto;
-    }
-
-    .site-header-panel {
-        display: contents;
-        position: static;
-    }
-
-    .site-header-nav {
-        grid-area: nav;
-        display: block;
-        justify-self: end;
-        background: transparent;
-        padding: 0;
-        width: auto;
-        order: 0;
-    }
-
-    .site-header-nav ul {
-        flex-direction: row;
-        gap: 16px;
-    }
-
-    .site-header-burger {
-        display: none;
-    }
-
-    .site-header-search-grid {
-        grid-template-columns: repeat(5, 1fr);
     }
 
     .poke-nav {
@@ -362,10 +382,6 @@
 
     .tab {
         flex-direction: row;
-    }
-
-    .logo {
-        width: 132px;
     }
 
     .hidden {
@@ -452,19 +468,33 @@
     .poke-nav-center {
         margin-top: 0px;
     }
-}
 
+    .detail-site-top {
+        top: 80px;
+    }
+
+    .mobile-search-btn,
+    .burger-btn {
+        display: none;
+    }
+
+    .search-form {
+        display: flex;
+    }
+
+    .main-nav {
+        display: flex;
+    }
+
+    .site-header-inner {
+        padding: 16px 0;
+        gap: 16px;
+    }
+}
 
 @media (min-width: 1200px) {
     .container {
         max-width: 1140px;
-    }
-
-    .site-header-inner {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-areas: "search logo nav";
     }
 
     .basic-info {
@@ -477,10 +507,6 @@
 
     .pkm-big-image {
         width: 60%;
-    }
-
-    .logo {
-        width: 148px;
     }
 
     .hidden {
@@ -515,6 +541,10 @@
         grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
         gap: 16px;
     }
+
+    .detail-site-top {
+        top: 82px;
+    }
 }
 
 @media (min-width: 1400px) {
@@ -528,10 +558,6 @@
 
     .pkm-big-image {
         width: 65%;
-    }
-
-    .logo {
-        width: 162px;
     }
 
     .hidden {
@@ -563,6 +589,10 @@
         gap: 16px;
     }
 
+    .detail-site-top {
+        top: 82px;
+    }
+
 }
 
 @media (min-width: 1536px) {
@@ -572,10 +602,6 @@
 
     .basic-info {
         grid-template-columns: repeat(2, 1fr);
-    }
-
-    .logo {
-        width: 194px;
     }
 
     .hidden {
@@ -605,6 +631,11 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
         gap: 16px;
+    }
+
+    .detail-site-top {
+        top: 94px;
+
     }
 
 }
