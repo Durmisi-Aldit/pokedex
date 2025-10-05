@@ -2,78 +2,60 @@
 
 const LIKES_STORAGE_KEY = "LIKS";
 
-/* ===============================
-   Like-Verwaltung (lesen, zählen, prüfen, toggeln)
-=============================== */
 function likesManager(action, rawId) {
-  let likedIds;
+  let liked;
   try {
-    likedIds = JSON.parse(localStorage.getItem(LIKES_STORAGE_KEY) || "[]");
+    liked = JSON.parse(localStorage.getItem(LIKES_STORAGE_KEY) || "[]");
   } catch {
-    likedIds = [];
+    liked = [];
   }
-
-  const numericId = parseInt((String(rawId ?? "").match(/\d+/) || [])[0], 10);
-
-  if (action === "get") return likedIds;
-  if (action === "count") return likedIds.length;
-  if (action === "has") return Number.isFinite(numericId) && likedIds.includes(numericId);
-
+  const id = parseInt((String(rawId ?? "").match(/\d+/) || [])[0], 10);
+  if (action === "get") return liked;
+  if (action === "count") return liked.length;
+  if (action === "has") return Number.isFinite(id) && liked.includes(id);
   if (action === "toggle") {
-    if (!Number.isFinite(numericId)) return likedIds;
-    const index = likedIds.indexOf(numericId);
-    index > -1 ? likedIds.splice(index, 1) : likedIds.push(numericId);
-    localStorage.setItem(LIKES_STORAGE_KEY, JSON.stringify(likedIds));
-    return likedIds;
+    if (!Number.isFinite(id)) return liked;
+    const i = liked.indexOf(id);
+    i > -1 ? liked.splice(i, 1) : liked.push(id);
+    localStorage.setItem(LIKES_STORAGE_KEY, JSON.stringify(liked));
+    return liked;
   }
-
-  return likedIds;
+  return liked;
 }
 
-/* ===============================
-   Aktualisiert UI-Zustand für Like-Buttons
-   =============================== */
 function updateClickedLikes() {
-  const likeContainerIds = ["pokedex", "pokedex_index", "likesGrid", "detailRoot", "detail-site"];
-  const shouldBindClickEvents = true;
-
-  for (const containerId of likeContainerIds) {
-    const containerEl = document.getElementById(containerId);
-    if (!containerEl) continue;
-
-    const likeButtons = containerEl.getElementsByClassName("pkm_like");
-    for (const button of likeButtons) {
-      const isLiked = likesManager("has", button.dataset.id);
-      button.setAttribute("aria-pressed", isLiked ? "true" : "false");
-      button.classList.toggle("is-liked", isLiked);
-
-      if (shouldBindClickEvents && !button._likeBound) {
-        button._likeBound = true;
-        button.onclick = function () {
+  const containers = ["pokedex", "pokedex_index", "likesGrid", "detailRoot", "detail-site"],
+    bind = true;
+  for (const cid of containers) {
+    const root = document.getElementById(cid);
+    if (!root) continue;
+    const btns = root.getElementsByClassName("pkm_like");
+    for (const b of btns) {
+      const liked = likesManager("has", b.dataset.id);
+      b.setAttribute("aria-pressed", liked ? "true" : "false");
+      b.classList.toggle("is-liked", liked);
+      if (bind && !b._likeBound) {
+        b._likeBound = true;
+        b.onclick = function () {
           likesManager("toggle", this.dataset.id);
-          updateClickedLikes(likeContainerIds);
-          if (typeof updateLikesView === "function") updateLikesView();
+          updateClickedLikes(containers);
+          typeof updateLikesView === "function" && updateLikesView();
         };
       }
     }
   }
-
-  const likesBadgeEl = document.getElementById("favCount");
-  const likesBadgeElMobile = document.getElementById("favCountMobile");
-  const count = String(likesManager("count"));
-
-  [likesBadgeEl, likesBadgeElMobile].forEach((el) => {
-    if (el) el.textContent = count;
+  const el = document.getElementById("favCount"),
+    elM = document.getElementById("favCountMobile"),
+    c = String(likesManager("count"));
+  [el, elM].forEach((e) => {
+    if (e) e.textContent = c;
   });
 }
 
-/* ===============================
-   Rendert und aktualisiert die Likes-Ansicht
-   =============================== */
 async function updateLikesView() {
   if (!updateLikesView.isInitialized) {
-    window.onstorage = (storageEvent) => {
-      if (storageEvent?.key === LIKES_STORAGE_KEY) {
+    window.onstorage = (ev) => {
+      if (ev?.key === LIKES_STORAGE_KEY) {
         updateClickedLikes("pokedex");
         updateClickedLikes("pokedex_index", true);
         updateClickedLikes("detailRoot");
@@ -82,32 +64,23 @@ async function updateLikesView() {
     };
     updateLikesView.isInitialized = true;
   }
-
-  const likesContainer = document.getElementById("likesGrid");
-  const emptyMessage = document.getElementById("likesEmpty");
-  const likesCounter = document.getElementById("favCount");
-  if (!likesContainer || !emptyMessage || !likesCounter) return;
-
+  const grid = document.getElementById("likesGrid"),
+    empty = document.getElementById("likesEmpty"),
+    badge = document.getElementById("favCount");
+  if (!grid || !empty || !badge) return;
   const ids = likesManager("get");
-
   if (!ids.length) {
-    likesContainer.innerHTML = "";
-    emptyMessage.style.display = "block";
-    likesCounter.textContent = "0";
+    grid.innerHTML = "";
+    empty.style.display = "block";
+    badge.textContent = "0";
     return;
   }
-  emptyMessage.style.display = "none";
-
-  const pokemonRequest = { results: ids.map((pokemonId) => ({ url: `${BASE_URL}/${pokemonId}` })) };
-  const pokemonList = await getPokemonsData(pokemonRequest);
-
-  likesContainer.innerHTML = templatePkmCard(pokemonList);
-
+  empty.style.display = "none";
+  const req = { results: ids.map((id) => ({ url: `${BASE_URL}/${id}` })) };
+  const list = await getPokemonsData(req);
+  grid.innerHTML = templatePkmCard(list);
   updateClickedLikes();
 }
 
-/* ===============================
-   BOOTSTRAP
-   =============================== */
 updateClickedLikes();
 updateLikesView();

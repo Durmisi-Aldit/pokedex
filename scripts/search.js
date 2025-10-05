@@ -2,84 +2,66 @@
 
 window.searchCache = window.searchCache || new Map();
 
-/* ===============================
-   Konfiguration
-   =============================== */
 const MAX_DROPDOWN_RESULTS = 8;
 const PARALLEL_REQUESTS = 8;
 const ENRICH_BATCH_SIZE = 40;
 
-/* ===============================
-   Globale Daten
-   =============================== */
 let ALL_IDS = [];
 let DE_NAME_BY_ID = Object.create(null);
 let IMAGE_URL_BY_ID = Object.create(null);
 let ENRICH_INDEX = 0;
 
-/* ===============================
-   UI-Helper SEARCH
-   =============================== */
-function showOrHide(containerEl, isVisible = true) {
-  if (containerEl) containerEl.style.display = isVisible ? "block" : "none";
+function showOrHide(el, vis = true) {
+  if (el) el.style.display = vis ? "block" : "none";
 }
 
-function createDebouncedFunction(action, delay = 300) {
-  let timeoutId = null;
-  return (...params) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => action(...params), delay);
+function createDebouncedFunction(fn, delay = 300) {
+  let t = null;
+  return (...a) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...a), delay);
   };
 }
 
-/* ===============================
-   Dropdown Rendering
-   =============================== */
-function showDropdownLoading(dropdownContainer) {
-  renderSearchResultsDropdown(dropdownContainer, [], { loading: true });
+// Dropdownsteuerung
+function showDropdownLoading(drop) {
+  renderSearchResultsDropdown(drop, [], { loading: true });
 }
 
-function showDropdownEmpty(dropdownContainer) {
-  renderSearchResultsDropdown(dropdownContainer, [], { loading: false });
+function showDropdownEmpty(drop) {
+  renderSearchResultsDropdown(drop, [], { loading: false });
 }
 
-function renderSearchResultsDropdown(dropdownEl, searchResults = [], { loading = false } = {}) {
-  if (!dropdownEl) return;
-
+function renderSearchResultsDropdown(drop, results = [], { loading = false } = {}) {
+  if (!drop) return;
   if (loading) {
-    dropdownEl.innerHTML =
-      '<div class="search-empty"><p>Daten werden geladen … bitte warten</p><div class="search-loader"></div></div></div>';
-    showOrHide(dropdownEl, true);
+    drop.innerHTML =
+      '<div class="search-empty"><p>Daten werden geladen … bitte warten</p><div class="search-loader"></div></div>';
+    showOrHide(drop, true);
     return;
   }
-
-  const resultsArray = Array.isArray(searchResults) ? searchResults : [];
-  let dropdownHtml = '<div class="search-empty">Keine Treffer</div>';
-  if (resultsArray.length) {
+  let html = '<div class="search-empty">Keine Treffer</div>';
+  const arr = Array.isArray(results) ? results : [];
+  if (arr.length) {
     try {
-      dropdownHtml = resultsArray.slice(0, MAX_DROPDOWN_RESULTS).map(templateSearchDropdown).join("");
-    } catch (err) {
-      console.warn("Dropdown-Rendering fehlgeschlagen:", err);
-      dropdownHtml = '<div class="search-empty">Keine Treffer</div>';
+      html = arr.slice(0, MAX_DROPDOWN_RESULTS).map(templateSearchDropdown).join("");
+    } catch (e) {
+      console.warn("Dropdown-Rendering fehlgeschlagen:", e);
     }
   }
-
-  dropdownEl.innerHTML = dropdownHtml;
-  showOrHide(dropdownEl, true);
+  drop.innerHTML = html;
+  showOrHide(drop, true);
 }
 
-/* ===============================
-   Cache-Handling LocalStorage
-   =============================== */
+// Zwischenspeicherung
 function loadCacheFromLocalStorage() {
   try {
-    const savedNamesJson = localStorage.getItem("pkm_de_name");
-    if (savedNamesJson) DE_NAME_BY_ID = JSON.parse(savedNamesJson);
-
-    const savedImagesJson = localStorage.getItem("pkm_img_url");
-    if (savedImagesJson) IMAGE_URL_BY_ID = JSON.parse(savedImagesJson);
-  } catch (err) {
-    console.warn("loadCacheFromLocalStorage: Konnte localStorage nicht lesen:", err);
+    const n = localStorage.getItem("pkm_de_name");
+    if (n) DE_NAME_BY_ID = JSON.parse(n);
+    const i = localStorage.getItem("pkm_img_url");
+    if (i) IMAGE_URL_BY_ID = JSON.parse(i);
+  } catch (e) {
+    console.warn("loadCacheFromLocalStorage:", e);
   }
 }
 
@@ -87,88 +69,67 @@ function saveCacheToLocalStorage() {
   try {
     localStorage.setItem("pkm_de_name", JSON.stringify(DE_NAME_BY_ID));
     localStorage.setItem("pkm_img_url", JSON.stringify(IMAGE_URL_BY_ID));
-  } catch (err) {
-    console.warn("saveCacheToLocalStorage: Konnte localStorage nicht schreiben:", err);
+  } catch (e) {
+    console.warn("saveCacheToLocalStorage:", e);
   }
 }
 
-/* ===============================
-   Daten-Laden & Anreichern
-   =============================== */
-function parsePokemonId(anyId) {
-  const n = parseInt(String(anyId).replace(/\D/g, ""), 10);
+// Datenanreicherung
+function parsePokemonId(any) {
+  const n = parseInt(String(any).replace(/\D/g, ""), 10);
   return Number.isFinite(n) ? n : null;
 }
 
-async function loadPokemonBatch(startIndex, limit) {
+async function loadPokemonBatch(start, limit) {
   if (!ALL_IDS.length || limit <= 0) return;
-
-  const endIndex = Math.min(startIndex + limit, ALL_IDS.length);
-  if (endIndex <= startIndex) return;
-
-  const idRange = ALL_IDS.slice(startIndex, endIndex);
-
+  const end = Math.min(start + limit, ALL_IDS.length);
+  if (end <= start) return;
+  const ids = ALL_IDS.slice(start, end);
   try {
-    for (let i = 0; i < idRange.length; i += PARALLEL_REQUESTS) {
-      const batch = idRange.slice(i, i + PARALLEL_REQUESTS);
-      const batchRequest = { results: batch.map((id) => ({ url: `${BASE_URL}/${id}` })) };
-
-      let responseList;
+    for (let i = 0; i < ids.length; i += PARALLEL_REQUESTS) {
+      const batch = ids.slice(i, i + PARALLEL_REQUESTS);
+      const req = { results: batch.map((id) => ({ url: `${BASE_URL}/${id}` })) };
+      let list;
       try {
-        responseList = await getPokemonsData(batchRequest);
+        list = await getPokemonsData(req);
       } catch (err) {
-        console.warn("loadPokemonBatch: getPokemonsData fehlgeschlagen:", err, batch);
+        console.warn("loadPokemonBatch:getPokemonsData", err, batch);
         continue;
       }
-
-      for (const item of responseList || []) {
+      for (const item of list || []) {
         const id = parsePokemonId(item.id);
         if (id == null) continue;
-
         DE_NAME_BY_ID[id] = typeof item.name === "string" ? item.name : null;
         IMAGE_URL_BY_ID[id] = item.image || "";
       }
     }
   } finally {
-    ENRICH_INDEX = Math.max(ENRICH_INDEX, endIndex);
+    ENRICH_INDEX = Math.max(ENRICH_INDEX, end);
     saveCacheToLocalStorage();
   }
 }
 
-/* ===============================
-   Suche im Cache
-   =============================== */
-function findPokemonNamesByPrefix(query) {
-  const queryLower = query.toLowerCase();
-  const results = [];
+// Suchkoordination
+function findPokemonNamesByPrefix(q) {
+  const L = q.toLowerCase(),
+    out = [];
   for (const id of ALL_IDS) {
     const de = DE_NAME_BY_ID[id];
-    if (typeof de === "string" && de.toLowerCase().startsWith(queryLower)) {
-      results.push({ id, de, img: IMAGE_URL_BY_ID[id] || "" });
-    }
+    if (typeof de === "string" && de.toLowerCase().startsWith(L)) out.push({ id, de, img: IMAGE_URL_BY_ID[id] || "" });
   }
-  results.sort((a, b) => (a.de || "").localeCompare(b.de || ""));
-  return results;
+  out.sort((a, b) => (a.de || "").localeCompare(b.de || ""));
+  return out;
 }
 
-/* ===============================
-   Input-Aufbereitung
-   =============================== */
 function getSearchInput(form) {
-  const dropdownEl = form._dropdownEl;
-  const inp = form._inp;
-  if (!dropdownEl || !inp) {
-    return { dropdownEl: null, inputValue: "", q: "" };
-  }
-
-  const inputValue = (inp.value || "").trim();
-  const q = inputValue.toLowerCase();
-  return { dropdownEl, inputValue, q };
+  const drop = form._dropdownEl,
+    inp = form._inp;
+  if (!drop || !inp) return { dropdownEl: null, inputValue: "", q: "" };
+  const v = (inp.value || "").trim(),
+    q = v.toLowerCase();
+  return { dropdownEl: drop, inputValue: v, q };
 }
 
-/* ===============================
-   Suchstrategien nach ID & Prefix
-   =============================== */
 async function findPokemonById(inputValue, dropdownEl) {
   if (!/^\d+$/.test(inputValue)) return false;
   const id = +inputValue;
@@ -176,16 +137,14 @@ async function findPokemonById(inputValue, dropdownEl) {
     showDropdownEmpty(dropdownEl);
     return true;
   }
-
   showDropdownLoading(dropdownEl);
-
   try {
-    const requestPayload = { results: [{ url: `${BASE_URL}/${id}` }] };
-    const list = await getPokemonsData(requestPayload);
+    const payload = { results: [{ url: `${BASE_URL}/${id}` }] };
+    const list = await getPokemonsData(payload);
     const p = list && list[0];
     renderSearchResultsDropdown(dropdownEl, p ? [{ id, de: p.name || `#${id}`, img: p.image || "" }] : []);
   } catch (err) {
-    console.warn("findPokemonById: ID-Fetch fehlgeschlagen:", err);
+    console.warn("findPokemonById:", err);
     showDropdownEmpty(dropdownEl);
   }
   return true;
@@ -196,10 +155,8 @@ async function findPokemonsByPrefix(inputValue, dropdownEl) {
     showOrHide(dropdownEl, false);
     return;
   }
-
   const prefix = inputValue.slice(0, 3);
   let matches = findPokemonNamesByPrefix(prefix);
-
   let attempts = 0;
   while (matches.length < MAX_DROPDOWN_RESULTS && ENRICH_INDEX < ALL_IDS.length && attempts < 3) {
     showDropdownLoading(dropdownEl);
@@ -207,102 +164,48 @@ async function findPokemonsByPrefix(inputValue, dropdownEl) {
     matches = findPokemonNamesByPrefix(prefix);
     attempts++;
   }
-
-  if (matches.length) renderSearchResultsDropdown(dropdownEl, matches);
-  else showDropdownEmpty(dropdownEl);
+  matches.length ? renderSearchResultsDropdown(dropdownEl, matches) : showDropdownEmpty(dropdownEl);
 }
 
-/* ===============================
-   Such-Koordinator
-   =============================== */
 async function searchCoordinator(form) {
   const { dropdownEl, inputValue, q } = getSearchInput(form);
   if (!dropdownEl) return;
-
   const handled = await findPokemonById(inputValue, dropdownEl);
   if (handled) return;
-
   await findPokemonsByPrefix(q, dropdownEl);
 }
 
-/* ===============================
-   Event-Verarbeitung
-   =============================== */
-async function processSearchEvent(searchForm, eventType) {
-  if (eventType === "input") {
-    await searchCoordinator(searchForm);
+// Initialisierung
+async function processSearchEvent(form, type) {
+  if (type === "input") {
+    await searchCoordinator(form);
     return;
   }
-
-  if (eventType === "submit") {
-    const dropdownEl = searchForm._dropdownEl;
-    if (!dropdownEl) return;
-
-    const resultLinks = dropdownEl.querySelectorAll("a[data-id]");
-    const selectedIds = Array.from(resultLinks)
-      .map((link) => link.getAttribute("data-id"))
-      .filter(Boolean);
-
-    if (selectedIds.length > 0) {
-      location.href = "search-results.html?ids=" + encodeURIComponent(selectedIds.join(","));
-    } else {
-      showDropdownEmpty(dropdownEl);
-    }
+  if (type === "submit") {
+    const drop = form._dropdownEl;
+    if (!drop) return;
+    const links = drop.querySelectorAll("a[data-id]");
+    const ids = [...links].map((a) => a.getAttribute("data-id")).filter(Boolean);
+    if (ids.length > 0) location.href = "search-results.html?ids=" + encodeURIComponent(ids.join(","));
+    else showDropdownEmpty(drop);
   }
 }
 
-/* ===============================
-   Setup UI
-   =============================== */
 function setupSearchUI() {
   const f = document.getElementById("search");
   if (!f) return;
-
   const inp = document.getElementById("q") || f.querySelector("input");
-  let dropdownEl = document.getElementById("dropdownEl");
-
-  if (!dropdownEl) {
-    dropdownEl = document.createElement("div");
-    dropdownEl.id = "dropdownEl";
-    dropdownEl.className = "search-dropdown";
-    dropdownEl.setAttribute("role", "listbox");
-    dropdownEl.style.display = "none";
-    f.appendChild(dropdownEl);
-  }
-
-  f._dropdownEl = dropdownEl;
+  const drop = document.getElementById("searchDropdown") || f.querySelector(".search-dropdown");
   f._inp = inp;
-
-  const debouncedInput = createDebouncedFunction(() => processSearchEvent(f, "input"), 300);
-  if (inp) inp.oninput = debouncedInput;
-
-  f.onsubmit = (e) => {
+  f._dropdownEl = drop;
+  loadCacheFromLocalStorage();
+  ALL_IDS = Array.from({ length: MAX_DEX_ID }, (_, i) => i + 1);
+  const debounced = createDebouncedFunction(() => processSearchEvent(f, "input"), 150);
+  inp && inp.addEventListener("input", debounced);
+  f.addEventListener("submit", (e) => {
     e.preventDefault();
     processSearchEvent(f, "submit");
-  };
+  });
 }
 
-/* ===============================
-   Initial-Ansicht
-   =============================== */
-function showInitialDropdownLoading() {
-  const dropdownEl = document.getElementById("dd");
-  if (dropdownEl) showDropdownLoading(dropdownEl);
-}
-
-/* ===============================
-   IDs initialisieren
-   =============================== */
-function initializePokemonIds() {
-  if (!ALL_IDS.length) {
-    ALL_IDS = Array.from({ length: MAX_DEX_ID }, (_, i) => i + 1);
-  }
-}
-
-/* ===============================
-   BOOTSTRAP
-   =============================== */
-loadCacheFromLocalStorage();
-initializePokemonIds();
 setupSearchUI();
-window.onload = showInitialDropdownLoading;

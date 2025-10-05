@@ -1,72 +1,58 @@
 "use strict";
 
-/* ===============================
-   HERO Verarbeitung
-   =============================== */
-function buildHeroSlots(pokemonList = []) {
-  const validPokemon = pokemonList.filter((pokemon) => pokemon?.name && (pokemon.image || pokemon.id));
-  const seenKeys = new Set();
-  const uniquePokemon = [];
-
-  for (const pokemon of validPokemon) {
-    const dedupeKey = pokemon.id ?? pokemon.name;
-    if (seenKeys.has(dedupeKey)) continue;
-    seenKeys.add(dedupeKey);
-    uniquePokemon.push(pokemon);
+// HERO
+function buildHeroSlots(list = []) {
+  const valid = list.filter((p) => p?.name && (p.image || p.id));
+  const seen = new Set(),
+    unique = [];
+  for (const p of valid) {
+    const key = p.id ?? p.name;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(p);
   }
-
-  return uniquePokemon
+  return unique
     .sort(() => Math.random() - 0.5)
     .slice(0, HERO_SLOT_LIMIT)
-    .map((pokemon) => ({
-      name: pokemon.name,
-      id: pokemon.id,
-      types: pokemon.types ?? [],
-      image: getPokemonImage(pokemon),
-    }));
+    .map((p) => ({ name: p.name, id: p.id, types: p.types ?? [], image: getPokemonImage(p) }));
 }
 
-function renderHeroWrap(pokemonList) {
-  const heroContentEl = document.getElementById("hero_content");
-  if (!heroContentEl) return;
-
-  const heroSlots = buildHeroSlots(pokemonList);
-  heroContentEl.innerHTML = templatePkmHeroWrap(heroSlots);
+function renderHeroWrap(list) {
+  const el = document.getElementById("hero_content");
+  if (!el) return;
+  el.innerHTML = templatePkmHeroWrap(buildHeroSlots(list));
 }
 
 async function loadHeroSmallBatch() {
   const heroWrapEl = document.getElementById("hero_wrap");
   toggleSpinner(true);
-
   try {
-    const { small: smallBatch, big: bigBatch } = await fetchPokemonDataHero();
-    const smallPokemonList = await getPokemonsData(smallBatch);
-
-    heroDataRef = smallPokemonList;
+    const { small, big } = await loadPokemonHeroData();
+    const smallList = await getPokemonsData(small);
+    heroDataRef = smallList;
     renderHeroWrap(heroDataRef);
-
-    return bigBatch;
-  } catch (error) {
-    if (heroWrapEl) heroWrapEl.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>";
-    console.error(error);
+    return big;
+  } catch (e) {
+    heroWrapEl && (heroWrapEl.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>");
+    console.error(e);
     return null;
   } finally {
     toggleSpinner(false);
   }
 }
 
-async function loadHeroLargeBatch(bigDataPromise, { shouldRerenderImmediately = false } = {}) {
-  if (!bigDataPromise) return;
+async function loadHeroLargeBatch(bigPromise, { shouldRerenderImmediately = false } = {}) {
+  if (!bigPromise) return;
   try {
-    const bigData = await bigDataPromise;
-    if (!bigData) return;
-    const bigPokemonList = await getPokemonsData(bigData);
-    if (Array.isArray(bigPokemonList) && bigPokemonList.length) {
-      heroDataRef = bigPokemonList;
+    const big = await bigPromise;
+    if (!big) return;
+    const bigList = await getPokemonsData(big);
+    if (Array.isArray(bigList) && bigList.length) {
+      heroDataRef = bigList;
       if (shouldRerenderImmediately) renderHeroWrap(heroDataRef);
     }
-  } catch (error) {
-    console.error("Hero big load:", error);
+  } catch (e) {
+    console.error("Hero big load:", e);
   } finally {
     toggleSpinner(false);
   }
@@ -75,47 +61,38 @@ async function loadHeroLargeBatch(bigDataPromise, { shouldRerenderImmediately = 
 async function loadHeroWrap() {
   const largeBatchPromise = await loadHeroSmallBatch();
   loadHeroLargeBatch(largeBatchPromise, { shouldRerenderImmediately: false });
-
   clearInterval(heroRenderIntervalId);
   heroRenderIntervalId = setInterval(() => renderHeroWrap(heroDataRef), HERO_RENDER_INTERVAL_MS);
 }
 
-/* ===============================
-   TYPEN-SLIDER Verarbeitung
-   =============================== */
-function renderPkmTypes() {
-  const typesContainerEl = document.getElementById("allTypes");
-  if (!typesContainerEl) return;
-
-  const typeIconsHtml = loadPkmTypes().map(templatePkmTypeSlider).join("");
-  typesContainerEl.innerHTML = `<div class="type_track">${typeIconsHtml}${typeIconsHtml}</div>`;
-}
-
+//  TYPE SLIDER
 function loadPkmTypes() {
   if (cachedTypes) return cachedTypes;
-
-  cachedTypes = availableTypeIcons.filter((typeName) => typeName !== "shadow" && typeName !== "unknown");
+  cachedTypes = availableTypeIcons.filter((t) => t !== "shadow" && t !== "unknown");
   return cachedTypes;
 }
 
-/* ==================================
-   POKEMON-CARD-INDEX Verarbeitung
-   ================================== */
-function extractIdFromUrl(pokemonUrl) {
-  const matchResult = (pokemonUrl || "").match(/\/pokemon\/(\d+)\/?$/);
-  return matchResult ? parseInt(matchResult[1], 10) : NaN;
+function renderPkmTypes() {
+  const el = document.getElementById("allTypes");
+  if (!el) return;
+  const html = loadPkmTypes().map(templatePkmTypeSlider).join("");
+  el.innerHTML = `<div class="type_track">${html}${html}</div>`;
+}
+
+//  INDEX-CARD
+function extractIdFromUrl(url) {
+  const m = (url || "").match(/\/pokemon\/(\d+)\/?$/);
+  return m ? parseInt(m[1], 10) : NaN;
 }
 
 async function fetchDexIndexSubset(lastCount) {
-  const indexResponse = await (await fetch(`${BASE_URL}?limit=${MAX_DEX_ID}&offset=0`)).json();
-
-  const allEntries = (indexResponse.results || []).filter((entry) => {
-    const pokemonId = extractIdFromUrl(entry.url);
-    return Number.isFinite(pokemonId) && pokemonId <= MAX_DEX_ID;
+  const idx = await (await fetch(`${BASE_URL}?limit=${MAX_DEX_ID}&offset=0`)).json();
+  const all = (idx.results || []).filter((e) => {
+    const id = extractIdFromUrl(e.url);
+    return Number.isFinite(id) && id <= MAX_DEX_ID;
   });
-
-  const sliceStart = Math.max(0, allEntries.length - lastCount);
-  return { results: allEntries.slice(sliceStart) };
+  const start = Math.max(0, all.length - lastCount);
+  return { results: all.slice(start) };
 }
 
 function pickRandom(items = [], count) {
@@ -126,120 +103,88 @@ function pickRandom(items = [], count) {
 }
 
 async function buildIndexMons(candidates, { requireImage, excludeForms } = {}) {
-  let pokemonList = await getPokemonsData({ results: candidates }, { skipForms: !!excludeForms });
-
-  if (requireImage) {
-    pokemonList = pokemonList.filter((p) => p?.image && !p.image.includes("placeholder"));
-  }
-
-  return pokemonList.slice(0, INDEX_CARD_LIMIT);
+  let list = await getPokemonsData({ results: candidates }, { skipForms: !!excludeForms });
+  if (requireImage) list = list.filter((p) => p?.image && !p.image.includes("placeholder"));
+  return list.slice(0, INDEX_CARD_LIMIT);
 }
 
-function renderPokemonCardIndex(pokemonList) {
-  const indexContainerEl = document.getElementById("pokedex_index");
-  if (indexContainerEl) {
-    indexContainerEl.innerHTML = templatePkmCard(pokemonList);
+function renderPokemonCardIndex(list) {
+  const el = document.getElementById("pokedex_index");
+  if (el) {
+    el.innerHTML = templatePkmCard(list);
   }
-
   updateClickedLikes();
 }
 
-async function renderDexIndexSection(options = {}) {
-  const { fetchCountFromEnd = 40, candidateSampleSize = 20, requireImage = true, excludeForms = true } = options;
-
+async function renderDexIndexSection(opt = {}) {
+  const { fetchCountFromEnd = 40, candidateSampleSize = 20, requireImage = true, excludeForms = true } = opt;
   toggleSpinner(true);
-
-  const indexContainerEl = document.getElementById("pokedex_index");
-
+  const indexEl = document.getElementById("pokedex_index");
   try {
-    const fetchedIndexSubset = await fetchDexIndexSubset(fetchCountFromEnd);
-    const candidateEntries = pickRandom(fetchedIndexSubset.results, candidateSampleSize);
-    const pokemonList = await buildIndexMons(candidateEntries, {
-      requireImage,
-      excludeForms,
-    });
-
-    if (pokemonList.length >= INDEX_CARD_LIMIT) {
-      renderPokemonCardIndex(pokemonList.slice(0, INDEX_CARD_LIMIT));
-    } else if (indexContainerEl) {
-      indexContainerEl.innerHTML = "<p style='color:red'>Zu wenige passende Pokémon gefunden.</p>";
-    }
-  } catch (error) {
-    if (indexContainerEl) {
-      indexContainerEl.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>";
-    }
-    console.error("renderDexIndexSection:", error);
+    const subset = await fetchDexIndexSubset(fetchCountFromEnd);
+    const candidates = pickRandom(subset.results, candidateSampleSize);
+    const list = await buildIndexMons(candidates, { requireImage, excludeForms });
+    if (list.length >= INDEX_CARD_LIMIT) renderPokemonCardIndex(list.slice(0, INDEX_CARD_LIMIT));
+    else if (indexEl) indexEl.innerHTML = "<p style='color:red'>Zu wenige passende Pokémon gefunden.</p>";
+  } catch (e) {
+    indexEl && (indexEl.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>");
+    console.error("renderDexIndexSection:", e);
   } finally {
     toggleSpinner(false);
   }
 }
 
-/* ===============================
-   POKEMON-CARD Verarbeitung
-   =============================== */
-function renderPokemonCard(pokemonList) {
-  const dexCardContainerEl = document.getElementById("pokedex");
-  if (!dexCardContainerEl) return;
-
-  dexCardContainerEl.innerHTML = templatePkmCard(pokemonList);
-
+//  CARD LIST
+function renderPokemonCard(list) {
+  const el = document.getElementById("pokedex");
+  if (!el) return;
+  el.innerHTML = templatePkmCard(list);
   updateClickedLikes();
-
-  if (typeof renderLikes === "function") {
-    renderLikes();
-  }
+  typeof renderLikes === "function" && renderLikes();
 }
 
 async function loadPokemonCard() {
   toggleSpinner(true);
-  const dexCardContainerEl = document.getElementById("pokedex");
+  const el = document.getElementById("pokedex");
   try {
-    const pokemonIndexData = await fetchPokemonData();
-    pokemonIndexData.results = (pokemonIndexData.results || []).filter((entry) => {
-      const pokemonId = extractIdFromUrl(entry.url);
-      return Number.isFinite(pokemonId) && pokemonId <= MAX_DEX_ID;
+    const idx = await loadPokemonList();
+    idx.results = (idx.results || []).filter((e) => {
+      const id = extractIdFromUrl(e.url);
+      return Number.isFinite(id) && id <= MAX_DEX_ID;
     });
-    const pokemonList = await getPokemonsData(pokemonIndexData);
-    renderPokemonCard(pokemonList);
+    const list = await getPokemonsData(idx);
+    renderPokemonCard(list);
     loadMorePokemon.currentLimit = LIMIT;
   } catch (err) {
-    if (dexCardContainerEl) {
-      dexCardContainerEl.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>";
-    }
+    el && (el.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>");
     updateClickedLikes();
-    if (typeof renderLikes === "function") renderLikes();
+    typeof renderLikes === "function" && renderLikes();
     console.error(err);
   } finally {
     toggleSpinner(false);
   }
 }
 
-/* ===============================
-   MEHR POKEMON-LADEN 
-   =============================== */
+//  Load More Pokemon
 async function loadMorePokemon() {
   if (loadingMorePkm) return;
   loadingMorePkm = true;
-
-  const loadMoreBtn = document.getElementById("loadMoreBtn"),
-    cardContainer = document.getElementById("pokedex");
-  if (loadMoreBtn) loadMoreBtn.disabled = true;
-  if (!cardContainer) return endMorePokemon(loadMoreBtn);
-  const prevLimit = loadMorePokemon.currentLimit ?? LIMIT,
-    nextLimit = Math.min(prevLimit + LIMIT, MAX_DEX_ID);
-
-  loadMorePokemon.currentLimit = nextLimit;
-
+  const btn = document.getElementById("loadMoreBtn"),
+    container = document.getElementById("pokedex");
+  btn && (btn.disabled = true);
+  if (!container) return endMorePokemon(btn);
+  const prev = loadMorePokemon.currentLimit ?? LIMIT,
+    next = Math.min(prev + LIMIT, MAX_DEX_ID);
+  loadMorePokemon.currentLimit = next;
   toggleSpinner(true);
-
   try {
-    const all = await fetchMorePokemon(nextLimit);
-    loadMoreAppendPokemon(cardContainer, all, prevLimit, nextLimit);
-    if (loadMoreBtn && nextLimit >= MAX_DEX_ID) loadMoreBtn.style.display = "none";
+    const all = await fetchMorePokemon(next);
+    loadMoreAppendPokemon(container, all, prev, next);
+    if (btn && next >= MAX_DEX_ID) btn.style.display = "none";
   } catch (e) {
     console.error("loadMorePokemon:", e);
   } finally {
-    endMorePokemon(loadMoreBtn);
+    endMorePokemon(btn);
   }
 }
 
@@ -248,57 +193,28 @@ async function fetchMorePokemon(nextLimit) {
     fetch(`${BASE_URL}?limit=${nextLimit}&offset=${offset}`).then((r) => r.json()),
     new Promise((r) => setTimeout(r, 800)),
   ]);
-  const filtered = (results || []).filter((entry) => {
-    const pokemonId = extractIdFromUrl(entry.url);
-    return Number.isFinite(pokemonId) && pokemonId <= MAX_DEX_ID;
+  const filtered = (results || []).filter((e) => {
+    const id = extractIdFromUrl(e.url);
+    return Number.isFinite(id) && id <= MAX_DEX_ID;
   });
   return getPokemonsData({ results: filtered });
 }
 
-function loadMoreAppendPokemon(cardContainer, pokemonList, prevLimit, nextLimit) {
-  cardContainer.innerHTML += templatePkmCard(pokemonList.slice(prevLimit, nextLimit));
+function loadMoreAppendPokemon(container, list, prev, next) {
+  container.innerHTML += templatePkmCard(list.slice(prev, next));
   updateClickedLikes();
 }
 
-function endMorePokemon(loadMoreBtn) {
+function endMorePokemon(btn) {
   toggleSpinner(false);
   loadingMorePkm = false;
-  if (loadMoreBtn) loadMoreBtn.disabled = false;
+  btn && (btn.disabled = false);
 }
 
-/* ===============================
-   POKEMON-BANNER Verarbeitung
-   =============================== */
-function renderPokemonBanner(pokemonData) {
-  const bannerContainer = document.getElementById("pokemon_banner");
-  if (!bannerContainer || !pokemonData) return;
-  bannerContainer.innerHTML = templatePkmBanner(pokemonData);
-}
-
-async function loadPokemonBanner() {
-  toggleSpinner(true);
-  try {
-    const randomPokemonId = Math.floor(Math.random() * MAX_DEX_ID) + 1;
-    const pokemonRequestData = { results: [{ url: `${BASE_URL}/${randomPokemonId}` }] };
-    const pokemonList = await getPokemonsData(pokemonRequestData);
-    if (pokemonList && pokemonList.length) renderPokemonBanner(pokemonList[0]);
-  } catch (e) {
-    console.error("loadPokemonBanner:", e);
-    const bannerContainer = document.getElementById("pokemon_banner");
-    if (bannerContainer) bannerContainer.innerHTML = "<p style='color:red'>Fehler beim Laden!</p>";
-  } finally {
-    toggleSpinner(false);
-  }
-}
-
-/* ===============================
-   BOOTSTRAP 
-   =============================== */
-function initializePokedex() {
-  loadHeroWrap();
-  renderDexIndexSection();
-  renderPkmTypes();
-  loadPokemonBanner();
-  loadPokemonCard();
-}
-initializePokedex();
+//  BOOTSTRAP
+(async function bootstrapHome() {
+  if (document.getElementById("hero_wrap")) loadHeroWrap();
+  if (document.getElementById("allTypes")) renderPkmTypes();
+  if (document.getElementById("pokedex_index")) renderDexIndexSection();
+  if (document.getElementById("pokedex")) loadPokemonCard();
+})();

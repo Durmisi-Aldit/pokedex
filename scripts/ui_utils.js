@@ -1,8 +1,6 @@
 "use strict";
-/* ===============================
-   UI-Helper
-   =============================== */
 
+//  Scroll/Overlays/Mobile
 const openSearchBtn = document.getElementById("openSearch");
 const closeSearchBtn = document.getElementById("closeSearch");
 const searchOverlay = document.getElementById("searchOverlay");
@@ -11,7 +9,6 @@ const closeMenuBtn = document.getElementById("closeMenu");
 const offcanvas = document.getElementById("offcanvas");
 const backdrop = document.getElementById("offcanvasBackdrop");
 const searchForm = document.getElementById("search");
-
 const originalParent = searchForm ? searchForm.parentNode : null;
 const originalNext = searchForm ? searchForm.nextSibling : null;
 
@@ -26,18 +23,15 @@ function unlockScroll() {
 function moveFormToOverlay() {
   if (!searchOverlay || !searchForm) return;
   const overlayCard = searchOverlay.firstElementChild || searchOverlay;
-  if (searchForm.classList) searchForm.classList.add("in-overlay");
+  searchForm.classList && searchForm.classList.add("in-overlay");
   overlayCard.appendChild(searchForm);
 }
 
 function moveFormBack() {
   if (!searchForm || !originalParent) return;
-  if (searchForm.classList) searchForm.classList.remove("in-overlay");
-  if (originalNext && originalNext.parentNode === originalParent) {
-    originalParent.insertBefore(searchForm, originalNext);
-  } else {
-    originalParent.appendChild(searchForm);
-  }
+  searchForm.classList && searchForm.classList.remove("in-overlay");
+  if (originalNext && originalNext.parentNode === originalParent) originalParent.insertBefore(searchForm, originalNext);
+  else originalParent.appendChild(searchForm);
 }
 
 function openSearch() {
@@ -46,14 +40,8 @@ function openSearch() {
   searchOverlay.classList.add("active");
   searchOverlay.setAttribute("aria-hidden", "false");
   lockScroll();
-  if (searchForm && searchForm.elements && searchForm.elements.length) {
-    const firstElm = searchForm.elements[0];
-    if (firstElm && firstElm.focus) {
-      setTimeout(function () {
-        firstElm.focus();
-      }, 50);
-    }
-  }
+  const firstElm = searchForm?.elements?.[0];
+  firstElm?.focus?.();
 }
 
 function closeSearch() {
@@ -70,7 +58,7 @@ function openMenu() {
   offcanvas.setAttribute("aria-hidden", "false");
   backdrop.classList.add("active");
   backdrop.setAttribute("aria-hidden", "false");
-  if (openMenuBtn) openMenuBtn.setAttribute("aria-expanded", "true");
+  openMenuBtn?.setAttribute("aria-expanded", "true");
   lockScroll();
 }
 
@@ -80,38 +68,35 @@ function closeMenu() {
   offcanvas.setAttribute("aria-hidden", "true");
   backdrop.classList.remove("active");
   backdrop.setAttribute("aria-hidden", "true");
-  if (openMenuBtn) openMenuBtn.setAttribute("aria-expanded", "false");
+  openMenuBtn?.setAttribute("aria-expanded", "false");
   unlockScroll();
 }
 
 function initMobileEvents() {
-  if (openSearchBtn) openSearchBtn.onclick = openSearch;
-  if (closeSearchBtn) closeSearchBtn.onclick = closeSearch;
-  if (openMenuBtn) openMenuBtn.onclick = openMenu;
-  if (closeMenuBtn) closeMenuBtn.onclick = closeMenu;
-  if (backdrop) backdrop.onclick = closeMenu;
-
-  if (searchOverlay) {
-    searchOverlay.onclick = function (e) {
-      if (e && e.target === searchOverlay) closeSearch();
-    };
-  }
+  openSearchBtn && (openSearchBtn.onclick = openSearch);
+  closeSearchBtn && (closeSearchBtn.onclick = closeSearch);
+  openMenuBtn && (openMenuBtn.onclick = openMenu);
+  closeMenuBtn && (closeMenuBtn.onclick = closeMenu);
+  backdrop && (backdrop.onclick = closeMenu);
+  searchOverlay &&
+    (searchOverlay.onclick = (e) => {
+      if (e?.target === searchOverlay) closeSearch();
+    });
 }
 
 document.onkeydown = function (e) {
-  e = e || window.event;
-  const key = e.key || e.keyCode;
-  if (key === "Escape" || key === 27) {
-    if (searchOverlay && searchOverlay.classList.contains("active")) closeSearch();
-    if (offcanvas && offcanvas.classList.contains("active")) closeMenu();
+  const k = e?.key || e?.keyCode;
+  if (k === "Escape" || k === 27) {
+    if (searchOverlay?.classList.contains("active")) closeSearch();
+    if (offcanvas?.classList.contains("active")) closeMenu();
   }
 };
 
 initMobileEvents();
 
+//  Text/Number Utils
 function cap(s) {
-  if (!s) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }
 
 function escapeHtml(s) {
@@ -131,16 +116,24 @@ function formatWeight(w) {
   return (w / 10).toFixed(1) + " kg";
 }
 
-function toggleSpinner(show = true) {
-  const spinner = document.getElementById("spinnerOverlay");
-  if (!spinner) return;
-
-  if (show) spinnerCount++;
-  else spinnerCount = Math.max(0, spinnerCount - 1);
-
-  spinner.style.display = spinnerCount > 0 ? "flex" : "none";
+function padDex(n) {
+  return "#" + String(n).padStart(3, "0");
 }
 
+function langPick(arr, a, b) {
+  const A = (arr || []).filter((e) => e?.language?.name === a);
+  return A.length ? A : (arr || []).filter((e) => e?.language?.name === b);
+}
+
+function pretty(s) {
+  return cap(String(s).replace(/-/g, " "));
+}
+
+function onlyDigits(s) {
+  return parseInt(String(s).replace(/\D/g, ""), 10);
+}
+
+//  Type/Images
 function getMainTypeClass(p) {
   const t = p?.types?.[0] || "normal";
   return `color_${t}`;
@@ -150,15 +143,33 @@ function getTypeIconPath(typeName) {
   return `./img/type-icon/${typeName}.svg`;
 }
 
+function typeLabelDe(t) {
+  return TYPE_LABEL_DE?.[t] || cap(t);
+}
+
 function getPokemonImage(p) {
-  if (p?.image) return p.image;
-  return "./img/placeholder/placeholder.png";
+  return p?.image ? p.image : "./img/placeholder/placeholder.png";
+}
+
+//  Misc/UI
+function toggleSpinner(show = true) {
+  const spinner = document.getElementById("spinnerOverlay");
+  if (!spinner) return;
+  spinnerCount = show ? spinnerCount + 1 : Math.max(0, spinnerCount - 1);
+  spinner.style.display = spinnerCount > 0 ? "flex" : "none";
+}
+
+//  Shared small templates
+function templateTypeLi(t) {
+  return `<li class="pkm_type color_${t}"><img src="${getTypeIconPath(t)}" alt="${t}"></li>`;
 }
 
 function templateTypeListe(types = [], max = 2) {
   return (Array.isArray(types) ? types : []).slice(0, max).map(templateTypeLi).join("");
 }
 
-function typeLabelDe(t) {
-  return TYPE_LABEL_DE[t] || cap(t);
+function getNumIdForURL(pokemon) {
+  if (!pokemon) return null;
+  if (Number.isFinite(pokemon.numId)) return pokemon.numId;
+  return onlyDigits(pokemon.id || "");
 }

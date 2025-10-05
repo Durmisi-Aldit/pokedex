@@ -461,7 +461,7 @@
 
 .stat-name {
     width: 100px;
-    font-size: .9rem;
+    font-size: 14px;
     color: #666;
 }
 
@@ -542,9 +542,9 @@
 }
 
 .evolution-image {
-    width: 284px;
-    height: 284px;
-    background-image: url(/img/bg/rotation-bg-banner.png);
+    width: 216px;
+    height: 216px;
+    background-image: url(../img/bg/rotation-bg-banner.png);
     background-position: center;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -556,13 +556,14 @@
 
 .evolution-image img {
     width: 100%;
+
     height: 100%;
     object-fit: cover;
     object-position: center;
 }
 
 .evolution-arrow {
-    font-size: 1.5rem;
+    font-size: 18px;
     color: #666;
 }
 

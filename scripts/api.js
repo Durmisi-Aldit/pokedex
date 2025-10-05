@@ -1,411 +1,351 @@
 "use strict";
 
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-const SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/";
-const TYPES_URL = "https://pokeapi.co/api/v2/type/";
-const ANIMATION_IMAGE =
-  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated";
+//  Fetch Utils
+async function fetchJsonOrThrow(requestUrl, contextLabel) {
+  const response = await fetch(requestUrl);
 
-const LIMIT = 20;
-const MAX_DEX_ID = 1025;
-const offset = 0;
-const HERO_SLOT_LIMIT = 7;
-const HERO_RENDER_INTERVAL_MS = 100000;
-const INDEX_CARD_LIMIT = 5;
-
-const abilityCache = new Map();
-const eggGroupCache = new Map();
-const moveCache = new Map();
-
-let heroDataRef = [];
-let heroRenderIntervalId = null;
-let cachedTypes = null;
-let loadingMorePkm = false;
-let spinnerCount = 0;
-
-const availableTypeIcons = Object.freeze([
-  "normal",
-  "fire",
-  "water",
-  "grass",
-  "electric",
-  "ice",
-  "fighting",
-  "poison",
-  "ground",
-  "flying",
-  "psychic",
-  "bug",
-  "rock",
-  "ghost",
-  "dragon",
-  "dark",
-  "steel",
-  "fairy",
-]);
-
-const TYPE_LABEL_DE = {
-  normal: "Normal",
-  fire: "Feuer",
-  water: "Wasser",
-  grass: "Pflanze",
-  electric: "Elektro",
-  ice: "Eis",
-  fighting: "Kampf",
-  poison: "Gift",
-  ground: "Boden",
-  flying: "Flug",
-  psychic: "Psycho",
-  bug: "Käfer",
-  rock: "Gestein",
-  ghost: "Geist",
-  dragon: "Drache",
-  dark: "Unlicht",
-  steel: "Stahl",
-  fairy: "Fee",
-};
-
-/* ===============================
-   FETCH API 
-  =============================== */
-async function fetchPokemonData() {
-  const url = `${BASE_URL}?limit=${LIMIT}&offset=${offset}`;
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    console.error("fetchPokemonData() failed:", response.status, response.statusText);
-    throw new Error(`fetchPokemonData: ${response.status} ${response.statusText}`);
+  if (response.ok === false) {
+    const errorMessage = `${contextLabel} fehlgeschlagen: ${response.status} ${response.statusText}`;
+    console.error("Fehler beim Abrufen der Daten:", errorMessage);
+    throw new Error(errorMessage);
   }
+  const data = await response.json();
 
-  return await response.json();
+  return data;
 }
 
-async function fetchPokemonDataHero() {
+async function fetchJsonSafe(requestUrl, contextLabel) {
   try {
-    const smallRes = await fetch(`${BASE_URL}?limit=${LIMIT}&offset=${offset}`);
-    if (!smallRes.ok) throw new Error(`Hero small fetch failed: ${smallRes.status}`);
-    const smallData = await smallRes.json();
-
-    const bigPromise = fetch(`${BASE_URL}?limit=${MAX_DEX_ID}&offset=${offset}`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`Hero big fetch failed: ${r.status}`);
-        return r.json();
-      })
-      .catch((err) => {
-        console.error("Fehler beim Hero-Fetch (MAX_DEX_ID):", err);
-        return null;
-      });
-
-    return { small: smallData, big: bigPromise };
-  } catch (err) {
-    console.error("Fehler in fetchPokemonDataHero:", err);
-    return { small: { results: [] }, big: Promise.resolve(null) };
-  }
-}
-
-/* ===============================
-   FETCH STAGE 
-  =============================== */
-async function getStage(speciesUrl) {
-  const speciesRes = await fetch(speciesUrl);
-  if (!speciesRes.ok) throw new Error(`getStage species failed: ${speciesRes.status}`);
-  const species = await speciesRes.json();
-
-  if (!species.evolves_from_species) return "Basis";
-
-  const preSpeciesRes = await fetch(`${SPECIES_URL}${species.evolves_from_species.name}/`);
-  if (!preSpeciesRes.ok) throw new Error(`getStage pre-species failed: ${preSpeciesRes.status}`);
-  const preSpecies = await preSpeciesRes.json();
-
-  return preSpecies.evolves_from_species ? "Stufe 2" : "Stufe 1";
-}
-
-/* ===============================
-   ALLE API DATEN HOLEN
-   =============================== */
-async function safeFetchJson(url) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    return await res.json();
-  } catch {
+    const response = await fetch(requestUrl);
+    if (response.ok === false) {
+      console.error(`${contextLabel} fehlgeschlagen: ${response.status} ${response.statusText}`);
+      return null;
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`${contextLabel} hat einen Fehler verursacht:`, error);
     return null;
   }
 }
 
-async function getPokemonsData(data, options = {}) {
-  const { includeEvolution = true } = options;
-  const results = data?.results || [];
-  const pokemons = [];
+//  API: Listen/Hero
+async function loadPokemonList() {
+  const requestUrl = `${BASE_URL}?limit=${LIMIT}&offset=${offset}`;
+  return fetchJsonOrThrow(requestUrl, "loadPokemonList");
+}
 
-  for (const item of results) {
-    const details = await safeFetchJson(item.url);
-    if (!details) continue;
+async function loadPokemonHeroData() {
+  const smallListUrl = `${BASE_URL}?limit=${LIMIT}&offset=${offset}`;
+  const bigListUrl = `${BASE_URL}?limit=${MAX_DEX_ID}&offset=${offset}`;
 
-    // ---- Stage
-    let stage = "Basis";
-    try {
-      stage = await getStage(details.species?.url);
-    } catch {
-      stage = "Basis";
+  const smallPromise = fetchJsonSafe(smallListUrl, "Hero: kleine Liste laden");
+  const bigPromise = fetchJsonSafe(bigListUrl, "Hero: große Liste laden");
+
+  const smallData = await smallPromise;
+  const safeSmall = smallData ?? { results: [] };
+
+  return { small: safeSmall, big: bigPromise };
+}
+
+//  Evolution-Stage
+async function getEvolutionStage(pokemonSpeciesUrl) {
+  const speciesData = await fetchJsonOrThrow(pokemonSpeciesUrl, "getEvolutionStage: species");
+
+  if (!speciesData.evolves_from_species) return "Basis";
+
+  const previousSpeciesData = await fetchJsonOrThrow(
+    `${SPECIES_URL}${speciesData.evolves_from_species.name}/`,
+    "getEvolutionStage: pre-species"
+  );
+
+  return previousSpeciesData.evolves_from_species ? "Stufe 2" : "Stufe 1";
+}
+
+//  Detailaufbau (kleine Helfer)
+function buildId(details) {
+  const numId = Number(details.id);
+  return { numId, id: padDex(numId) };
+}
+
+function extractHP(details) {
+  const hp = details.stats?.find((s) => s.stat?.name === "hp");
+  return { title: (hp?.stat?.name || "HP").toUpperCase(), value: hp?.base_stat ?? 0 };
+}
+
+function extractTypes(details) {
+  const types = (details.types || []).map((t) => t.type?.name).filter(Boolean);
+  return { types, mainType: types[0] || "normal" };
+}
+
+function extractArtwork(details) {
+  const d = details.sprites?.other?.dream_world?.front_default;
+  const o = details.sprites?.other?.["official-artwork"]?.front_default;
+  const f = details.sprites?.front_default;
+  const artwork = o || d || f;
+  return { artwork, image: getPokemonImage({ image: artwork }) };
+}
+
+function getPokemonGifUrl(pokemonDetails) {
+  const gifUrl = pokemonDetails?.sprites?.other?.showdown?.front_default;
+  return gifUrl || "";
+}
+
+async function loadSpecies(details) {
+  return (await fetchJsonSafe(details.species?.url, "species")) || null;
+}
+
+function extractNameDesc(details, species) {
+  let name = cap(details.name),
+    desc = "";
+  if (!species) return { name, desc };
+  const chosen = langPick(species.flavor_text_entries || [], "de", "en");
+  if (chosen.length) {
+    const txt = String(chosen[Math.floor(Math.random() * chosen.length)]?.flavor_text || "");
+    desc = cap(txt.replace(/\s+/g, " ").replace(/\f/g, " ").trim());
+  }
+  const de = species.names?.find((n) => n.language?.name === "de")?.name;
+  if (de) name = cap(de);
+  return { name, desc };
+}
+
+function createPokemonStatsMap(pokemonDetails) {
+  const statsArray = pokemonDetails.stats || [];
+  const statsMap = {};
+
+  for (const statEntry of statsArray) {
+    const statName = statEntry.stat?.name;
+    const baseValue = statEntry.base_stat;
+
+    if (statName) {
+      statsMap[statName] = baseValue;
     }
+  }
 
-    // ---- IDs
-    const numId = Number(details.id);
-    const id = "#" + String(numId).padStart(3, "0");
+  return statsMap;
+}
 
-    // ---- HP
-    const hpObj = details.stats?.find((s) => s.stat?.name === "hp");
-    const hp = { title: (hpObj?.stat?.name || "HP").toUpperCase(), value: hpObj?.base_stat ?? 0 };
+//  Übersetzungen
+async function fetchCachedJson(url, cache, label) {
+  if (!url) return null;
+  let memo = cache.get(url);
+  if (!memo) {
+    memo = await fetchJsonSafe(url, label);
+    if (memo) cache.set(url, memo);
+  }
+  return memo;
+}
 
-    // ---- Typen
-    const types = (details.types || []).map((t) => t.type?.name).filter(Boolean);
-    const mainType = types[0] || "normal";
+function extractGermanName(memo, fallback) {
+  return memo?.names?.find((n) => n?.language?.name === "de")?.name || fallback || "";
+}
 
-    // ---- Bilder
-    const dream = details.sprites?.other?.dream_world?.front_default;
-    const official = details.sprites?.other?.["official-artwork"]?.front_default;
-    const front = details.sprites?.front_default;
-    const artwork = official || dream || front;
-    const image = getPokemonImage({ image: artwork });
+function toPrettyList(items, badgeClass) {
+  const list = items.filter(Boolean).map(pretty);
+  const text = list.length ? list.join(", ") : "–";
+  const html = list.length ? list.map((n) => `<span class="${badgeClass}">${escapeHtml(n)}</span>`).join(" ") : "";
+  return { list, text, html };
+}
 
-    // ---- GIF
+async function translateAbilities(details) {
+  const src = (details.abilities || []).slice(0, 2),
+    names = [];
+  for (const a of src) {
+    const url = a?.ability?.url,
+      fallback = a?.ability?.name || "";
+    const memo = await fetchCachedJson(url, abilityCache, "translateAbilities: ability");
+    names.push(extractGermanName(memo, fallback));
+  }
+  const { list, text, html } = toPrettyList(names, "ability-badge");
+  return { abilities: list, abilitiesText: text, abilitiesHtml: html, abilityPrimary: list[0] || "–" };
+}
 
-    const gif = details.sprites?.other?.showdown?.front_default || "";
+async function translateEggGroups(species) {
+  const src = species?.egg_groups || [];
+  if (!src.length) return { eggGroups: [], eggGroupsText: "–", eggGroupsHtml: "" };
+  const names = [];
+  for (const eg of src) {
+    const url = eg?.url,
+      fallback = eg?.name || "";
+    const memo = await fetchCachedJson(url, eggGroupCache, "translateEggGroups: group");
+    names.push(extractGermanName(memo, fallback));
+  }
+  const { list, text, html } = toPrettyList(names, "egg-badge");
+  return { eggGroups: list, eggGroupsText: text, eggGroupsHtml: html };
+}
 
-    // ---- Name & Beschreibung (DE bevorzugt)
-    let name = cap(details.name);
-    let desc = "";
-    const species = await safeFetchJson(details.species?.url);
-    if (species) {
-      const entries = species.flavor_text_entries || [];
-      const poolDe = entries.filter((e) => e.language?.name === "de");
-      const poolEn = entries.filter((e) => e.language?.name === "en");
-      const chosen = poolDe.length ? poolDe : poolEn;
-      if (chosen.length) {
-        const rand = chosen[Math.floor(Math.random() * chosen.length)];
-        desc = cap(
-          String(rand.flavor_text || "")
-            .replace(/\s+/g, " ")
-            .replace(/\f/g, " ")
-            .trim()
-        );
-      }
-      const deNameRec = (species.names || []).find((n) => n.language?.name === "de");
-      if (deNameRec?.name) name = cap(deNameRec.name);
+async function translateMoves(details) {
+  const src = (details.moves || []).slice(0, 10),
+    out = [];
+  for (const m of src) {
+    const url = m?.move?.url,
+      fallback = m?.move?.name || "";
+    const memo = await fetchCachedJson(url, moveCache, "translateMoves: move");
+    out.push(extractGermanName(memo, fallback));
+  }
+  return out.filter(Boolean).map(pretty);
+}
+
+//  Meta/Misc
+function speciesMeta(species, stage) {
+  if (!species) return { speciesTitle: stage, genderRate: "–", catchRateStr: "–" };
+  const de = species.genera?.find((g) => g.language?.name === "de")?.genus;
+  const en = species.genera?.find((g) => g.language?.name === "en")?.genus;
+  const speciesTitle = de || en || stage;
+  let genderRate = "–";
+  if (typeof species.gender_rate === "number") {
+    if (species.gender_rate < 0) genderRate = "Geschlechtslos";
+    else {
+      const female = species.gender_rate * 12.5,
+        male = 100 - female;
+      genderRate = `♂️ ${male.toFixed(1)}% / ♀️ ${female.toFixed(1)}%`;
     }
+  }
+  const cr = Number(species.capture_rate ?? NaN);
+  const catchRateStr = Number.isFinite(cr) ? String(cr) : "–";
+  return { speciesTitle, genderRate, catchRateStr };
+}
 
-    // ---- Stats Map
-    const statsMap = Object.fromEntries((details.stats || []).map((s) => [s.stat?.name, s.base_stat]));
+function miscBits(details, species) {
+  const friendship = typeof species?.base_happiness === "number" ? species.base_happiness : null;
+  const cry = details.cries?.latest || details.cries?.legacy || "";
+  return { friendship, cry, height: formatHeight(details.height), weight: formatWeight(details.weight) };
+}
 
-    // ---- Fähigkeiten (DE, max. 2)
-    let abilities = [];
-    let abilitiesText = "–";
-    let abilitiesHtml = "";
-
-    if (Array.isArray(details.abilities) && details.abilities.length) {
-      const limited = details.abilities.slice(0, 2);
-      for (const a of limited) {
-        const abilityUrl = a?.ability?.url;
-        const fallbackEn = a?.ability?.name || "";
-        if (!abilityUrl && fallbackEn) {
-          abilities.push(fallbackEn);
-          continue;
-        }
-        if (!abilityUrl) continue;
-
-        let abilityDetails = abilityCache.get(abilityUrl);
-        if (!abilityDetails) {
-          abilityDetails = await safeFetchJson(abilityUrl).catch(() => null);
-          if (abilityDetails) abilityCache.set(abilityUrl, abilityDetails);
-        }
-        const deName = abilityDetails?.names?.find((n) => n?.language?.name === "de")?.name || fallbackEn;
-        abilities.push(deName);
-      }
-
-      const pretty = (s) =>
-        typeof cap === "function" ? cap(String(s).replace(/-/g, " ")) : String(s).replace(/-/g, " ");
-      abilities = abilities.filter(Boolean).map(pretty);
-
-      if (abilities.length) {
-        abilitiesText = abilities.join(", ");
-        abilitiesHtml = abilities.map((n) => `<span class="ability-badge">${escapeHtml(n)}</span>`).join(" ");
-      }
-    }
-    const abilityPrimary = abilities[0] || "–";
-
-    // ----  Ei-Gruppen (DE)
-    let eggGroups = [];
-    let eggGroupsText = "–";
-    let eggGroupsHtml = "";
-
-    if (species?.egg_groups && species.egg_groups.length) {
-      for (const eg of species.egg_groups) {
-        const url = eg?.url;
-        const fallbackEn = eg?.name || "";
-        if (!url && fallbackEn) {
-          eggGroups.push(fallbackEn);
-          continue;
-        }
-        if (!url) continue;
-
-        let egDetails = eggGroupCache.get(url);
-        if (!egDetails) {
-          egDetails = await safeFetchJson(url).catch(() => null);
-          if (egDetails) eggGroupCache.set(url, egDetails);
-        }
-        const deName = egDetails?.names?.find((n) => n?.language?.name === "de")?.name || fallbackEn;
-        eggGroups.push(deName);
-      }
-      const pretty = (s) =>
-        typeof cap === "function" ? cap(String(s).replace(/-/g, " ")) : String(s).replace(/-/g, " ");
-      eggGroups = eggGroups.filter(Boolean).map(pretty);
-      if (eggGroups.length) {
-        eggGroupsText = eggGroups.join(", ");
-        eggGroupsHtml = eggGroups.map((n) => `<span class="egg-badge">${escapeHtml(n)}</span>`).join(" ");
-      }
-    }
-
-    // ----  Freundschaft
-    const friendship = typeof species?.base_happiness === "number" ? species.base_happiness : null;
-
-    // ---- Cry
-    const cry = details.cries?.latest || details.cries?.legacy || "";
-
-    // Moves (DE)
-    const rawMoves = (details.moves || []).slice(0, 10);
-    const movesDe = [];
-
-    for (const m of rawMoves) {
-      const url = m?.move?.url;
-      const en = m?.move?.name || "";
-      let de = en;
-      if (url) {
-        let data = moveCache.get(url);
-        if (!data) {
-          data = await safeFetchJson(url).catch(() => null);
-          moveCache.set(url, data);
-        }
-        de = data?.names?.find((n) => n.language?.name === "de")?.name || en;
-      }
-      movesDe.push(de);
-    }
-    const moves = movesDe.map((n) =>
-      typeof cap === "function" ? cap(String(n).replace(/-/g, " ")) : String(n).replace(/-/g, " ")
-    );
-
-    // ---- Species Extras
-    let speciesTitle = stage;
-    let genderRate = "–";
-    let catchRateStr = "–";
-    if (species) {
-      speciesTitle =
-        (species.genera || []).find((g) => g.language?.name === "de")?.genus ||
-        (species.genera || []).find((g) => g.language?.name === "en")?.genus ||
-        stage;
-
-      if (typeof species.gender_rate === "number") {
-        if (species.gender_rate < 0) genderRate = "Geschlechtslos";
-        else {
-          const female = species.gender_rate * 12.5;
-          const male = 100 - female;
-          genderRate = `♂️ ${male.toFixed(1)}% / ♀️ ${female.toFixed(1)}%`;
-        }
-      }
-      const cr = Number(species.capture_rate ?? NaN);
-      catchRateStr = Number.isFinite(cr) ? String(cr) : "–";
-    }
-
-    // ---- Evolution
-    let evolution = [];
-    if (includeEvolution && species?.evolution_chain?.url) {
-      try {
-        const chain = await safeFetchJson(species.evolution_chain.url);
-        let cur = chain?.chain;
-        const seq = [];
-        while (cur) {
-          const sid = parseInt((cur.species?.url || "").match(/\/(\d+)\/?$/)?.[1] || "", 10);
-          seq.push({
-            id: sid,
-            name: cap(cur.species?.name || ""),
-            artwork: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${sid}.png`,
-            condition: cur?.evolution_details?.[0]?.min_level ? `Level ${cur.evolution_details[0].min_level}` : "",
-          });
-          cur = (cur.evolves_to && cur.evolves_to[0]) || null;
-        }
-        evolution = seq;
-      } catch {}
-    }
-
-    // ---- Prev/Nächste Namen
-    let prevName = "",
-      nextName = "";
-    if (numId > 1) {
-      const prevSpecies = await safeFetchJson(`${SPECIES_URL}${numId - 1}/`);
-      if (prevSpecies) {
-        const prevDe = prevSpecies.names?.find((n) => n.language?.name === "de");
-        prevName = prevDe?.name || cap(prevSpecies.name);
-      }
-    }
-    if (numId < MAX_DEX_ID) {
-      const nextSpecies = await safeFetchJson(`${SPECIES_URL}${numId + 1}/`);
-      if (nextSpecies) {
-        const nextDe = nextSpecies.names?.find((n) => n.language?.name === "de");
-        nextName = nextDe?.name || cap(nextSpecies.name);
-      }
-    }
-
-    // ---- HTML-Snippets
-    const typeBadgesHtml = buildTypeBadgesHtml ? buildTypeBadgesHtml(types) : "";
-    const statsBarsHtml = buildStatsBarsHtml ? buildStatsBarsHtml(statsMap) : "";
-    const movesGridHtml = buildMovesGridHtml ? buildMovesGridHtml(moves, mainType) : "";
-    const evolutionHtml = buildEvolutionChainHtml ? buildEvolutionChainHtml(evolution) : "";
-
-    // ---- ALLE Objekt pushen
-    pokemons.push({
-      stage,
-      id,
-      name,
-      hp,
-      types,
-      image,
-      artwork,
-      gif,
-      height: formatHeight(details.height),
-      weight: formatWeight(details.weight),
-      desc,
-      numId,
-      mainType,
-      statsMap,
-      cry,
-      moves,
-      evolution,
-      speciesTitle,
-      genderRate,
-      catchRateStr,
-      prevId: Math.max(1, numId - 1),
-      nextId: numId + 1,
-      prevName,
-      nextName,
-      abilities,
-      abilitiesText,
-      abilitiesHtml,
-      abilityPrimary,
-      eggGroups,
-      eggGroupsText,
-      eggGroupsHtml,
-      friendship,
-      typeBadgesHtml,
-      statsBarsHtml,
-      movesGridHtml,
-      evolutionHtml,
+//  Evolutions/Neighbor
+async function buildEvolution(species, includeEvolution) {
+  if (!includeEvolution || !species?.evolution_chain?.url) return [];
+  const chain = await fetchJsonSafe(species.evolution_chain.url, "evo");
+  let cur = chain?.chain,
+    seq = [];
+  while (cur) {
+    const sid = parseInt((cur.species?.url || "").match(/\/(\d+)\/?$/)?.[1] || "", 10);
+    seq.push({
+      id: sid,
+      name: cap(cur.species?.name || ""),
+      artwork: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${sid}.png`,
+      condition: cur?.evolution_details?.[0]?.min_level ? `Level ${cur.evolution_details[0].min_level}` : "",
     });
+    cur = (cur.evolves_to && cur.evolves_to[0]) || null;
   }
+  return seq;
+}
 
-  for (const p of pokemons) {
-    const num = parseInt(String(p.id).replace(/\D/g, ""), 10);
-    if (Number.isFinite(num)) searchCache.set(num, p);
+async function neighborNames(numId) {
+  let prevName = "",
+    nextName = "";
+  if (numId > 1) {
+    const s = await fetchJsonSafe(`${SPECIES_URL}${numId - 1}/`, "prev");
+    prevName = s?.names?.find((n) => n.language?.name === "de")?.name || (s ? cap(s.name) : "");
   }
+  if (numId < MAX_DEX_ID) {
+    const s = await fetchJsonSafe(`${SPECIES_URL}${numId + 1}/`, "next");
+    nextName = s?.names?.find((n) => n.language?.name === "de")?.name || (s ? cap(s.name) : "");
+  }
+  return { prevName, nextName };
+}
 
+//  Compose + Public API
+function buildHtmlFragments(types, statsMap, moves, mainType, evolution) {
+  return {
+    typeBadgesHtml: typeof buildTypeBadgesHtml === "function" ? buildTypeBadgesHtml(types) : "",
+    statsBarsHtml: typeof buildStatsBarsHtml === "function" ? buildStatsBarsHtml(statsMap) : "",
+    movesGridHtml: typeof buildMovesGridHtml === "function" ? buildMovesGridHtml(moves, mainType) : "",
+    evolutionHtml: typeof buildEvolutionChainHtml === "function" ? buildEvolutionChainHtml(evolution) : "",
+  };
+}
+
+function composePokemon(p) {
+  return { ...p, prevId: Math.max(1, p.numId - 1), nextId: p.numId + 1 };
+}
+
+function pushPokemon(arr, pokemon) {
+  arr.push(pokemon);
+  const num = pokemon.numId;
+  if (Number.isFinite(num)) {
+    window.searchCache = window.searchCache || new Map();
+    window.searchCache.set(num, pokemon);
+  }
+}
+
+async function buildPokemonFromItem(item, includeEvolution) {
+  const details = await fetchJsonSafe(item.url, "details");
+  if (!details) return null;
+
+  let stage = "Basis";
+  try {
+    stage = await getEvolutionStage(details.species?.url);
+  } catch {
+    stage = "Basis";
+  }
+  const { numId, id } = buildId(details);
+  const hp = extractHP(details);
+  const { types, mainType } = extractTypes(details);
+  const { artwork, image } = extractArtwork(details);
+  const gif = getPokemonGifUrl(details);
+  const species = await loadSpecies(details);
+  const { name, desc } = extractNameDesc(details, species);
+  const statsMap = createPokemonStatsMap(details);
+  const { abilities, abilitiesText, abilitiesHtml, abilityPrimary } = await translateAbilities(details);
+  const { eggGroups, eggGroupsText, eggGroupsHtml } = await translateEggGroups(species);
+  const { friendship, cry, height, weight } = miscBits(details, species);
+  const moves = await translateMoves(details);
+  const { speciesTitle, genderRate, catchRateStr } = speciesMeta(species, stage);
+  const evolution = await buildEvolution(species, includeEvolution);
+  const { prevName, nextName } = await neighborNames(numId);
+  const { typeBadgesHtml, statsBarsHtml, movesGridHtml, evolutionHtml } = buildHtmlFragments(
+    types,
+    statsMap,
+    moves,
+    mainType,
+    evolution
+  );
+
+  return composePokemon({
+    stage,
+    id,
+    name,
+    hp,
+    types,
+    image,
+    artwork,
+    gif,
+    height,
+    weight,
+    desc,
+    numId,
+    mainType,
+    statsMap,
+    cry,
+    moves,
+    evolution,
+    speciesTitle,
+    genderRate,
+    catchRateStr,
+    prevName,
+    nextName,
+    abilities,
+    abilitiesText,
+    abilitiesHtml,
+    abilityPrimary,
+    eggGroups,
+    eggGroupsText,
+    eggGroupsHtml,
+    friendship,
+    typeBadgesHtml,
+    statsBarsHtml,
+    movesGridHtml,
+    evolutionHtml,
+  });
+}
+
+async function getPokemonsData(payload, opt = {}) {
+  const includeEvolution = opt.includeEvolution ?? true;
+  const results = payload?.results || [];
+  const pokemons = [];
+  for (const item of results) {
+    const p = await buildPokemonFromItem(item, includeEvolution);
+    if (p) pushPokemon(pokemons, p);
+  }
   return pokemons;
 }
